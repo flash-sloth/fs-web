@@ -34,3 +34,4 @@ yarn.lock
 
 .VSCodeCounter
 **/.vitepress/cache
+pnpm-lock.yaml
