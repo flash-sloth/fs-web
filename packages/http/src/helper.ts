@@ -38,6 +38,24 @@ export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
   }
   return res;
 }
+function formatDateIf(params: any, key: any) {
+  const format = params[key]?.format ?? null;
+  if (format && typeof format === 'function') {
+    params[key] = params[key].format(DATE_TIME_FORMAT);
+  }
+}
+function trimIf(params: any, key: any) {
+  if (isString(key)) {
+    const value = params[key];
+    if (value) {
+      try {
+        params[key] = isString(value) ? value.trim() : value;
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    }
+  }
+}
 
 /** @description: Format request parameter time */
 export function formatRequestDate(params: any) {
@@ -46,22 +64,12 @@ export function formatRequestDate(params: any) {
   }
 
   for (const key in params) {
-    const format = params[key]?.format ?? null;
-    if (format && typeof format === 'function') {
-      params[key] = params[key].format(DATE_TIME_FORMAT);
-    }
-    if (isString(key)) {
-      const value = params[key];
-      if (value) {
-        try {
-          params[key] = isString(value) ? value.trim() : value;
-        } catch (error: any) {
-          throw new Error(error);
-        }
+    if (Object.hasOwn(params, key)) {
+      formatDateIf(params, key);
+      trimIf(params, key);
+      if (isObject(params[key])) {
+        formatRequestDate(params[key]);
       }
-    }
-    if (isObject(params[key])) {
-      formatRequestDate(params[key]);
     }
   }
 }
