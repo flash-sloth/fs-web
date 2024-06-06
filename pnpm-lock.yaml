@@ -32,6 +32,9 @@ importers:
       '@sa/utils':
         specifier: workspace:*
         version: link:packages/utils
+      '@vben/http':
+        specifier: workspace:*
+        version: link:packages/http
       '@vueuse/core':
         specifier: 10.9.0
         version: 10.9.0(vue@3.4.25(typescript@5.4.5))
@@ -196,6 +199,28 @@ importers:
       '@sa/axios':
         specifier: workspace:*
         version: link:../axios
+
+  packages/http:
+    dependencies:
+      '@sa/utils':
+        specifier: workspace:*
+        version: link:../utils
+      axios:
+        specifier: 1.6.8
+        version: 1.6.8
+      axios-retry:
+        specifier: 4.1.0
+        version: 4.1.0(axios@1.6.8)
+      lodash-es:
+        specifier: 4.17.21
+        version: 4.17.21
+      qs:
+        specifier: 6.12.1
+        version: 6.12.1
+    devDependencies:
+      '@types/qs':
+        specifier: 6.9.15
+        version: 6.9.15
 
   packages/materials:
     dependencies:

@@ -6,6 +6,7 @@ import { useRouterPush } from '@/hooks/common/router';
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
+import { store } from '@/store';
 import { useRouteStore } from '../route';
 import { clearAuthStorage, getToken, getUserInfo } from './shared';
 
@@ -110,3 +111,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     login
   };
 });
+
+export function useAuthStoreWithOut() {
+  return useAuthStore(store);
+}

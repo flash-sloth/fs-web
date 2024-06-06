@@ -1,0 +1,22 @@
+{
+  "name": "@vben/http",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./src/*"]
+    }
+  },
+  "dependencies": {
+    "@sa/utils": "workspace:*",
+    "axios": "1.6.8",
+    "axios-retry": "4.1.0",
+    "lodash-es": "4.17.21",
+    "qs": "6.12.1"
+  },
+  "devDependencies": {
+    "@types/qs": "6.9.15"
+  }
+}

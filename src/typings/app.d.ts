@@ -607,6 +607,31 @@ declare namespace App {
         pin: string;
         unpin: string;
       };
+      sys: {
+        api: {
+          operationSuccess: string;
+          operationFailed: string;
+          errorTip: string;
+          successTip: string;
+          errorMessage: string;
+          timeoutMessage: string;
+          apiTimeoutMessage: string;
+          apiRequestFailed: string;
+          networkException: string;
+          networkExceptionMsg: string;
+          errMsg401: string;
+          errMsg403: string;
+          errMsg404: string;
+          errMsg405: string;
+          errMsg408: string;
+          errMsg500: string;
+          errMsg501: string;
+          errMsg502: string;
+          errMsg503: string;
+          errMsg504: string;
+          errMsg505: string;
+        };
+      };
     };
 
     type GetI18nKey<T extends Record<string, unknown>, K extends keyof T = keyof T> = K extends string

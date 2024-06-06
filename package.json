@@ -53,6 +53,7 @@
     "@sa/hooks": "workspace:*",
     "@sa/materials": "workspace:*",
     "@sa/utils": "workspace:*",
+    "@vben/http": "workspace:*",
     "@vueuse/core": "10.9.0",
     "ant-design-vue": "4.2.0",
     "clipboard": "2.0.11",
