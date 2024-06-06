@@ -29,6 +29,7 @@
     "pnpm": ">=8.7.0"
   },
   "scripts": {
+    "bootstrap": "pnpm install --registry=https://registry.npmmirror.com",
     "build": "vite build --mode prod",
     "build:test": "vite build --mode test",
     "cleanup": "sa cleanup",
