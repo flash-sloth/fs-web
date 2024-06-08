@@ -23,3 +23,5 @@ declare namespace CommonType {
     [K in keyof T]?: T[K] | null;
   };
 }
+/** 跳转窗口的目标 */
+declare type TargetContext = '_self' | '_blank';

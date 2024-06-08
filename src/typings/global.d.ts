@@ -23,3 +23,5 @@ interface ImportMeta {
 
 /** Build time of the project */
 declare const BUILD_TIME: string;
+
+declare type Recordable<T = any> = Record<string, T>;
