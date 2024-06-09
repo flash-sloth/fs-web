@@ -15,7 +15,15 @@
   "bugs": {
     "url": "https://gitee.com/flash-sloth/fs-web/issues"
   },
-  "keywords": ["Vue3 admin ", "Vben-admin", "vue-admin-template", "Vite5", "TypeScript", "ant-design-vue v4", "UnoCSS"],
+  "keywords": [
+    "Vue3 admin ",
+    "Vben-admin",
+    "vue-admin-template",
+    "Vite5",
+    "TypeScript",
+    "ant-design-vue v4",
+    "UnoCSS"
+  ],
   "engines": {
     "node": ">=18.12.0",
     "pnpm": ">=8.7.0"
@@ -88,6 +96,7 @@
     "unplugin-icons": "0.18.5",
     "unplugin-vue-components": "0.26.0",
     "vite": "5.2.10",
+    "vite-plugin-lazy-import": "^1.0.4",
     "vite-plugin-progress": "0.0.7",
     "vite-plugin-svg-icons": "2.0.1",
     "vite-plugin-vue-devtools": "7.1.2",
