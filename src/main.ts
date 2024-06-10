@@ -5,6 +5,7 @@ import { setupStore } from './store';
 import { setupRouter } from './router';
 import { setupI18n } from './locales';
 import App from './App.vue';
+import { setupVxe } from './plugins/vxe-table';
 
 async function setupApp() {
   setupLoading();
@@ -20,9 +21,8 @@ async function setupApp() {
   setupStore(app);
 
   await setupRouter(app);
-
+  setupVxe(app, true);
   setupI18n(app);
-
   app.mount('#app');
 }
 

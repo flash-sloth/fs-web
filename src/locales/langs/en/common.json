@@ -36,5 +36,7 @@
   "yesOrNo": {
     "yes": "Yes",
     "no": "No"
-  }
+  },
+  "cancelText": "cancel",
+  "okText": "ok"
 }

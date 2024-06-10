@@ -51,6 +51,36 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'demo',
+    path: '/demo',
+    component: 'layout.base',
+    meta: {
+      title: 'demo',
+      i18nKey: 'route.demo'
+    },
+    children: [
+      {
+        name: 'demo_vxetable',
+        path: '/demo/vxetable',
+        meta: {
+          title: 'demo_vxetable',
+          i18nKey: 'route.demo_vxetable'
+        },
+        children: [
+          {
+            name: 'demo_vxetable_curd',
+            path: '/demo/vxetable/curd',
+            component: 'view.demo_vxetable_curd',
+            meta: {
+              title: 'demo_vxetable_curd',
+              i18nKey: 'route.demo_vxetable_curd'
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
     name: 'function',
     path: '/function',
     component: 'layout.base',

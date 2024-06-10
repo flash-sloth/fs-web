@@ -38,5 +38,7 @@
   "yesOrNo": {
     "yes": "是",
     "no": "否"
-  }
+  },
+  "cancelText": "取消",
+  "okText": "确认"
 }

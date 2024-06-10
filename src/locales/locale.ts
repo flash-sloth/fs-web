@@ -1,5 +1,6 @@
 import zhCN from './langs/zh_CN';
 import enUS from './langs/en';
+
 const locales = {
   'zh-CN': zhCN,
   'en-US': enUS

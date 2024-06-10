@@ -25,6 +25,9 @@ declare module "@elegant-router/types" {
     "404": "/404";
     "500": "/500";
     "about": "/about";
+    "demo": "/demo";
+    "demo_vxetable": "/demo/vxetable";
+    "demo_vxetable_curd": "/demo/vxetable/curd";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
     "function_hide-child_one": "/function/hide-child/one";
@@ -89,6 +92,7 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "about"
+    | "demo"
     | "function"
     | "home"
     | "login"
@@ -117,6 +121,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "login"
     | "about"
+    | "demo_vxetable_curd"
     | "function_hide-child_one"
     | "function_hide-child_three"
     | "function_hide-child_two"
