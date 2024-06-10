@@ -1,10 +1,5 @@
 /** 针对后台返回对象为mybatis-flex封装对象 */
 // import { VxeUI } from 'vxe-table';
-export const myBatisFlexGridProxyConfigProps = {
-  list: null, // 用于列表，读取响应数据
-  result: 'records', // 用于分页，读取响应数据
-  total: 'totalRow' // 用于分页，读取总条数
-};
 
 // VxeUI.setConfig({
 //   // size: null, // 全局尺寸

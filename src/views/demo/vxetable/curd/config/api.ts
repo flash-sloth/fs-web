@@ -12,12 +12,16 @@ export const Api = {
     method: RequestEnum.POST
   } as AxiosRequestConfig,
   Update: {
-    url: MODULAR,
-    method: RequestEnum.PUT
+    url: `${MODULAR}/updateById`,
+    method: RequestEnum.POST
   } as AxiosRequestConfig,
   Delete: {
     url: `${MODULAR}`,
     method: RequestEnum.DELETE
+  } as AxiosRequestConfig,
+  Get: {
+    url: `${MODULAR}/get`,
+    method: RequestEnum.GET
   } as AxiosRequestConfig
 };
 /**
@@ -49,5 +53,12 @@ export async function deleteBatch(ids: any[]) {
   return defHttp.request<any>({
     ...Api.Delete,
     data: ids
+  });
+}
+
+export async function get(id: number) {
+  return defHttp.request<any>({
+    ...Api.Get,
+    params: { id }
   });
 }

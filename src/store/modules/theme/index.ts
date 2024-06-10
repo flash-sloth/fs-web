@@ -2,10 +2,10 @@ import { computed, effectScope, onScopeDispose, ref, toRefs, watch } from 'vue';
 import type { Ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useEventListener, usePreferredColorScheme } from '@vueuse/core';
+import { VxeUI } from 'vxe-pc-ui';
 import { SetupStoreId } from '@/enum';
 import { localStg } from '@/utils/storage';
 import { addThemeVarsToHtml, createThemeToken, getAntdTheme, initThemeSettings, toggleCssDarkMode } from './shared';
-
 /** Theme store */
 export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   const scope = effectScope();
@@ -57,6 +57,7 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
    */
   function setThemeScheme(themeScheme: UnionKey.ThemeScheme) {
     settings.value.themeScheme = themeScheme;
+    VxeUI.setTheme(themeScheme === 'auto' ? 'default' : (themeScheme as 'dark' | 'light'));
   }
 
   /** Toggle theme scheme */
