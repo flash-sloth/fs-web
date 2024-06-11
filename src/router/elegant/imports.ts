@@ -21,6 +21,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   login: () => import("@/views/_builtin/login/index.vue"),
   about: () => import("@/views/about/index.vue"),
   demo_vxetable_curd: () => import("@/views/demo/vxetable/curd/index.vue"),
+  demo_vxetable_treeform: () => import("@/views/demo/vxetable/treeForm/index.vue"),
   "function_hide-child_one": () => import("@/views/function/hide-child/one/index.vue"),
   "function_hide-child_three": () => import("@/views/function/hide-child/three/index.vue"),
   "function_hide-child_two": () => import("@/views/function/hide-child/two/index.vue"),

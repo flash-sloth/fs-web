@@ -28,6 +28,7 @@ declare module "@elegant-router/types" {
     "demo": "/demo";
     "demo_vxetable": "/demo/vxetable";
     "demo_vxetable_curd": "/demo/vxetable/curd";
+    "demo_vxetable_treeform": "/demo/vxetable/treeform";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
     "function_hide-child_one": "/function/hide-child/one";
@@ -122,6 +123,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "about"
     | "demo_vxetable_curd"
+    | "demo_vxetable_treeform"
     | "function_hide-child_one"
     | "function_hide-child_three"
     | "function_hide-child_two"
