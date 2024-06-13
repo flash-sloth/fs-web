@@ -154,6 +154,7 @@ const routeMap: RouteMap = {
   "demo": "/demo",
   "demo_vxetable": "/demo/vxetable",
   "demo_vxetable_curd": "/demo/vxetable/curd",
+  "demo_vxetable_treeform": "/demo/vxetable/treeform",
   "function": "/function",
   "function_hide-child": "/function/hide-child",
   "function_hide-child_one": "/function/hide-child/one",

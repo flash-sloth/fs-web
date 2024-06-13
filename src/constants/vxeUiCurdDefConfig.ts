@@ -15,7 +15,7 @@ export function defGridConfig<T>(customer: VxeGridProps<T>): VxeGridProps<T> {
   return deepMerge(
     {
       /** 保持撑满父控件 */
-      height: 'auto',
+      // height: 'auto',
       minHeight: 500,
       pagerConfig: {
         enabled: true,

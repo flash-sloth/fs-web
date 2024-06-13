@@ -3,8 +3,10 @@ import { reactive, ref } from 'vue';
 import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTypes, VxeGridProps } from 'vxe-table';
 import { VxeGrid } from 'vxe-table';
 import { Modal, message } from 'ant-design-vue';
+import { add } from 'lodash-es';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
+import { useDmSwitcher } from '@/components/drawer-modal-switcher/src/useDmSwitcher';
 import type { RowVO } from './config/model';
 import { columns, searchFormConfig } from './config/curdConfig';
 import { deleteBatch, page as queryPage } from './config/api';
@@ -95,12 +97,12 @@ async function reloadData() {
     $grid.commitProxy(VxeGridProxyEventCode.QUERY);
   }
 }
-
+const [dmSwitcherRegister, { show: showForm }] = useDmSwitcher<Partial<RowVO>>();
 function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEventParams<RowVO>) {
   if (code === actionCode.deleteBatch) {
     delRows($grid);
   } else if (code === actionCode.add) {
-    formRef.value?.openModal({});
+    showForm({ action: 'add', data: {} });
   }
 }
 </script>
@@ -112,6 +114,6 @@ function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEv
         <AButton type="primary" @click="onEdit(row)">编辑</AButton>
       </template>
     </VxeGrid>
-    <FormWraper ref="formRef" @success="reloadData"></FormWraper>
+    <FormWraper ref="formRef" @register="dmSwitcherRegister" @success="reloadData"></FormWraper>
   </div>
 </template>

@@ -2,8 +2,9 @@
 import { computed, defineEmits, defineExpose, reactive, ref } from 'vue';
 import type { VxeFormPropTypes } from 'vxe-table';
 import { message } from 'ant-design-vue';
-
 import { useLoading } from '@sa/hooks';
+import DrawerModalSwitcher from '@/components/drawer-modal-switcher/src/index.vue';
+import { useDmSwitcherInner } from '@/components/drawer-modal-switcher/src/useDmSwitcher';
 import { get, save, update } from './api';
 const formRef = ref();
 const modalVisible = ref(false);
@@ -101,11 +102,22 @@ async function openModal(data: { id?: number }) {
 async function loadInfo(id: number) {
   return await get(id);
 }
+const [register, { close }] = useDmSwitcherInner<FormDataVO>(data => {
+  console.log('回调', data);
+});
 defineExpose({ openModal });
 </script>
 
 <template>
-  <AModal v-model:open="modalVisible" show-footer :title="title" :width="600" resize>
+  <DrawerModalSwitcher
+    is="VxeModal"
+    show-footer
+    position="top"
+    show-zoom
+    :title="title"
+    :width="900"
+    @register="register"
+  >
     <VxeForm
       ref="formRef"
       :loading="formLoading.loading.value"
@@ -115,8 +127,8 @@ defineExpose({ openModal });
       title-colon
     ></VxeForm>
     <template #footer>
-      <VxeButton content="取消" @click="cancelEvent"></VxeButton>
+      <VxeButton content="取消" @click="close"></VxeButton>
       <VxeButton status="primary" content="提交" @click="submitEvent"></VxeButton>
     </template>
-  </AModal>
+  </DrawerModalSwitcher>
 </template>

@@ -25,3 +25,5 @@ interface ImportMeta {
 declare const BUILD_TIME: string;
 
 declare type Recordable<T = any> = Record<string, T>;
+
+declare type Nullable<T> = T | null;
