@@ -2,7 +2,7 @@ export type UseDmSwitcherReturnType<T> = [
   (modalMethod: DmSwitcherMethods<T>, uuid: number) => void,
   DmSwitcherMethods<T>
 ];
-export type DmSwitcherAction = '' | 'add' | 'edit' | 'view';
+export type DmSwitcherAction = '' | 'add' | 'edit' | 'view' | 'copy';
 export type DmSwitcherOpenParam<T> = { action: DmSwitcherAction; data?: T };
 // 对外提供的方法
 export type DmSwitcherMethods<T> = {

@@ -156,7 +156,8 @@ const routeMap: RouteMap = {
   "demo_vxetable_curd": "/demo/vxetable/curd",
   "demo_vxetable_treeform": "/demo/vxetable/treeform",
   "home": "/home",
-  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?"
+  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
+  "user-center": "/user-center"
 };
 
 /**

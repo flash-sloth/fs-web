@@ -1,6 +1,8 @@
 import type { AxiosRequestConfig } from 'axios';
 import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
+import type { CurdModel, CurdPageDto, CurdPageVo, CurdSaveDto, CurdUpdateDto } from '@/models/demo/curd-models';
+import type { PageParam, PageResult } from '@/models/common-models';
 const MODULAR = '/system/test2';
 export const Api = {
   Page: {
@@ -28,36 +30,36 @@ export const Api = {
  * @param params 分页查询
  * @returns
  */
-export async function page(params: any) {
-  return defHttp.request<any>({
+export async function page(params: PageParam<CurdPageDto>) {
+  return defHttp.request<PageResult<CurdPageVo>>({
     ...Api.Page,
     params
   });
 }
 
-export async function save(params: any) {
-  return defHttp.request<any>({
+export async function save(params: CurdSaveDto) {
+  return defHttp.request<CurdModel>({
     ...Api.save,
     data: params
   });
 }
 
-export async function update(params: any) {
-  return defHttp.request<any>({
+export async function update(params: CurdUpdateDto) {
+  return defHttp.request<CurdModel>({
     ...Api.Update,
     data: params
   });
 }
 
-export async function deleteBatch(ids: any[]) {
-  return defHttp.request<any>({
+export async function deleteBatch(ids: number[]) {
+  return defHttp.request<boolean>({
     ...Api.Delete,
     data: ids
   });
 }
 
 export async function get(id: number) {
-  return defHttp.request<any>({
+  return defHttp.request<CurdModel>({
     ...Api.Get,
     params: { id }
   });

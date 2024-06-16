@@ -3,13 +3,13 @@ import { reactive, ref } from 'vue';
 import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTypes, VxeGridProps } from 'vxe-table';
 import { VxeGrid } from 'vxe-table';
 import { Modal, message } from 'ant-design-vue';
-import { add } from 'lodash-es';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
-import { useDmSwitcher } from '@/components/drawer-modal-switcher/src/useDmSwitcher';
+import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
+import { deleteBatch, page as queryPage } from '@/api/demo/curd-api';
+import type { CurdPageDto } from '@/models/demo/curd-models';
 import type { RowVO } from './config/model';
 import { columns, searchFormConfig } from './config/curdConfig';
-import { deleteBatch, page as queryPage } from './config/api';
 import FormWraper from './config/formWraper.vue';
 // 获取表格实例
 const xGrid = ref<VxeGridInstance<RowVO>>();
@@ -53,25 +53,13 @@ async function loadData(params: VxeGridPropTypes.ProxyAjaxQueryParams) {
   return await queryPage({
     current: params?.page.currentPage,
     size: params?.page.pageSize,
-    model: { ...params.form }
+    model: { ...params.form } as CurdPageDto
   });
 }
 
 function onEdit(row: RowVO) {
   formRef.value?.openModal(row);
 }
-
-const insertEvent = async () => {
-  const $table = xGrid.value;
-  if ($table) {
-    const { row: newRow } = await $table.insert({});
-    // 插入一条数据并触发校验
-    const errMap = await $table.validate(newRow);
-    if (errMap) {
-      // 校验失败
-    }
-  }
-};
 
 function delRows($grid: VxeGridConstructor<RowVO>) {
   const checkedRows = $grid.getCheckboxRecords();
@@ -100,8 +88,10 @@ async function reloadData() {
 const [dmSwitcherRegister, { show: showForm }] = useDmSwitcher<Partial<RowVO>>();
 function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEventParams<RowVO>) {
   if (code === actionCode.deleteBatch) {
+    // 删除
     delRows($grid);
   } else if (code === actionCode.add) {
+    // 新增
     showForm({ action: 'add', data: {} });
   }
 }

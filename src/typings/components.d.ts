@@ -58,6 +58,7 @@ declare module 'vue' {
     DrawerFooter: typeof import('./../components/Drawer/src/components/DrawerFooter.vue')['default']
     DrawerHeader: typeof import('./../components/Drawer/src/components/DrawerHeader.vue')['default']
     ExceptionBase: typeof import('./../components/common/exception-base.vue')['default']
+    FsAModal: typeof import('./../components/fs-components/drawer-modal-switcher/src/FsAModal.vue')['default']
     FullScreen: typeof import('./../components/common/full-screen.vue')['default']
     IconAntDesignReloadOutlined: typeof import('~icons/ant-design/reload-outlined')['default']
     IconAntDesignSettingOutlined: typeof import('~icons/ant-design/setting-outlined')['default']
