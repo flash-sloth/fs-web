@@ -26,7 +26,7 @@ export function setupElegantRouter() {
       return routePath;
     },
     /**
-     * 默认生成的路由都是不需要登录，需要特殊登录的路由按key处理
+     * 默认生成的路由都是不、需要登录，不需要登录的路由按key处理
      *
      * @returns
      */
