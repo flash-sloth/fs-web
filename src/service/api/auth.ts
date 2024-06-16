@@ -1,5 +1,25 @@
+import type { LoginVo, UserInfoVo, UserResourceVo } from '@/models/auth/authCenter';
 import { request } from '../request';
+import { defHttp } from '../http';
 
+/** 根据用户ID和路由名称判断用户是否具有权限 */
+export function isRouteExist(routeName: string) {
+  return defHttp.request<Boolean>({
+    url: '/anyone/isRouteExist',
+    method: 'get',
+    params: {
+      routeName
+    }
+  });
+}
+
+/** 查询用户可见资源（菜单及其他权限） */
+export function getVisileResource() {
+  return defHttp.request<UserResourceVo>({
+    url: '/anyone/visible/resource',
+    method: 'get'
+  });
+}
 /**
  * Login
  *
@@ -7,7 +27,7 @@ import { request } from '../request';
  * @param password Password
  */
 export function fetchLogin(userName: string, password: string) {
-  return request<Api.Auth.LoginToken>({
+  return request<LoginVo>({
     url: '/auth/login',
     method: 'post',
     data: {
@@ -19,7 +39,7 @@ export function fetchLogin(userName: string, password: string) {
 
 /** Get user info */
 export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
+  return request<UserInfoVo>({ url: '/auth/getUserInfo' });
 }
 
 /**
@@ -28,7 +48,7 @@ export function fetchGetUserInfo() {
  * @param refreshToken Refresh token
  */
 export function fetchRefreshToken(refreshToken: string) {
-  return request<Api.Auth.LoginToken>({
+  return request<LoginVo>({
     url: '/auth/refreshToken',
     method: 'post',
     data: {

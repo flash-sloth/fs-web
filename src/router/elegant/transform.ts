@@ -155,31 +155,8 @@ const routeMap: RouteMap = {
   "demo_vxetable": "/demo/vxetable",
   "demo_vxetable_curd": "/demo/vxetable/curd",
   "demo_vxetable_treeform": "/demo/vxetable/treeform",
-  "function": "/function",
-  "function_hide-child": "/function/hide-child",
-  "function_hide-child_one": "/function/hide-child/one",
-  "function_hide-child_three": "/function/hide-child/three",
-  "function_hide-child_two": "/function/hide-child/two",
-  "function_multi-tab": "/function/multi-tab",
-  "function_request": "/function/request",
-  "function_super-page": "/function/super-page",
-  "function_tab": "/function/tab",
-  "function_toggle-auth": "/function/toggle-auth",
   "home": "/home",
-  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
-  "manage": "/manage",
-  "manage_menu": "/manage/menu",
-  "manage_role": "/manage/role",
-  "manage_test-router": "/manage/test-router",
-  "manage_user": "/manage/user",
-  "manage_user-detail": "/manage/user-detail/:id",
-  "multi-menu": "/multi-menu",
-  "multi-menu_first": "/multi-menu/first",
-  "multi-menu_first_child": "/multi-menu/first/child",
-  "multi-menu_second": "/multi-menu/second",
-  "multi-menu_second_child": "/multi-menu/second/child",
-  "multi-menu_second_child_home": "/multi-menu/second/child/home",
-  "user-center": "/user-center"
+  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?"
 };
 
 /**

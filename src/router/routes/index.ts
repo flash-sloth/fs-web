@@ -54,7 +54,11 @@ const customRoutes: CustomRoute[] = [
   }
 ];
 
-/** create routes when the auth route mode is static */
+/**
+ * 将自定义路由与生成路由进行合并，然后按规则才分为常量路由和权限路由 常量路由不需要权限校验
+ *
+ * @returns
+ */
 export function createStaticRoutes() {
   const constantRoutes: ElegantRoute[] = [];
 

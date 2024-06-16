@@ -8,12 +8,11 @@ import { router } from '@/router';
 import { createStaticRoutes, getAuthVueRoutes } from '@/router/routes';
 import { ROOT_ROUTE } from '@/router/routes/builtin';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
-import { fetchGetConstantRoutes, fetchGetUserRoutes, fetchIsRouteExist } from '@/service/api';
+import { getVisileResource, isRouteExist } from '@/service/api';
 import { useAppStore } from '../app';
 import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
 import {
-  filterAuthRoutesByRoles,
   getBreadcrumbsByRoute,
   getCacheRouteNames,
   getGlobalMenusByAuthRoutes,
@@ -153,7 +152,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     resetVueRoutes();
 
     // after reset store, need to re-init constant route
-    await initConstantRoute();
+    await initAuthRoute();
   }
 
   /** Reset vue routes */
@@ -164,19 +163,9 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** init constant route */
   async function initConstantRoute() {
-    if (isInitConstantRoute.value) return;
+    const { constantRoutes } = createStaticRoutes();
 
-    if (authRouteMode.value === 'static') {
-      const { constantRoutes } = createStaticRoutes();
-
-      addAuthRoutes(constantRoutes);
-    } else {
-      const { data, error } = await fetchGetConstantRoutes();
-
-      if (!error) {
-        addAuthRoutes(data);
-      }
-    }
+    addAuthRoutes(constantRoutes);
 
     handleAuthRoutes();
 
@@ -185,49 +174,17 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** Init auth route */
   async function initAuthRoute() {
-    if (authRouteMode.value === 'static') {
-      await initStaticAuthRoute();
-    } else {
-      await initDynamicAuthRoute();
-    }
-
-    tabStore.initHomeTab();
-  }
-
-  /** Init static auth route */
-  async function initStaticAuthRoute() {
-    const { authRoutes: staticAuthRoutes } = createStaticRoutes();
-
-    if (authStore.isStaticSuper) {
-      addAuthRoutes(staticAuthRoutes);
-    } else {
-      const filteredAuthRoutes = filterAuthRoutesByRoles(staticAuthRoutes, authStore.userInfo.roles);
-
-      addAuthRoutes(filteredAuthRoutes);
-    }
-
-    handleAuthRoutes();
-
+    const { authRoutes: needLoginRoutes, constantRoutes } = createStaticRoutes();
+    // 装载静态路由-不需要登录部分
+    addAuthRoutes(constantRoutes);
+    // 装载静态路由-需要登录部分
+    addAuthRoutes(needLoginRoutes);
+    const { routerList } = await getVisileResource();
+    // 转载服务器返回部分
+    addAuthRoutes(routerList);
     setIsInitAuthRoute(true);
-  }
-
-  /** Init dynamic auth route */
-  async function initDynamicAuthRoute() {
-    const { data, error } = await fetchGetUserRoutes();
-
-    if (!error) {
-      const { routes, home } = data;
-
-      addAuthRoutes(routes);
-
-      handleAuthRoutes();
-
-      setRouteHome(home);
-
-      handleUpdateRootRouteRedirect(home);
-
-      setIsInitAuthRoute(true);
-    }
+    handleAuthRoutes();
+    tabStore.initHomeTab();
   }
 
   /** handle auth routes */
@@ -302,7 +259,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
       return isRouteExistByRouteName(routeName, staticAuthRoutes);
     }
 
-    const { data } = await fetchIsRouteExist(routeName);
+    const data = await isRouteExist(routeName);
 
     return data;
   }
