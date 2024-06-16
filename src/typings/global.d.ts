@@ -27,3 +27,8 @@ declare const BUILD_TIME: string;
 declare type Recordable<T = any> = Record<string, T>;
 
 declare type Nullable<T> = T | null;
+
+/** Make all properties in T nullable */
+type PNullable<T> = {
+  [P in keyof T]: T[P] | null;
+};
