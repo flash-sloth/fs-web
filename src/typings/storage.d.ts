@@ -1,3 +1,4 @@
+import { pageNotFindMessageStorageKey } from './../constants/common';
 /** The storage namespace */
 declare namespace StorageType {
   interface Session {
@@ -30,5 +31,13 @@ declare namespace StorageType {
     overrideThemeFlag: string;
     /** The global tabs */
     globalTabs: App.Global.Tab[];
+  }
+  interface PageNotFindMessageStorage {
+    // 提示消息
+    message: string;
+    // 组件路径
+    viewPath: string;
+    // 路由路径
+    routePath: string;
   }
 }

@@ -6,3 +6,6 @@ export const yesOrNoRecord: Record<CommonType.YesOrNo, App.I18n.I18nKey> = {
 };
 
 export const yesOrNoOptions = transformRecordToOption(yesOrNoRecord);
+
+/** 页面未找到错误信息缓存key */
+export const pageNotFindMessageStorageKey = '___pageNotFind___';
