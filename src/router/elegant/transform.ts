@@ -6,10 +6,6 @@
 import type { RouteRecordRaw, RouteComponent } from 'vue-router';
 import type { ElegantConstRoute } from '@elegant-router/vue';
 import type { RouteMap, RouteKey, RoutePath } from '@elegant-router/types';
-const viewsModules = import.meta.glob('@/views/**/**.vue')
-import { useSessionStorage, useStorage } from '@vueuse/core';
-import { StorageType } from '@/typings/storage'
-import { pageNotFindMessageStorageKey } from '@/constants/common'
 
 /**
  * transform elegant const routes to vue routes
@@ -51,10 +47,6 @@ function transformElegantRouteToVueRoute(
 
   function isView(component: string) {
     return component.startsWith(VIEW_PREFIX);
-  }
-
-  function isFromServer(route: ElegantConstRoute) {
-    return !!(route as any).id
   }
 
   function getViewName(component: string) {
@@ -113,45 +105,23 @@ function transformElegantRouteToVueRoute(
       const layoutName = getLayoutName(component);
 
       vueRoute.component = layouts[layoutName];
-    }else if (isView(component)) {
+    }
+
+    if (isView(component)) {
       const viewName = getViewName(component);
 
       vueRoute.component = views[viewName];
-    }else if (isFromServer(route)) {
-      vueRoute.component =  () => {
-        return new Promise((resolve, _reject) => {
-          const path = `/src/views/${component.replace(/[.]vue$/g,'')}.vue`
-          if(viewsModules[path]) {
-            viewsModules[path]().then(view => {
-              resolve(view)
-            })
-          } else {
-            console.warn("找不到组件："+path);
-            const pathArry = path.split("/")
-            vueRoute.beforeEnter = (()=>{alert()})
-            const errData = {
-              message: "找不到组件："+pathArry[pathArry.length-1],
-              viewPath: path,
-              routePath: vueRoute.path
-            }
-            const messageStorage = useSessionStorage<StorageType.PageNotFindMessageStorage>(`${pageNotFindMessageStorageKey}_${vueRoute.path}`,errData)
-            messageStorage.value = errData;
-            (views['404'] as () => Promise<RouteComponent>)().then(v404 => {
-              resolve(v404)
-            })
-          }
-        })
-      }
     }
-  }
 
+  }
+  
   // add redirect to child
   if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
   }
-
+  
   if (children?.length) {
     const childRoutes = children.flatMap(child => transformElegantRouteToVueRoute(child, layouts, views));
 
@@ -182,6 +152,7 @@ const routeMap: RouteMap = {
   "500": "/500",
   "about": "/about",
   "demo": "/demo",
+  "demo_ide": "/demo/ide",
   "demo_vxetable": "/demo/vxetable",
   "demo_vxetable_curd": "/demo/vxetable/curd",
   "demo_vxetable_treeform": "/demo/vxetable/treeform",
