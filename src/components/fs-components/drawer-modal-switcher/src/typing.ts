@@ -2,7 +2,7 @@ export type UseDmSwitcherReturnType<T> = [
   (modalMethod: DmSwitcherMethods<T>, uuid: number) => void,
   DmSwitcherMethods<T>
 ];
-export type DmSwitcherAction = '' | 'add' | 'edit' | 'view' | 'copy';
+export type DmSwitcherAction = string | 'add' | 'edit' | 'view' | 'copy';
 export type DmSwitcherOpenParam<T> = { action: DmSwitcherAction; data?: T };
 // 对外提供的方法
 export type DmSwitcherMethods<T> = {
@@ -22,5 +22,3 @@ export type DmSwitcherInnerMethods = {
 };
 // 注册器
 export type DmSwitcherInnerRegister = (methods: DmSwitcherInnerMethods, uuid: number) => any;
-// switcher类型选型
-export type SwitcherWrapperType = 'AModal' | 'ADrawer' | 'VxeModal' | 'VxeDrawer';

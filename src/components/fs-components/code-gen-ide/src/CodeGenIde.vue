@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useDmSwitcher } from '../../drawer-modal-switcher';
 import CodePanel from './CodePanel.vue';
 import FileTree from './FileTree.vue';
 import { type FsGenFile, FsGenFileType } from './types';
@@ -18,11 +19,16 @@ function onFileSelect(file: FsGenFile) {
     editFile.value = file;
   }
 }
+const [register, { show: showSetting }] = useDmSwitcher<FsGenFile[]>();
 </script>
 
 <template>
+  <GenSetting @register="register"></GenSetting>
   <div class="code-gen-ide">
-    <div class="code-gen-ide-title">{{ selectedFile?.path }}</div>
+    <div class="code-gen-ide-title">
+      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">设置</LineButton>
+      {{ editFile?.path }}
+    </div>
     <div class="code-gen-ide-main">
       <div class="code-gen-ide-left">
         <FileTree :tree-data="treeData" @select="onFileSelect"></FileTree>
@@ -31,7 +37,7 @@ function onFileSelect(file: FsGenFile) {
         <CodePanel :file="editFile"></CodePanel>
       </div>
     </div>
-    <div class="code-gen-ide-footer">{{ editFile?.path }}</div>
+    <div class="code-gen-ide-footer">{{ selectedFile?.path }}</div>
   </div>
 </template>
 
@@ -80,7 +86,7 @@ function onFileSelect(file: FsGenFile) {
   .code-gen-ide-left {
     background-color: #f7fafc;
     min-width: 150px;
-    width: 200px;
+    width: 260px;
     overflow-x: hidden;
     max-width: 600px;
   }

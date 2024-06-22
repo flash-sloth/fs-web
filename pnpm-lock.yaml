@@ -113,6 +113,12 @@ importers:
       vxe-table:
         specifier: 4.7.7
         version: 4.7.7
+      vxe-utils:
+        specifier: ^2.0.1
+        version: 2.0.1(xe-utils@3.5.27)
+      xe-utils:
+        specifier: ^3.5.27
+        version: 3.5.27
     devDependencies:
       '@elegant-router/vue':
         specifier: 0.3.6
@@ -4970,6 +4976,11 @@ packages:
   vxe-table@4.7.7:
     resolution: {integrity: sha512-6d3FuhiNM1pfv5BE9ap0opgb6nhfPDx73+wiXG+4rRucCEeYOAE/u4HFQY43caJ331eQ3oX95GAAZheo9rRQKg==}
 
+  vxe-utils@2.0.1:
+    resolution: {integrity: sha512-A2MSZWtamNiXZ61bz5BrpyUg8Qd29HMDyrF0vBorx4kwWno5+qlkeQU7VMcyGIwoHlP/jOCCTgnhVq3J92vG7g==}
+    peerDependencies:
+      xe-utils: '>=2.7.0'
+
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
 
@@ -5033,8 +5044,8 @@ packages:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
     engines: {node: '>=12'}
 
-  xe-utils@3.5.26:
-    resolution: {integrity: sha512-u9R7RqWDumamToEelrCv2nVA2PBJSPPUubvmiMcuHeFxwbYeBsouoi/opejmr7AdPlSj92FifF7IKFzFrczU7w==}
+  xe-utils@3.5.27:
+    resolution: {integrity: sha512-qn303MEL90Fn+1BGAfwmz+ot/3klNc9OgX3HBO5TPKHLLl+/zhfH+zrCOi7QIhvzaRiv63SSUhQE4Z1lTwmAuw==}
 
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -6498,12 +6509,12 @@ snapshots:
   '@vxe-ui/core@0.12.4':
     dependencies:
       dom-zindex: 1.0.4
-      xe-utils: 3.5.26
+      xe-utils: 3.5.27
 
   '@vxe-ui/core@1.0.0':
     dependencies:
       dom-zindex: 1.0.4
-      xe-utils: 3.5.26
+      xe-utils: 3.5.27
 
   abbrev@1.1.1: {}
 
@@ -10363,6 +10374,10 @@ snapshots:
     dependencies:
       vxe-pc-ui: 1.9.23
 
+  vxe-utils@2.0.1(xe-utils@3.5.27):
+    dependencies:
+      xe-utils: 3.5.27
+
   w3c-keyname@2.2.8: {}
 
   warning@4.0.3:
@@ -10436,7 +10451,7 @@ snapshots:
 
   xdg-basedir@5.1.0: {}
 
-  xe-utils@3.5.26: {}
+  xe-utils@3.5.27: {}
 
   xml-name-validator@4.0.0: {}
 
