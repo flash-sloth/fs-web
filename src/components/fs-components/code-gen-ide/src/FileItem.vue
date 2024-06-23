@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import XEUtils from 'xe-utils';
 import type { RadioChangeEvent } from 'ant-design-vue';
 import FileIcon from './FileIcon.vue';

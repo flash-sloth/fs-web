@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 import { SimpleScrollbar } from '@sa/materials';
 import FileItem from './FileItem.vue';
 import type { FsGenFile } from './types';
