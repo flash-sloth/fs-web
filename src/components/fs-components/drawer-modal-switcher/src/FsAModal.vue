@@ -1,6 +1,6 @@
 v
 <script lang="ts" setup>
-import { defineEmits, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import { omit } from 'lodash';
 import { Modal } from 'ant-design-vue';
 import type { DmSwitcherInnerMethods } from './typing';
