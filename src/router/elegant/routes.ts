@@ -84,6 +84,15 @@ export const generatedRoutes: GeneratedRoute[] = [
             }
           },
           {
+            name: 'demo_vxetable_simple',
+            path: '/demo/vxetable/simple',
+            component: 'view.demo_vxetable_simple',
+            meta: {
+              title: 'demo_vxetable_simple',
+              i18nKey: 'route.demo_vxetable_simple'
+            }
+          },
+          {
             name: 'demo_vxetable_treeform',
             path: '/demo/vxetable/treeform',
             component: 'view.demo_vxetable_treeform',

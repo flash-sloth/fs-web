@@ -1,4 +1,3 @@
-v
 <script lang="ts" setup>
 import { getCurrentInstance, ref } from 'vue';
 import { omit } from 'lodash';

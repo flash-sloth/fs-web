@@ -3,26 +3,26 @@ import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
 import type { CurdModel, CurdPageDto, CurdPageVo, CurdSaveDto, CurdUpdateDto } from '@/models/demo/curd-models';
 import type { PageParam, PageResult } from '@/models/common-models';
-const MODULAR = '/system/test2';
+const MODULAR = '/demo/genTestSimple';
 export const Api = {
   Page: {
     url: `${MODULAR}/page`,
     method: RequestEnum.POST
   } as AxiosRequestConfig,
   save: {
-    url: `${MODULAR}/save`,
+    url: `${MODULAR}`,
     method: RequestEnum.POST
   } as AxiosRequestConfig,
   Update: {
-    url: `${MODULAR}/updateById`,
-    method: RequestEnum.POST
+    url: `${MODULAR}`,
+    method: RequestEnum.PUT
   } as AxiosRequestConfig,
   Delete: {
     url: `${MODULAR}`,
     method: RequestEnum.DELETE
   } as AxiosRequestConfig,
   Get: {
-    url: `${MODULAR}/get`,
+    url: `${MODULAR}/detail`,
     method: RequestEnum.GET
   } as AxiosRequestConfig
 };
