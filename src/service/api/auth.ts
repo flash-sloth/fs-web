@@ -1,5 +1,5 @@
+import { reactive } from 'vue';
 import type { LoginVo, UserInfoVo, UserResourceVo } from '@/models/auth/authCenter';
-import { request } from '../request';
 import { defHttp } from '../http';
 
 /** 根据用户ID和路由名称判断用户是否具有权限 */
@@ -27,7 +27,7 @@ export function getVisileResource() {
  * @param password Password
  */
 export function fetchLogin(userName: string, password: string) {
-  return request<LoginVo>({
+  return defHttp.request<LoginVo>({
     url: '/auth/login',
     method: 'post',
     data: {
@@ -39,7 +39,7 @@ export function fetchLogin(userName: string, password: string) {
 
 /** Get user info */
 export function fetchGetUserInfo() {
-  return request<UserInfoVo>({ url: '/auth/getUserInfo' });
+  return defHttp.request<UserInfoVo>({ url: '/auth/getUserInfo' });
 }
 
 /**
@@ -48,7 +48,7 @@ export function fetchGetUserInfo() {
  * @param refreshToken Refresh token
  */
 export function fetchRefreshToken(refreshToken: string) {
-  return request<LoginVo>({
+  return defHttp.request<LoginVo>({
     url: '/auth/refreshToken',
     method: 'post',
     data: {
@@ -64,5 +64,5 @@ export function fetchRefreshToken(refreshToken: string) {
  * @param msg error message
  */
 export function fetchCustomBackendError(code: string, msg: string) {
-  return request({ url: '/auth/error', params: { code, msg } });
+  return defHttp.request({ url: '/auth/error', params: { code, msg } });
 }
