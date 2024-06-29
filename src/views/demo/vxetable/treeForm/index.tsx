@@ -9,16 +9,25 @@ export const columns = (actionColumn?: VxeTableDefines.ColumnOptions<RowVO>): Vx
     { type: 'checkbox', width: 50 },
     { type: 'seq', width: 60 },
     {
-      field: 'tableName',
-      title: '表名称'
+      field: 'name',
+      title: '名字',
+      editRender: {
+        name: 'VxeInput'
+      }
     },
     {
-      field: '表注释',
-      title: 'tableDescription'
+      field: 'type3',
+      title: 'type3',
+      editRender: {
+        name: 'VxeInput'
+      }
     },
     {
-      field: 'entityDesign.name',
-      title: '实体类名'
+      field: 'type2',
+      title: 'type3',
+      editRender: {
+        name: 'VxeInput'
+      }
     }
   ];
   actionColumn && columnsDef.push(actionColumn);
