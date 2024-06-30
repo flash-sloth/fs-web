@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { type VxeFormInstance } from 'vxe-table';
 import { VxeForm, VxeFormItem, VxeOption, VxeSelect, VxeSwitch, VxeText, VxeTextarea } from 'vxe-pc-ui';
 import { cloneDeep } from 'lodash-es';
-import type { CodeCreatorEidtDto } from '@/service/model/main/codeCreator';
+import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 const activeKey = ref(['1', '2', '3']);
 export interface BaseInfoFormInstance {
   setModles: (data: CodeCreatorEidtDto) => void;
@@ -320,34 +320,29 @@ const serviceInfoFormRules = {
           <VxeFormItem :span="24">
             <VxeText status="primary" content="ServiceImpl信息"></VxeText>
           </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.packageName" title="ServiceImpl包" title-colon :span="6">
+          <VxeFormItem field="serviceImplDesign.packageName" title="ServiceImpl包" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.serviceImplDesign.packageName" placeholder="基础包.模块包.ServiceImpl包" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.superClassName" title="父类" title-colon :span="6">
+          <VxeFormItem field="serviceImplDesign.superClassName" title="父类" title-colon :span="8">
             <template #default>
               <VxeSelect v-model="formData.serviceImplDesign.superClassName" placeholder="选择父类">
                 <VxeOption value="SuperMapper" label="SuperMapper"></VxeOption>
               </VxeSelect>
             </template>
           </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.classPrefix" title="前缀" title-colon :span="6">
+          <VxeFormItem field="serviceImplDesign.classPrefix" title="前缀" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.serviceImplDesign.classPrefix" placeholder="前缀" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.classSuffix" title="后缀" title-colon :span="6">
+          <VxeFormItem field="serviceImplDesign.classSuffix" title="后缀" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.serviceImplDesign.classSuffix" placeholder="后缀" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.withLombok" title="lombok" title-colon :span="6">
-            <template #default>
-              <VxeSwitch v-model="formData.serviceImplDesign.withLombok"></VxeSwitch>
-            </template>
-          </VxeFormItem>
-          <VxeFormItem field="serviceImplDesign.withCache" title="缓存" title-colon :span="6">
+          <VxeFormItem field="serviceImplDesign.withCache" title="缓存" title-colon :span="8">
             <template #default>
               <VxeSwitch v-model="formData.serviceImplDesign.withCache"></VxeSwitch>
             </template>
@@ -358,29 +353,29 @@ const serviceInfoFormRules = {
           <VxeFormItem :span="24">
             <VxeText status="primary" content="Controller信息"></VxeText>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.packageName" title="Controller包" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.packageName" title="Controller包" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.controllerDesign.packageName" placeholder="基础包.模块包.Controller包" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.superClassName" title="父类" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.superClassName" title="父类" title-colon :span="8">
             <template #default>
               <VxeSelect v-model="formData.controllerDesign.superClassName" placeholder="选择父类">
                 <VxeOption value="SuperMapper" label="SuperMapper"></VxeOption>
               </VxeSelect>
             </template>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.classPrefix" title="前缀" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.classPrefix" title="前缀" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.controllerDesign.classPrefix" placeholder="前缀" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.classSuffix" title="后缀" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.classSuffix" title="后缀" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.controllerDesign.classSuffix" placeholder="后缀" />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.requestMappingPrefix" title="请求前缀" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.requestMappingPrefix" title="请求前缀" title-colon :span="8">
             <template #default>
               <VxeInput
                 v-model="formData.controllerDesign.requestMappingPrefix"
@@ -388,12 +383,7 @@ const serviceInfoFormRules = {
               />
             </template>
           </VxeFormItem>
-          <VxeFormItem field="controllerDesign.withLombok" title="lombok" title-colon :span="6">
-            <template #default>
-              <VxeSwitch v-model="formData.controllerDesign.withLombok"></VxeSwitch>
-            </template>
-          </VxeFormItem>
-          <VxeFormItem field="controllerDesign.withCrud" title="生成Crud" title-colon :span="6">
+          <VxeFormItem field="controllerDesign.withCrud" title="生成Crud" title-colon :span="8">
             <template #default>
               <VxeSwitch v-model="formData.controllerDesign.withCrud"></VxeSwitch>
             </template>

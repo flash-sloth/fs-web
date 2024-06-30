@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue';
 import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
 import { FsAModal, useDmSwitcherInner } from '@/components/fs-components/drawer-modal-switcher';
-import { importTable } from '@/service/api/main/codeCreator';
+import { importTable } from '@/service/main/generator/codeCreator/api';
 const formRef = ref<VxeFormInstance>();
 const formConfig = reactive<{
   rules: VxeFormPropTypes.Rules;

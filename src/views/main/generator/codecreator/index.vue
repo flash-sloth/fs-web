@@ -7,8 +7,8 @@ import { useRouter } from 'vue-router';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
-import { deleteBatch, queryPage } from '@/service/api/main/codeCreator';
-import type { CodeCreator, CodeCreatorPageDto } from '@/service/model/main/codeCreator';
+import type { CodeCreator, CodeCreatorPageDto } from '@/service/main/generator/codeCreator/model';
+import { deleteBatch, queryPage } from '@/service/main/generator/codeCreator/api';
 import ImportModal from './moudules/ImportModal.vue';
 import { columns, searchFormConfig } from './data/index';
 // 获取表格实例
@@ -17,7 +17,6 @@ const actionCode = {
   add: 'add',
   deleteBatch: 'deleteBatch'
 };
-const formRef = ref();
 const gridOptions = reactive<VxeGridProps<CodeCreator>>(
   defGridConfig<CodeCreator>({
     // 列配置

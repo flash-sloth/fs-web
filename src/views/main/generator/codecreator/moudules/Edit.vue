@@ -3,10 +3,10 @@ import { VxeLayoutBody, VxeLayoutContainer, VxeLayoutHeader } from 'vxe-pc-ui';
 import { useTitle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
-import { assign, cloneDeep } from 'lodash-es';
+import { SimpleScrollbar } from '@sa/materials';
 import { useTabStore } from '@/store/modules/tab';
-import { getCodeCreatorInfo } from '@/service/api/main/codeCreator';
-import type { CodeCreatorEidtDto } from '@/service/model/main/codeCreator';
+import { getCodeCreatorInfo } from '@/service/main/generator/codeCreator/api';
+import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import type { BaseInfoFormInstance } from './BaseInfoForm.vue';
 import BaseInfoForm from './BaseInfoForm.vue';
 import Step from './Step.vue';
@@ -33,16 +33,18 @@ onMounted(() => {
 <template>
   <div class="h-full">
     <VxeLayoutContainer vertical>
-      <VxeLayoutHeader>
+      <VxeLayoutHeader fixed>
         <Step v-model:current="activeSetp"></Step>
       </VxeLayoutHeader>
       <VxeLayoutBody class="p-2">
-        <BaseInfoForm v-if="activeSetp === 0" ref="baseInfoFormRef">0</BaseInfoForm>
-        <div v-if="activeSetp === 1">1</div>
-        <div v-if="activeSetp === 2">2</div>
-        <div v-if="activeSetp === 3">3</div>
-        <div v-if="activeSetp === 4">4</div>
-        <div v-if="activeSetp === 5">5</div>
+        <SimpleScrollbar class="h-full">
+          <BaseInfoForm v-show="activeSetp === 0" ref="baseInfoFormRef">0</BaseInfoForm>
+          <div v-show="activeSetp === 1">1</div>
+          <div v-show="activeSetp === 2">2</div>
+          <div v-show="activeSetp === 3">3</div>
+          <div v-show="activeSetp === 4">4</div>
+          <div v-show="activeSetp === 5">5</div>
+        </SimpleScrollbar>
       </VxeLayoutBody>
     </VxeLayoutContainer>
   </div>
