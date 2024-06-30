@@ -1,9 +1,34 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { type VxeFormInstance } from 'vxe-table';
-import { VxeForm, VxeFormItem, VxeOption, VxeSelect, VxeSwitch, VxeText, VxeTextarea } from 'vxe-pc-ui';
+import {
+  VxeForm,
+  VxeFormItem,
+  VxeOption,
+  VxeRadioButton,
+  VxeRadioGroup,
+  VxeSelect,
+  VxeSwitch,
+  VxeText,
+  VxeTextarea
+} from 'vxe-pc-ui';
 import { cloneDeep } from 'lodash-es';
+import { mapTree } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
+import ApiTreeSelect from '@/components/fs-components/api-tree-select/index.vue';
+import { getVisileResource } from '@/service/api/auth';
+import { getLocalIcons } from '@/utils/icon';
+async function loadMenu() {
+  const res = await getVisileResource();
+  const treeData = mapTree(res.routerList, item => {
+    return {
+      value: item.id,
+      label: item.name,
+      children: item.children
+    };
+  });
+  return treeData;
+}
 const activeKey = ref(['1', '2', '3']);
 export interface BaseInfoFormInstance {
   setModles: (data: CodeCreatorEidtDto) => void;
@@ -15,6 +40,7 @@ const serviceInfoForm = ref<VxeFormInstance>();
 const fontInfoForm = ref<VxeFormInstance>();
 const formData = ref<CodeCreatorEidtDto>({});
 
+const localIcons = getLocalIcons();
 function setModles(data: CodeCreatorEidtDto) {
   formData.value = cloneDeep(data);
 }
@@ -37,6 +63,9 @@ const serviceInfoFormRules = {
   basePackage: [{ required: true, message: '请输入基础包信息' }],
   sourceDir: [{ required: true, message: '请输入生成路径' }]
 };
+function handleChnage(a, b, c) {
+  console.log(a, b, c);
+}
 </script>
 
 <template>
@@ -94,7 +123,9 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.entityDesign">
-          <VxeFormItem :span="24"><VxeText status="primary" content="实体类信息"></VxeText></VxeFormItem>
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
+            <VxeText status="primary" content="实体类信息"></VxeText>
+          </VxeFormItem>
           <VxeFormItem field="entityDesign.packageName" title="实体类包名" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.entityDesign.packageName" placeholder="基础包.模块包.实体包" />
@@ -140,7 +171,9 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.voDesign">
-          <VxeFormItem :span="24"><VxeText status="primary" content="VO信息（controller出参）"></VxeText></VxeFormItem>
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
+            <VxeText status="primary" content="VO信息（controller出参）"></VxeText>
+          </VxeFormItem>
           <VxeFormItem field="entityDesign.packageName" title="VO包" title-colon :span="8">
             <template #default>
               <VxeInput v-model="formData.voDesign.packageName" placeholder="基础包.模块包.VO包" />
@@ -179,7 +212,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.queryDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="Query信息  （查询类接口入参）"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="queryDesign.packageName" title="Query包" title-colon :span="8">
@@ -220,7 +253,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.dtoDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="Dto信息   （Controller save和update方法入参）"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="dtoDesign.packageName" title="Dto包" title-colon :span="8">
@@ -261,7 +294,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.mapperDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="mapper信息 "></VxeText>
           </VxeFormItem>
           <VxeFormItem field="mapperDesign.packageName" title="mapper包" title-colon :span="6">
@@ -289,7 +322,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.serviceDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="Service信息"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="serviceDesign.packageName" title="ServiceImpl包" title-colon :span="6">
@@ -317,7 +350,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.serviceImplDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="ServiceImpl信息"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="serviceImplDesign.packageName" title="ServiceImpl包" title-colon :span="8">
@@ -350,7 +383,7 @@ const serviceInfoFormRules = {
         </template>
 
         <template v-if="formData.controllerDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="Controller信息"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="controllerDesign.packageName" title="Controller包" title-colon :span="8">
@@ -390,7 +423,7 @@ const serviceInfoFormRules = {
           </VxeFormItem>
         </template>
         <template v-if="formData.xmlDesign">
-          <VxeFormItem :span="24">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
             <VxeText status="primary" content="Xml信息"></VxeText>
           </VxeFormItem>
           <VxeFormItem field="xmlDesign.path" title="Controller包" title-colon :span="8">
@@ -422,7 +455,93 @@ const serviceInfoFormRules = {
       </VxeForm>
     </ACollapsePanel>
     <ACollapsePanel key="3" header="前端信息">
-      <VxeForm ref="fontInfoForm" :data="{}" :rules="{}" :items="[]" />
+      <VxeForm ref="serviceInfoForm" :rules="serviceInfoFormRules" custom-layout :data="formData">
+        <template v-if="formData.frontDesign">
+          <VxeFormItem field="frontDesign.sourceDir" title="生成路径" title-colon :span="8">
+            <template #default>
+              <VxeInput v-model="formData.frontDesign.sourceDir" placeholder="代码绝对位置" />
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="frontDesign.superClassName" title="表单打开方式" title-colon :span="8">
+            <template #default>
+              <VxeSelect v-model="formData.frontDesign.openMode" placeholder="选择表单打开方式">
+                <VxeOption value="modal" label="弹窗"></VxeOption>
+                <VxeOption value="drwaer" label="抽屉"></VxeOption>
+                <VxeOption value="route" label="新页面"></VxeOption>
+              </VxeSelect>
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="frontDesign.superClassName" title="布局方式" title-colon :span="8">
+            <template #default>
+              <VxeRadioGroup v-model="formData.frontDesign.layout" size="mini" :strict="false">
+                <VxeRadioButton label="1" content="单表"></VxeRadioButton>
+                <VxeRadioButton label="2" content="主从"></VxeRadioButton>
+                <VxeRadioButton label="3" content="树"></VxeRadioButton>
+              </VxeRadioGroup>
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="frontDesign.i18n" title="i18n" title-colon :span="8">
+            <template #default>
+              <VxeSwitch v-model="formData.frontDesign.i18n"></VxeSwitch>
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="frontDesign.keepAlive" title="keepAlive" title-colon :span="8">
+            <template #default>
+              <VxeSwitch v-model="formData.frontDesign.keepAlive"></VxeSwitch>
+            </template>
+          </VxeFormItem>
+        </template>
+
+        <template v-if="formData.menuDesign">
+          <VxeFormItem :span="24" class="b-t b-t-info-200">
+            <VxeText status="primary" content="菜单信息"></VxeText>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.path" title="自动执行" title-colon :span="8">
+            <template #default>
+              <VxeSwitch v-model="formData.menuDesign.execute"></VxeSwitch>
+              （执行时校验编码是否重复）
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.code" title="菜单编码" title-colon :span="8">
+            <template #default>
+              <VxeInput v-model="formData.menuDesign.code" readonly placeholder="按照编码自动生成" />
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.name" title="菜单名称" title-colon :span="8">
+            <template #default>
+              <VxeInput v-model="formData.menuDesign.name" readonly placeholder="请输入菜单名称" />
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.parentId" title="上级菜单" title-colon :span="8">
+            <template #default>
+              <ApiTreeSelect
+                v-model="formData.menuDesign.parentId"
+                style="width: 100%"
+                :api="loadMenu"
+                placeholder="请选择上级菜单"
+                @change="handleChnage"
+              />
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.sort" title="排序" title-colon :span="8">
+            <template #default>
+              <VxeInput v-model="formData.menuDesign.sort" placeholder="请输入排序号" />
+            </template>
+          </VxeFormItem>
+          <VxeFormItem field="menuDesign.sort" title="图标" title-colon :span="8">
+            <template #default>
+              <VxeSelect v-model="formData.menuDesign.icon" placeholder="选择表单打开方式">
+                <VxeOption v-for="item in localIcons" :key="item" :label="item" :value="item">
+                  <div class="flex flex-center gap-2">
+                    <SvgIcon :local-icon="item" class="text-20px" />
+                    {{ item }}
+                  </div>
+                </VxeOption>
+              </VxeSelect>
+            </template>
+          </VxeFormItem>
+        </template>
+      </VxeForm>
     </ACollapsePanel>
   </ACollapse>
 </template>
