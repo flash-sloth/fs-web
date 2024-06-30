@@ -9,7 +9,7 @@ import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
 import type { CodeCreator, CodeCreatorPageDto } from '@/service/main/generator/codeCreator/model';
 import { deleteBatch, queryPage } from '@/service/main/generator/codeCreator/api';
-import ImportModal from './moudules/ImportModal.vue';
+import ImportModal from './modules/ImportModal.vue';
 import { columns, searchFormConfig } from './data/index';
 // 获取表格实例
 const xGrid = ref<VxeGridInstance<CodeCreator>>();
