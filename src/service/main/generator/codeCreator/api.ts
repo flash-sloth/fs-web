@@ -1,8 +1,7 @@
 import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
-import type { CodeCreatorEidtDto, CodeCreatorImportDto, CodeCreatorPageDto } from '@/service/model/main/codeCreator';
 import type { PageParam } from '@/models/common-models';
-import type { CodeGenDto } from './model';
+import type { CodeCreatorEidtDto, CodeCreatorImportDto, CodeCreatorPageDto, CodeGenDto } from './model';
 const urlPrefix = '/main/codeCreator';
 /**
  * 预览
