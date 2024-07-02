@@ -537,7 +537,8 @@ const serviceInfoFormRules = {
                 </VxeFormItem>
               </template>
 
-              <template v-if="formData.menuDesign">
+              <!--
+ <template v-if="formData.menuDesign">
                 <VxeFormItem :span="24" class="b-t b-t-info-200">
                   <VxeText status="primary" content="菜单信息"></VxeText>
                 </VxeFormItem>
@@ -586,6 +587,7 @@ const serviceInfoFormRules = {
                   </template>
                 </VxeFormItem>
               </template>
+-->
             </VxeForm>
           </ACollapsePanel>
         </ACollapse>
