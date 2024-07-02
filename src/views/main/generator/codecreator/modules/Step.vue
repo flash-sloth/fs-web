@@ -28,10 +28,7 @@ defineOptions({
           status: 'wait'
         },
         {
-          title: '代码预览'
-        },
-        {
-          title: '代码生成'
+          title: '代码预览/生成'
         }
       ]"
     ></ASteps>
