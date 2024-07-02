@@ -1,27 +1,31 @@
-import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
+import type { VxeGridPropTypes } from 'vxe-table';
 
 /**
  * @param actionColumn 用户定义的 操作列
  * @returns 返回默认列和用户操作列的集合
  */
-export const columns = (actionColumn?: VxeTableDefines.ColumnOptions<RowVO>): VxeGridPropTypes.Columns<RowVO> => {
+export const columns = (): VxeGridPropTypes.Columns<RowVO> => {
   const columnsDef: VxeGridPropTypes.Columns<RowVO> = [
-    { type: 'checkbox', width: 50 },
-    { type: 'seq', width: 60 },
+    { type: 'checkbox', width: 50, fixed: 'left' },
+    { type: 'seq', width: 40, fixed: 'left' },
     {
-      field: 'tableName',
+      field: 'name',
       title: '表名称'
     },
     {
-      field: '表注释',
-      title: 'tableDescription'
+      field: '库存',
+      title: 'stock'
     },
     {
-      field: 'entityDesign.name',
-      title: '实体类名'
+      field: 'state',
+      title: '状态'
+    },
+    {
+      title: '操作',
+      fixed: 'right',
+      slots: { default: 'operate' }
     }
   ];
-  actionColumn && columnsDef.push(actionColumn);
   return columnsDef;
 };
 /** 搜索表单配置 */

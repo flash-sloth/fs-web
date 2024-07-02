@@ -21,13 +21,10 @@ const formRef = ref();
 const gridOptions = reactive<VxeGridProps<RowVO>>(
   defGridConfig<RowVO>({
     // 列配置
-    columns: columns({
-      title: '操作',
-      slots: { default: 'operate' }
-    }),
+    columns: columns(),
     // 搜索表单
     formConfig: searchFormConfig(),
-
+    pagerConfig: {},
     proxyConfig: {
       ajax: {
         // 接收 Promise
@@ -35,11 +32,11 @@ const gridOptions = reactive<VxeGridProps<RowVO>>(
       }
     },
     toolbarConfig: {
+      // perfect: true,
       buttons: [
         { code: actionCode.add, name: '新增', icon: 'vxe-icon-add' },
         { code: actionCode.deleteBatch, name: '删除', icon: 'vxe-icon-delete' }
-      ],
-      custom: true
+      ]
     }
   })
 );

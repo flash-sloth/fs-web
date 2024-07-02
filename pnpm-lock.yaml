@@ -108,14 +108,11 @@ importers:
         specifier: 4.3.2
         version: 4.3.2(vue@3.4.25(typescript@5.4.5))
       vxe-pc-ui:
-        specifier: 1.9.6
-        version: 1.9.6
+        specifier: 4.0.40
+        version: 4.0.40
       vxe-table:
-        specifier: 4.7.7
-        version: 4.7.7
-      vxe-utils:
-        specifier: ^2.0.1
-        version: 2.0.1(xe-utils@3.5.27)
+        specifier: 4.7.40
+        version: 4.7.40
       xe-utils:
         specifier: ^3.5.27
         version: 3.5.27
@@ -1595,11 +1592,8 @@ packages:
   '@vueuse/shared@10.9.0':
     resolution: {integrity: sha512-Uud2IWncmAfJvRaFYzv5OHDli+FbOzxiVEQdLCKQKLyhz94PIyFC3CHcH7EDMwIn8NPtD06+PNbC/PiO0LGLtw==}
 
-  '@vxe-ui/core@0.12.4':
-    resolution: {integrity: sha512-JlS6uMbk22W1gfCxU0IZbMycHNjl1G9XxAlcGBFOanJCNT062obbzovJSW6VdIyNjil+VP/FMeiPVKNtcSXMkg==}
-
-  '@vxe-ui/core@1.0.0':
-    resolution: {integrity: sha512-LXJgXDzWUUJX5Q2FZlMsVXNHeG69SzK5V1zhWe6B68mAm+dotxa3cUVIuJ1nazrRhqTDKKTm6o+xBp5bQbB8Dw==}
+  '@vxe-ui/core@1.0.12':
+    resolution: {integrity: sha512-s79mQw6uYSbTVGBWbxrisHwJV1b770vZMT9XpY3khcFQhXNo25+PS3FLrNCSsBBJR0ZkBLOXDER/ft9DIqgFTw==}
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -4967,19 +4961,14 @@ packages:
       typescript:
         optional: true
 
-  vxe-pc-ui@1.9.23:
-    resolution: {integrity: sha512-CHimEGPtoBse7uZLuzV2EDEyQo2ZwdYjMlFa9t8L1jenVDNy8lXIF1MpN9zLD1H6MvAcMRWeFEsIBI/eXe+0wg==}
+  vxe-pc-ui@4.0.40:
+    resolution: {integrity: sha512-JsQaqdIPmw39cwTnLIuyetgnVEavJ2ggzN9WfUPMcky67nFCAy6QamSB+RI3V5u20PIz94tLnyEu6i2zW2ix7A==}
 
-  vxe-pc-ui@1.9.6:
-    resolution: {integrity: sha512-EfP98Kh512dS8KlkqMzzIFT43JDuYujkk8voQOJ6lpDztc4HgMkvlYIX8yL3OdsdN0msd9Y/Te1YQdOaVcT57Q==}
+  vxe-pc-ui@4.0.44:
+    resolution: {integrity: sha512-wiauFMmSvEkVKa/AsKGb5CMi91Ojts+Ydcn+iespgl3xMBD01BR/CGzeCI478P3XAFBsiN4gWlgxHmGP5TR8UA==}
 
-  vxe-table@4.7.7:
-    resolution: {integrity: sha512-6d3FuhiNM1pfv5BE9ap0opgb6nhfPDx73+wiXG+4rRucCEeYOAE/u4HFQY43caJ331eQ3oX95GAAZheo9rRQKg==}
-
-  vxe-utils@2.0.1:
-    resolution: {integrity: sha512-A2MSZWtamNiXZ61bz5BrpyUg8Qd29HMDyrF0vBorx4kwWno5+qlkeQU7VMcyGIwoHlP/jOCCTgnhVq3J92vG7g==}
-    peerDependencies:
-      xe-utils: '>=2.7.0'
+  vxe-table@4.7.40:
+    resolution: {integrity: sha512-y9VC3oLJgusxFj3xZ28G4gU+YClBuDIV8oM75Dx3doYJ7vanXZnSf70XJ+W5xEKflamUmjGre66XZ2b4XuqtMw==}
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
@@ -5046,6 +5035,9 @@ packages:
 
   xe-utils@3.5.27:
     resolution: {integrity: sha512-qn303MEL90Fn+1BGAfwmz+ot/3klNc9OgX3HBO5TPKHLLl+/zhfH+zrCOi7QIhvzaRiv63SSUhQE4Z1lTwmAuw==}
+
+  xe-utils@3.5.28:
+    resolution: {integrity: sha512-oeLLJ0b54QdOSSgYQ9TiKW/xAGrc9r0weCA/5UfyGdm3n3js4cNOuuf9Tml7UwgBQpl4uWMbMwUZKLh2yqPF3A==}
 
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -6506,15 +6498,10 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vxe-ui/core@0.12.4':
+  '@vxe-ui/core@1.0.12':
     dependencies:
       dom-zindex: 1.0.4
-      xe-utils: 3.5.27
-
-  '@vxe-ui/core@1.0.0':
-    dependencies:
-      dom-zindex: 1.0.4
-      xe-utils: 3.5.27
+      xe-utils: 3.5.28
 
   abbrev@1.1.1: {}
 
@@ -10362,21 +10349,17 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  vxe-pc-ui@1.9.23:
+  vxe-pc-ui@4.0.40:
     dependencies:
-      '@vxe-ui/core': 1.0.0
+      '@vxe-ui/core': 1.0.12
 
-  vxe-pc-ui@1.9.6:
+  vxe-pc-ui@4.0.44:
     dependencies:
-      '@vxe-ui/core': 0.12.4
+      '@vxe-ui/core': 1.0.12
 
-  vxe-table@4.7.7:
+  vxe-table@4.7.40:
     dependencies:
-      vxe-pc-ui: 1.9.23
-
-  vxe-utils@2.0.1(xe-utils@3.5.27):
-    dependencies:
-      xe-utils: 3.5.27
+      vxe-pc-ui: 4.0.44
 
   w3c-keyname@2.2.8: {}
 
@@ -10452,6 +10435,8 @@ snapshots:
   xdg-basedir@5.1.0: {}
 
   xe-utils@3.5.27: {}
+
+  xe-utils@3.5.28: {}
 
   xml-name-validator@4.0.0: {}
 
