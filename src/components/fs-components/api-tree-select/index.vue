@@ -7,7 +7,7 @@ defineOptions({
   name: 'ApiTreeSelect',
   inheritAttrs: false
 });
-const emit = defineEmits(['update:value', 'change']);
+const emit = defineEmits(['update:value']);
 
 const treeData = ref([]);
 const aTreeSelectRef = ref();

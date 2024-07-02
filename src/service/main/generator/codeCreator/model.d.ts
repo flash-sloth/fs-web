@@ -1,9 +1,14 @@
-import { CodeCreator } from './codeCreator.d';
 export interface CodeCreator {
   id: number;
   tableName: string;
   tableDescription: string;
   entityDesign: EntityDesign;
+}
+
+export interface CodeGenDto {
+  ids: string[];
+  reload: boolean;
+  genStrategy: Record<string, any>;
 }
 
 export interface EntityDesign {

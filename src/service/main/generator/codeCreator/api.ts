@@ -2,6 +2,7 @@ import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
 import type { CodeCreatorEidtDto, CodeCreatorImportDto, CodeCreatorPageDto } from '@/service/model/main/codeCreator';
 import type { PageParam } from '@/models/common-models';
+import type { CodeGenDto } from './model';
 const urlPrefix = '/main/codeCreator';
 /**
  * 预览
@@ -9,11 +10,11 @@ const urlPrefix = '/main/codeCreator';
  * @param ids
  * @returns
  */
-export const preview = (ids: string[]) =>
+export const preview = (params: CodeGenDto) =>
   defHttp.request<any[]>({
     url: `${urlPrefix}/preview`,
     method: RequestEnum.POST,
-    params: ids
+    params
   });
 /**
  * 分页查询
@@ -52,4 +53,11 @@ export const getCodeCreatorInfo = (id: string) =>
   defHttp.request<CodeCreatorEidtDto>({
     url: `${urlPrefix}/${id}`,
     method: RequestEnum.GET
+  });
+
+export const updateCodeCreatorInfo = (params: CodeCreatorImportDto) =>
+  defHttp.request<CodeCreatorEidtDto>({
+    url: `${urlPrefix}`,
+    params,
+    method: RequestEnum.PUT
   });

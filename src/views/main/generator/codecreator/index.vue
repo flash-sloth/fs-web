@@ -2,8 +2,9 @@
 import { reactive, ref } from 'vue';
 import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTypes, VxeGridProps } from 'vxe-table';
 import { VxeGrid } from 'vxe-table';
-import { Modal, message } from 'ant-design-vue';
+import type { RouteLocationNamedRaw } from 'vue-router';
 import { useRouter } from 'vue-router';
+import { useMessage } from '@/hooks/web/useMessage';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
@@ -11,11 +12,14 @@ import type { CodeCreator, CodeCreatorPageDto } from '@/service/main/generator/c
 import { deleteBatch, queryPage } from '@/service/main/generator/codeCreator/api';
 import ImportModal from './modules/ImportModal.vue';
 import { columns, searchFormConfig } from './data/index';
+const { createMessage, createConfirm } = useMessage();
 // 获取表格实例
 const xGrid = ref<VxeGridInstance<CodeCreator>>();
 const actionCode = {
   add: 'add',
-  deleteBatch: 'deleteBatch'
+  deleteBatch: 'deleteBatch',
+  genMeun: 'genMeun',
+  previewCode: 'previewCode'
 };
 const gridOptions = reactive<VxeGridProps<CodeCreator>>(
   defGridConfig<CodeCreator>({
@@ -36,7 +40,9 @@ const gridOptions = reactive<VxeGridProps<CodeCreator>>(
     toolbarConfig: {
       buttons: [
         { code: actionCode.add, name: '导入', icon: 'vxe-icon-upload' },
-        { code: actionCode.deleteBatch, name: '删除', icon: 'vxe-icon-delete' }
+        { code: actionCode.deleteBatch, name: '删除', icon: 'vxe-icon-delete' },
+        { code: actionCode.genMeun, name: '生成菜单', icon: 'vxe-icon-menu' },
+        { code: actionCode.previewCode, name: '代码预览', icon: 'vxe-icon-file-txt' }
       ],
       custom: true
     }
@@ -62,17 +68,31 @@ function onEdit(row: CodeCreator) {
   });
 }
 
+function onPreviewCode(rows: CodeCreator[]) {
+  if (!rows.length) {
+    createMessage.warning('请选择要预览/生成的代码');
+    return;
+  }
+  router.push({
+    path: `./codecreator/preview`,
+    query: {
+      ids: rows.map(x => `${x.id}`).join(',')
+    }
+  });
+}
+
 function delRows($grid: VxeGridConstructor<CodeCreator>) {
   const checkedRows = $grid.getCheckboxRecords();
   if (!checkedRows || checkedRows.length === 0) {
-    message.error('请选择要删除的数据');
+    createMessage.error('请选择要删除的数据');
   } else {
-    Modal.confirm({
+    createConfirm({
+      iconType: 'warning',
       title: '系统提示',
       content: '确定删除选中数据吗？',
       onOk: async () => {
         await deleteBatch(checkedRows.map((x: CodeCreator) => x.id));
-        message.success('删除成功');
+        createMessage.success('删除成功');
         await reloadData();
       }
     });
@@ -94,6 +114,12 @@ function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEv
   } else if (code === actionCode.add) {
     // 导入
     showImportModal();
+  } else if (code === actionCode.genMeun) {
+    // 生成菜单
+    createMessage.success('生成菜单成功');
+  } else if (code === actionCode.previewCode) {
+    // 代码预览
+    onPreviewCode($grid.getCheckboxRecords());
   }
 }
 </script>
