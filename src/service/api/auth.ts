@@ -1,4 +1,3 @@
-import { reactive } from 'vue';
 import type { LoginVo, UserInfoVo, UserResourceVo } from '@/models/auth/authCenter';
 import { defHttp } from '../http';
 
