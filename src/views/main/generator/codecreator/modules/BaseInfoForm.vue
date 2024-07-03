@@ -35,7 +35,7 @@ import ControllerConfigInfo from './config-forms/ControllerConfigInfo.vue';
 import XmlConfigInfo from './config-forms/XmlConfigInfo.vue';
 import FrontConfigInfo from './config-forms/FrontConfigInfo.vue';
 const activeKey = ref(['1', '2', '3']);
-const formRef = ref<ConfigFormInstance[]>();
+const formRef = ref<ConfigFormInstance[]>([]);
 export interface BaseInfoFormInstance {
   setModles: (data: CodeCreatorEidtDto) => void;
   validate: () => CodeCreatorEidtDto;
@@ -44,6 +44,10 @@ export interface BaseInfoFormInstance {
 const { createMessage } = useMessage();
 const formData = ref<CodeCreatorEidtDto>({});
 const formLoading = ref(false);
+
+function bindFromRef(refEl: any) {
+  formRef.value.push(refEl);
+}
 
 function setModles(data: CodeCreatorEidtDto) {
   formData.value = cloneDeep(data);
@@ -103,22 +107,22 @@ defineExpose({
       <SimpleScrollbar>
         <ACollapse v-model:active-key="activeKey">
           <ACollapsePanel key="1" header="基础信息">
-            <BaseConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
+            <BaseConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
           </ACollapsePanel>
           <ACollapsePanel key="2" header="后端信息">
-            <PackageConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <EntityConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <VoConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <QueryConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <DtoConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <MapperConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <ServiceConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <ServiceImplConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <ControllerConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
-            <XmlConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
+            <PackageConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <EntityConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <VoConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <QueryConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <DtoConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <MapperConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <ServiceConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <ServiceImplConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <ControllerConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <XmlConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
           </ACollapsePanel>
           <ACollapsePanel key="3" header="前端信息">
-            <FrontConfigInfo ref="formRef" :config-data="formData" :loading="formLoading" />
+            <FrontConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
           </ACollapsePanel>
         </ACollapse>
       </SimpleScrollbar>
