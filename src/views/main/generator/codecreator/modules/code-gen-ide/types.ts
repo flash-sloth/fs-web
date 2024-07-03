@@ -10,14 +10,13 @@ export interface FsGenFile {
   /** 子文件 */
   children?: FsGenFile[];
   /**
-   * 生成选项：
+   * 生成配置
    *
-   * - generate: 新增
-   * - ignore: 忽略
-   * - generate-force: 强制生成
-   * - ignore-when-exist: 存在时忽略
+   * OVERWRITE: 覆盖 IGNORE: 忽略 BACKUPS: 备份 ADD: 添加 EXIST_IGNORE: 存在则忽略
+   *
+   * @default OVERWRITE
    */
-  generateConfig?: 'generate' | 'ignore' | 'generate-force' | 'ignore-when-exist';
+  generateConfig?: 'OVERWRITE' | 'IGNORE' | 'BACKUPS' | 'ADD' | 'EXIST_IGNORE';
 }
 /** 生成文件类型 */
 export enum FsGenFileType {

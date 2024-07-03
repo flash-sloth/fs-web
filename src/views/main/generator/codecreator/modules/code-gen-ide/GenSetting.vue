@@ -16,6 +16,9 @@ const [register] = useDmSwitcherInner<FsGenFile[]>(data => {
 function settingChange(data: Record<string, any>) {
   Object.assign(settingMap, data);
 }
+function onGenerate() {
+  console.log(settingMap);
+}
 </script>
 
 <template>
@@ -25,6 +28,8 @@ function settingChange(data: Record<string, any>) {
     :body-style="{
       height: '500px'
     }"
+    on-text="生成"
+    @ok="onGenerate"
     @register="register"
   >
     <FileTree

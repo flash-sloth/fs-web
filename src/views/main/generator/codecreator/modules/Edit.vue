@@ -79,7 +79,7 @@ async function onStepChange(newSetp: number) {
         <Step :current="activeSetp" @update:current="onStepChange"></Step>
       </VxeLayoutHeader>
       <VxeLayoutBody class="h1 flex-1 p-2">
-        <BaseInfoForm v-show="activeSetp === 0" ref="baseInfoFormRef">0</BaseInfoForm>
+        <BaseInfoForm v-show="activeSetp === 0" ref="baseInfoFormRef" @success="loadData()"></BaseInfoForm>
         <div v-show="activeSetp === 1">1</div>
         <div v-show="activeSetp === 2">2</div>
         <div v-show="activeSetp === 3">3</div>

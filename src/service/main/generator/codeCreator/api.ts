@@ -50,13 +50,22 @@ export const importTable = (params: CodeCreatorImportDto) =>
 
 export const getCodeCreatorInfo = (id: string) =>
   defHttp.request<CodeCreatorEidtDto>({
-    url: `${urlPrefix}/info/${id}`,
+    url: `${urlPrefix}/getByIdCache/${id}`,
     method: RequestEnum.GET
   });
 
-export const updateCodeCreatorInfo = (params: CodeCreatorEidtDto) =>
-  defHttp.request<CodeCreatorEidtDto>({
+export const updateCodeCreatorInfo = (params: CodeCreatorEidtDto) => {
+  console.log(params);
+  return defHttp.request<CodeCreatorEidtDto>({
     url: `${urlPrefix}`,
     params,
     method: RequestEnum.PUT
+  });
+};
+
+export const generator = (params: CodeGenDto) =>
+  defHttp.request<CodeCreatorEidtDto>({
+    url: `${urlPrefix}/generator`,
+    params,
+    method: RequestEnum.POST
   });

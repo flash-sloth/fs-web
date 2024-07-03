@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { debug } from 'node:console';
 import { ref } from 'vue';
 import { type VxeFormInstance } from 'vxe-table';
 import {
@@ -36,6 +37,7 @@ import XmlConfigInfo from './config-forms/XmlConfigInfo.vue';
 import FrontConfigInfo from './config-forms/FrontConfigInfo.vue';
 const activeKey = ref(['1', '2', '3']);
 const formRef = ref<ConfigFormInstance[]>([]);
+const emits = defineEmits(['success']);
 export interface BaseInfoFormInstance {
   setModles: (data: CodeCreatorEidtDto) => void;
   validate: () => CodeCreatorEidtDto;
@@ -55,13 +57,14 @@ function setModles(data: CodeCreatorEidtDto) {
 /** 验证表单，验证成功返回编辑后的表单数据 验证失败抛出错误 */
 async function validate(): Promise<CodeCreatorEidtDto> {
   let flag = false;
-  const res: CodeCreatorEidtDto = {};
-  formRef.value?.forEach(async item => {
-    const data = await item.validate();
+  let res: CodeCreatorEidtDto = { id: formData.value.id };
+  const promises = formRef.value.map(item => item.validate()); // 生成一个包含所有验证操作的Promise数组
+  const results = await Promise.all(promises);
+  results.forEach(data => {
     if (data === null) {
       flag = true;
     } else {
-      Object.assign(res, data);
+      res = { ...res, ...data };
     }
   });
   if (flag) {
@@ -73,8 +76,10 @@ async function validate(): Promise<CodeCreatorEidtDto> {
 async function save() {
   try {
     formLoading.value = true;
-    const res = await updateCodeCreatorInfo(await validate());
+    const params = await validate();
+    const res = await updateCodeCreatorInfo(params);
     createMessage.success('保存成功');
+    emits('success');
     return res;
   } finally {
     formLoading.value = false;

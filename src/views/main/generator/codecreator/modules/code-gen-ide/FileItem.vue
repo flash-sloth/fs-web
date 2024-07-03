@@ -124,10 +124,11 @@ function dispatchSetting(data: any) {
         </div>
         <div v-if="showSetting">
           <ARadioGroup :value="settingMap[data?.id || '']" @change="onConfigChange">
-            <ARadioButton value="generate">新增</ARadioButton>
-            <ARadioButton value="generate-force">覆盖</ARadioButton>
-            <ARadioButton value="ignore">忽略</ARadioButton>
-            <ARadioButton value="ignore-when-exist">存在时忽略</ARadioButton>
+            <ARadioButton value="ADD">新增</ARadioButton>
+            <ARadioButton value="OVERWRITE">覆盖</ARadioButton>
+            <ARadioButton value="IGNORE">忽略</ARadioButton>
+            <ARadioButton value="BACKUPS">备份</ARadioButton>
+            <ARadioButton value="EXIST_IGNORE">存在时忽略</ARadioButton>
           </ARadioGroup>
         </div>
       </div>

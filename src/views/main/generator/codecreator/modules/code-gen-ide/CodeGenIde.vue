@@ -2,9 +2,13 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
 import { preview } from '@/service/main/generator/codeCreator/api';
+import { useMessage } from '@/hooks/web/useMessage';
 import CodePanel from './CodePanel.vue';
 import FileTree from './FileTree.vue';
+import LineButton from './LineButton.vue';
+import GenSetting from './GenSetting.vue';
 import { type FsGenFile, FsGenFileType } from './types';
+const { createConfirm } = useMessage();
 const props = defineProps<{
   ids: string[];
 }>();
@@ -34,6 +38,18 @@ watch(
     loadData(false);
   }
 );
+function reload() {
+  createConfirm({
+    iconType: 'info',
+    title: '确定要刷新吗？',
+    content: '刷新将重新按规则生成代码，是否继续？',
+    okText: '刷新',
+    cancelText: '取消',
+    onOk: () => {
+      loadData(true);
+    }
+  });
+}
 onMounted(() => {
   loadData(false);
 });
@@ -47,8 +63,11 @@ defineExpose({
   <GenSetting @register="register"></GenSetting>
   <div class="code-gen-ide">
     <div class="code-gen-ide-title">
-      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">设置</LineButton>
-      {{ editFile?.path }}
+      <LineButton padding @click="reload">刷新</LineButton>
+      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">生成</LineButton>
+      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">下载</LineButton>
+      <div class="code-path-line ellipsis-text">{{ editFile?.path }}</div>
+      <LineButton v-if="editFile" padding @click="showSetting({ action: 'setting', data: treeData })">保存</LineButton>
     </div>
     <div class="code-gen-ide-main">
       <div class="code-gen-ide-left">
@@ -97,7 +116,15 @@ defineExpose({
     flex-shrink: 0; /* 防止缩小 */
     flex-basis: auto; /* 保持原有大小 */
   }
-
+  .code-gen-ide-title {
+    display: flex;
+  }
+  .code-path-line {
+    flex: 1;
+    width: 1px;
+    word-break: break-all;
+    overflow: hidden;
+  }
   .code-gen-ide-main {
     flex: 1;
     flex-basis: 1px;
