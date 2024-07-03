@@ -3,47 +3,34 @@ import { reactive, ref } from 'vue';
 import { message } from 'ant-design-vue';
 import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
-import type { CurdModel, CurdSaveDto, CurdUpdateDto } from '@/models/demo/curd-models';
-import { get, save, update } from '@/api/demo/curd-api';
+import { getById, save, update } from '@/service/demo/test/codeTestSimple/api';
+import type { CodeTestSimpleDto } from '@/service/demo/test/codeTestSimple/model';
 import { formItems, formRules } from '../data/form';
 
 const formRef = ref<VxeFormInstance>();
 const formLoading = useLoading(false);
 
 const formConfig = reactive<{
-  formData: PNullable<CurdModel>;
+  formData: CodeTestSimpleDto;
   formItems: VxeFormPropTypes.Items;
   formRules: VxeFormPropTypes.Rules;
 }>({
-  formData: {
-    id: null,
-    name: '',
-    type3: '',
-    type2: '0'
-  },
+  formData: {} as CodeTestSimpleDto,
   formRules: formRules(),
   formItems: formItems()
 });
-
-/**
- * @param id 记录的ID
- * @returns Promise<ROWVo> 返回记录详情
- */
-async function loadInfo(id: number) {
-  return await get(id);
-}
 
 async function load(data: any) {
   formRef.value?.reset();
   if (data?.id) {
     formLoading.startLoading();
     try {
-      formConfig.formData = await loadInfo(data.id);
+      formConfig.formData = await getById(data.id);
     } finally {
       formLoading.endLoading();
     }
   } else {
-    formConfig.formData = {} as CurdModel;
+    formConfig.formData = {} as CodeTestSimpleDto;
   }
 }
 
@@ -52,10 +39,10 @@ const doSubmit = async () => {
   formLoading.startLoading();
   try {
     if (formConfig.formData.id) {
-      await update(formConfig.formData as CurdUpdateDto);
+      await update(formConfig.formData);
       message.success('修改成功');
     } else {
-      await save(formConfig.formData as CurdSaveDto);
+      await save(formConfig.formData);
       message.success('新增成功');
     }
   } finally {

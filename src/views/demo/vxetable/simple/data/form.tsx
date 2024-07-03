@@ -31,3 +31,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
     { field: 'type3', title: 'type3', span: 12, itemRender: { name: 'VxeInput' } }
   ];
 };
+
+export interface Emits {
+  (e: 'success'): void;
+}

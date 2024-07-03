@@ -3,7 +3,7 @@ import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
 import type { CurdModel, CurdPageDto, CurdPageVo, CurdSaveDto, CurdUpdateDto } from '@/models/demo/curd-models';
 import type { PageParam, PageResult } from '@/models/common-models';
-const MODULAR = '/demo/genTestSimple';
+const MODULAR = '/demo/codeTestSimple';
 export const Api = {
   Page: {
     url: `${MODULAR}/page`,

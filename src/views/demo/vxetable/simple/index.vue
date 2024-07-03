@@ -2,37 +2,71 @@
 import { reactive, ref } from 'vue';
 import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTypes, VxeGridProps } from 'vxe-table';
 import { VxeGrid } from 'vxe-table';
-import { Modal, message } from 'ant-design-vue';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
-import { deleteBatch, page as queryPage } from '@/api/demo/curd-api';
-import type { CurdPageDto } from '@/models/demo/curd-models';
-import type { RowVO } from './data/index';
+
+import { page, remove } from '@/service/demo/test/codeTestSimple/api';
+import type { CodeTestSimpleQuery, CodeTestSimpleVo } from '@/service/demo/test/codeTestSimple/model';
+import { useMessage } from '@/hooks/web/useMessage';
+
+import { queryBefore } from '@/plugins/vxe-table/common';
 import { columns, searchFormConfig } from './data/index';
 import FormWraper from './modules/wrapper.vue';
+
 // 获取表格实例
-const xGrid = ref<VxeGridInstance<RowVO>>();
+const xGrid = ref<VxeGridInstance<CodeTestSimpleVo>>();
+const [register, { show: showForm }] = useDmSwitcher<Partial<CodeTestSimpleVo>>();
+const { createConfirm, createMessage } = useMessage();
+
 const actionCode = {
   add: 'add',
+  edit: 'edit',
+  view: 'view',
+  delete: 'delete',
   deleteBatch: 'deleteBatch'
 };
+
 const formRef = ref();
-const gridOptions = reactive<VxeGridProps<RowVO>>(
-  defGridConfig<RowVO>({
-    // 列配置
-    columns: columns(),
+const gridOptions = reactive<VxeGridProps<CodeTestSimpleVo>>(
+  defGridConfig<CodeTestSimpleVo>({
+    columns: columns({
+      title: '操作',
+      fixed: 'right',
+      width: 180,
+      cellRender: {
+        name: 'VxeButtonGroup',
+        props: {
+          mode: 'text'
+        },
+        options: [
+          { content: '查看', name: actionCode.view },
+          { content: '编辑', name: actionCode.edit },
+          { content: '删除', status: 'error', name: actionCode.delete }
+        ],
+        events: {
+          click({ row }, { name }) {
+            switch (name) {
+              case actionCode.view:
+                showForm({ action: name, data: row });
+                break;
+              case actionCode.edit:
+                showForm({ action: name, data: row });
+                break;
+              case actionCode.delete:
+              default:
+                confirnRemove([row.id]);
+                break;
+            }
+          }
+        }
+      }
+    }),
     // 搜索表单
     formConfig: searchFormConfig(),
     pagerConfig: {},
-    proxyConfig: {
-      ajax: {
-        // 接收 Promise
-        query: loadData
-      }
-    },
+    proxyConfig: { ajax: { query: loadData } },
     toolbarConfig: {
-      // perfect: true,
       buttons: [
         { code: actionCode.add, name: '新增', icon: 'vxe-icon-add' },
         { code: actionCode.deleteBatch, name: '删除', icon: 'vxe-icon-delete' }
@@ -47,32 +81,8 @@ const gridOptions = reactive<VxeGridProps<RowVO>>(
  * @param params
  */
 async function loadData(params: VxeGridPropTypes.ProxyAjaxQueryParams) {
-  return await queryPage({
-    current: params?.page.currentPage,
-    size: params?.page.pageSize,
-    model: { ...params.form } as CurdPageDto
-  });
-}
-
-function onEdit(row: RowVO) {
-  formRef.value?.openModal(row);
-}
-
-function delRows($grid: VxeGridConstructor<RowVO>) {
-  const checkedRows = $grid.getCheckboxRecords();
-  if (!checkedRows || checkedRows.length === 0) {
-    message.error('请选择要删除的数据');
-  } else {
-    Modal.confirm({
-      title: '系统提示',
-      content: '确定删除选中数据吗？',
-      onOk: async () => {
-        await deleteBatch(checkedRows.map((x: RowVO) => x.id));
-        message.success('删除成功');
-        await reloadData();
-      }
-    });
-  }
+  const param: Model.PageParam<CodeTestSimpleQuery> = queryBefore(params);
+  return await page(param);
 }
 
 /** 重新加载数据 */
@@ -82,25 +92,46 @@ async function reloadData() {
     $grid.commitProxy(VxeGridProxyEventCode.QUERY);
   }
 }
-const [dmSwitcherRegister, { show: showForm }] = useDmSwitcher<Partial<RowVO>>();
-function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEventParams<RowVO>) {
-  if (code === actionCode.deleteBatch) {
-    // 删除
-    delRows($grid);
-  } else if (code === actionCode.add) {
-    // 新增
-    showForm({ action: 'add', data: {} });
+
+function handleRemove($grid: VxeGridConstructor<CodeTestSimpleVo>) {
+  const checkedRows = $grid.getCheckboxRecords();
+  if (!checkedRows || checkedRows.length === 0) {
+    createMessage.error('请选择要删除的数据');
+  } else {
+    confirnRemove(checkedRows.map((x: CodeTestSimpleVo) => x.id));
+  }
+}
+
+function confirnRemove(ids: string[]) {
+  createConfirm({
+    iconType: 'warning',
+    title: '系统提示',
+    content: '确定删除选中数据吗？',
+    onOk: async () => {
+      await remove(ids);
+      createMessage.success('删除成功');
+      await reloadData();
+    }
+  });
+}
+
+function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEventParams<CodeTestSimpleVo>) {
+  switch (code) {
+    case actionCode.deleteBatch:
+      handleRemove($grid);
+      break;
+    case actionCode.add:
+      showForm({ action: 'add', data: {} });
+      break;
+    default:
+      break;
   }
 }
 </script>
 
 <template>
   <div>
-    <VxeGrid ref="xGrid" v-bind="gridOptions" @toolbar-button-click="toolbarButtonClick">
-      <template #operate="{ row }">
-        <AButton type="primary" @click="onEdit(row)">编辑</AButton>
-      </template>
-    </VxeGrid>
-    <FormWraper ref="formRef" @register="dmSwitcherRegister" @success="reloadData"></FormWraper>
+    <VxeGrid ref="xGrid" v-bind="gridOptions" @toolbar-button-click="toolbarButtonClick"></VxeGrid>
+    <FormWraper ref="formRef" @register="register" @success="reloadData"></FormWraper>
   </div>
 </template>
