@@ -216,7 +216,7 @@ VxeUI.setConfig({
       trigger: 'default',
       orders: ['asc', 'desc', null],
       defaultSort: {
-        field: 'createdTime',
+        field: 'createdAt',
         order: 'desc'
       },
       // 是否启用多列组合筛选

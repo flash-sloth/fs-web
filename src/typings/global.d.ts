@@ -32,3 +32,7 @@ declare type Nullable<T> = T | null;
 type PNullable<T> = {
   [P in keyof T]: T[P] | null;
 };
+
+declare interface Fn<T = any, R = T> {
+  (...arg: T[]): R;
+}

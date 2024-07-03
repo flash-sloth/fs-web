@@ -50,7 +50,7 @@ export const importTable = (params: CodeCreatorImportDto) =>
 
 export const getCodeCreatorInfo = (id: string) =>
   defHttp.request<CodeCreatorEidtDto>({
-    url: `${urlPrefix}/${id}`,
+    url: `${urlPrefix}/info/${id}`,
     method: RequestEnum.GET
   });
 

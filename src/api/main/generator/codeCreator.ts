@@ -5,5 +5,5 @@ export const preview = (ids: string[]) =>
   defHttp.request<any[]>({
     url: `/main/codeCreator/preview`,
     method: RequestEnum.POST,
-    params: ids
+    params: { ids, reload: true }
   });
