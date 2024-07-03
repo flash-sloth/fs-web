@@ -13,6 +13,7 @@ const props = defineProps<{
   ids: string[];
 }>();
 const treeData = ref<FsGenFile[]>([]);
+const codePanelRef = ref();
 defineOptions({
   name: 'CodeGenIde'
 });
@@ -67,14 +68,14 @@ defineExpose({
       <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">生成</LineButton>
       <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">下载</LineButton>
       <div class="code-path-line ellipsis-text">{{ editFile?.path }}</div>
-      <LineButton v-if="editFile" padding @click="showSetting({ action: 'setting', data: treeData })">保存</LineButton>
+      <LineButton v-if="editFile" padding @click="codePanelRef?.save()">保存</LineButton>
     </div>
     <div class="code-gen-ide-main">
       <div class="code-gen-ide-left">
         <FileTree :tree-data="treeData" @select="onFileSelect"></FileTree>
       </div>
       <div class="code-gen-ide-content">
-        <CodePanel :file="editFile"></CodePanel>
+        <CodePanel ref="codePanelRef" :file="editFile"></CodePanel>
       </div>
     </div>
     <div class="code-gen-ide-footer">{{ selectedFile?.path }}</div>

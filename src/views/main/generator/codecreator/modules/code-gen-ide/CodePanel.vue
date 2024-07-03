@@ -6,7 +6,10 @@ import { SimpleScrollbar } from '@sa/materials';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { java } from '@codemirror/lang-java';
 import { useThemeStore } from '@/store/modules/theme';
-import type { FsGenFile } from './types';
+import { updateCodeCreatorContent } from '@/service/main/generator/codeCreatorContent/api';
+import { useMessage } from '@/hooks/web/useMessage.jsx';
+import type { FsGenFile } from './types.ts';
+const { createMessage } = useMessage();
 const containerRef = ref<Element>();
 const language = new Compartment();
 const tabSize = new Compartment();
@@ -55,12 +58,23 @@ function changeTheme() {
   }
 }
 
+async function save() {
+  if (view) {
+    const content = view.state.doc.toString();
+    props.file && (await updateCodeCreatorContent({ id: props.file.id as string, content }));
+    createMessage.success('保存成功');
+  }
+}
+
 watch(
   () => useThemeStore().darkMode,
   () => {
     changeTheme();
   }
 );
+defineExpose({
+  save
+});
 </script>
 
 <template>
