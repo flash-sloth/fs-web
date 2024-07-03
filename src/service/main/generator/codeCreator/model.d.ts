@@ -127,6 +127,7 @@ export interface CodeCreatorEidtDto {
     classPrefix?: string;
     classSuffix?: string;
     superClassName?: string;
+    withCache?: boolean;
   };
   controllerDesign?: {
     packageName?: string;

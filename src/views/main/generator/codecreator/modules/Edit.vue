@@ -7,8 +7,8 @@ import { useTabStore } from '@/store/modules/tab';
 import { getCodeCreatorInfo, preview } from '@/service/main/generator/codeCreator/api';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import { useMessage } from '@/hooks/web/useMessage';
-import CodeGenIde from '@/components/fs-components/code-gen-ide/src/CodeGenIde.vue';
-import type { FsGenFile } from '@/components/fs-components/code-gen-ide/src/types';
+import CodeGenIde from './code-gen-ide/CodeGenIde.vue';
+import type { FsGenFile } from './code-gen-ide/types';
 import type { BaseInfoFormInstance } from './BaseInfoForm.vue';
 import BaseInfoForm from './BaseInfoForm.vue';
 import Step from './Step.vue';
@@ -18,7 +18,9 @@ const activeSetp = ref(0);
 const $route = useRoute();
 const configInfo = ref<CodeCreatorEidtDto>({});
 const baseInfoFormRef = ref<BaseInfoFormInstance>();
-const treeData = ref<FsGenFile[]>([]);
+const codeGenIdeRef = ref();
+const ids = ref<string[]>([]);
+/** 加载首页数据 */
 async function loadData() {
   const data = await getCodeCreatorInfo($route.params.id as string);
   if (data) {
@@ -29,6 +31,7 @@ async function loadData() {
   }
 }
 onMounted(() => {
+  ids.value = [$route.params.id as string];
   loadData();
 });
 /** 当离开setp0 */
@@ -56,7 +59,7 @@ async function onOutSetp0(newSetp: number) {
 }
 
 async function loadPreviewData() {
-  treeData.value = await preview({ ids: [$route.params.id as string], reload: false, genStrategy: {} });
+  codeGenIdeRef.value?.loadData();
 }
 
 /** @param newSetp 切换到新的步骤 */
@@ -88,7 +91,7 @@ async function onStepChange(newSetp: number) {
         <div v-show="activeSetp === 2">2</div>
         <div v-show="activeSetp === 3">3</div>
         <div v-show="activeSetp === 4" class="h-full">
-          <CodeGenIde :tree-data="treeData"></CodeGenIde>
+          <CodeGenIde ref="codeGenIdeRef" :ids="ids"></CodeGenIde>
         </div>
       </VxeLayoutBody>
     </VxeLayoutContainer>

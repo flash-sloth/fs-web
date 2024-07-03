@@ -70,3 +70,7 @@ export function isPascalCase(str: string): boolean {
   const regex = /^[A-Z][A-Za-z]*$/;
   return regex.test(str);
 }
+
+export function isValidKey(key: string | number | symbol, object: object): key is keyof typeof object {
+  return key in object;
+}
