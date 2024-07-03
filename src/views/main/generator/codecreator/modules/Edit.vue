@@ -8,8 +8,7 @@ import { getCodeCreatorInfo, preview } from '@/service/main/generator/codeCreato
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import { useMessage } from '@/hooks/web/useMessage';
 import CodeGenIde from './code-gen-ide/CodeGenIde.vue';
-import type { FsGenFile } from './code-gen-ide/types';
-import type { BaseInfoFormInstance } from './BaseInfoForm.vue';
+import type { BaseInfoFormInstance } from './config-forms/types';
 import BaseInfoForm from './BaseInfoForm.vue';
 import Step from './Step.vue';
 const { setTabLabel, activeTabId } = useTabStore();
@@ -36,13 +35,7 @@ onMounted(() => {
 });
 /** 当离开setp0 */
 async function onOutSetp0(newSetp: number) {
-  try {
-    await baseInfoFormRef.value?.validate();
-  } catch (e) {
-    return;
-  }
-  const baseFromData = await baseInfoFormRef.value?.validate();
-  if (JSON.stringify(baseFromData) === JSON.stringify(configInfo.value)) {
+  if (!baseInfoFormRef.value?.hasChange()) {
     switchToSetp(newSetp);
   } else {
     createConfirm({

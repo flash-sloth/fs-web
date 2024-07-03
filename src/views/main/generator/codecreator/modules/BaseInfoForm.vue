@@ -42,9 +42,6 @@ export interface BaseInfoFormInstance {
   save: () => Promise<any>;
 }
 const { createMessage } = useMessage();
-const baseInfoForm = ref<VxeFormInstance>();
-const serviceInfoForm = ref<VxeFormInstance>();
-const frontInfoForm = ref<VxeFormInstance>();
 const formData = ref<CodeCreatorEidtDto>({});
 const formLoading = ref(false);
 
@@ -52,14 +49,21 @@ function setModles(data: CodeCreatorEidtDto) {
   formData.value = cloneDeep(data);
 }
 /** 验证表单，验证成功返回编辑后的表单数据 验证失败抛出错误 */
-async function validate() {
-  const err1 = await baseInfoForm.value?.validate();
-  const err2 = await serviceInfoForm.value?.validate();
-  const err3 = await frontInfoForm.value?.validate();
-  if (err1 || err2 || err3) {
+async function validate(): Promise<CodeCreatorEidtDto> {
+  let flag = false;
+  const res: CodeCreatorEidtDto = {};
+  formRef.value?.forEach(async item => {
+    const data = await item.validate();
+    if (data === null) {
+      flag = true;
+    } else {
+      Object.assign(res, data);
+    }
+  });
+  if (flag) {
     throw new Error('表单验证失败');
   }
-  return formData.value;
+  return res;
 }
 
 async function save() {
@@ -72,9 +76,20 @@ async function save() {
     formLoading.value = false;
   }
 }
+
+function hasChange() {
+  let flag = false;
+  formRef.value?.forEach(item => {
+    if (item.hasChange()) {
+      flag = true;
+    }
+  });
+  return flag;
+}
 defineExpose({
   setModles,
   validate,
+  hasChange,
   save
 });
 </script>

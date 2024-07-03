@@ -54,7 +54,7 @@ export const getCodeCreatorInfo = (id: string) =>
     method: RequestEnum.GET
   });
 
-export const updateCodeCreatorInfo = (params: CodeCreatorImportDto) =>
+export const updateCodeCreatorInfo = (params: CodeCreatorEidtDto) =>
   defHttp.request<CodeCreatorEidtDto>({
     url: `${urlPrefix}`,
     params,
