@@ -55,7 +55,6 @@ export const getCodeCreatorInfo = (id: string) =>
   });
 
 export const updateCodeCreatorInfo = (params: CodeCreatorEidtDto) => {
-  console.log(params);
   return defHttp.request<CodeCreatorEidtDto>({
     url: `${urlPrefix}`,
     params,
