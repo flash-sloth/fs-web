@@ -21,13 +21,15 @@ const { createConfirm, createMessage } = useMessage();
 
 const actionCode = {
   add: 'add',
+  edit: 'edit',
+  view: 'view',
+  delete: 'delete',
   deleteBatch: 'deleteBatch'
 };
 
 const formRef = ref();
 const gridOptions = reactive<VxeGridProps<CodeTestSimpleVo>>(
   defGridConfig<CodeTestSimpleVo>({
-    // 列配置
     columns: columns({
       title: '操作',
       fixed: 'right',
@@ -38,22 +40,22 @@ const gridOptions = reactive<VxeGridProps<CodeTestSimpleVo>>(
           mode: 'text'
         },
         options: [
-          { content: '查看', name: 'view' },
-          { content: '编辑', name: 'edit' },
-          { content: '删除', status: 'error', name: 'del' }
+          { content: '查看', name: actionCode.view },
+          { content: '编辑', name: actionCode.edit },
+          { content: '删除', status: 'error', name: actionCode.delete }
         ],
         events: {
           click({ row }, { name }) {
             switch (name) {
-              case 'view':
+              case actionCode.view:
                 showForm({ action: name, data: row });
                 break;
-              case 'edit':
+              case actionCode.edit:
                 showForm({ action: name, data: row });
                 break;
-              case 'delete':
+              case actionCode.delete:
               default:
-                doRemove([row.id]);
+                confirnRemove([row.id]);
                 break;
             }
           }
@@ -96,11 +98,11 @@ function handleRemove($grid: VxeGridConstructor<CodeTestSimpleVo>) {
   if (!checkedRows || checkedRows.length === 0) {
     createMessage.error('请选择要删除的数据');
   } else {
-    doRemove(checkedRows.map((x: CodeTestSimpleVo) => x.id));
+    confirnRemove(checkedRows.map((x: CodeTestSimpleVo) => x.id));
   }
 }
 
-function doRemove(ids: string[]) {
+function confirnRemove(ids: string[]) {
   createConfirm({
     iconType: 'warning',
     title: '系统提示',
@@ -114,12 +116,15 @@ function doRemove(ids: string[]) {
 }
 
 function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEventParams<CodeTestSimpleVo>) {
-  if (code === actionCode.deleteBatch) {
-    // 删除
-    handleRemove($grid);
-  } else if (code === actionCode.add) {
-    // 新增
-    showForm({ action: 'add', data: {} });
+  switch (code) {
+    case actionCode.deleteBatch:
+      handleRemove($grid);
+      break;
+    case actionCode.add:
+      showForm({ action: 'add', data: {} });
+      break;
+    default:
+      break;
   }
 }
 </script>
