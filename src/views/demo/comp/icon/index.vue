@@ -9,7 +9,7 @@ import {
   WechatFilled
 } from '@ant-design/icons-vue';
 
-import { Icon, IconPicker, SvgIcon } from '@/components/fs-components/icon';
+import { Icon, IconPicker, SvgIcon } from '@/components/fs/icon';
 
 import { openWindow } from '@/utils';
 

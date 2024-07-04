@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import CodeGenIde from '@/components/fs-components/code-gen-ide/src/CodeGenIde.vue';
-import { fileTreeData } from '@/components/fs-components/code-gen-ide/src/test-data';
-import type { FsGenFile } from '@/components/fs-components/code-gen-ide/src/types';
+import CodeGenIde from '@/components/fs/code-gen-ide/src/CodeGenIde.vue';
+import { fileTreeData } from '@/components/fs/code-gen-ide/src/test-data';
+import type { FsGenFile } from '@/components/fs/code-gen-ide/src/types';
 import { preview } from '@/api/main/generator/codeCreator';
 async function loadData(): Promise<FsGenFile[]> {
   return new Promise(resolve => {

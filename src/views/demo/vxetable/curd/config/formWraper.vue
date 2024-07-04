@@ -3,7 +3,7 @@ import { defineEmits, reactive, ref } from 'vue';
 import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { message } from 'ant-design-vue';
 import { useLoading } from '@sa/hooks';
-import { FsAModal, useDmSwitcherInner } from '@/components/fs-components/drawer-modal-switcher';
+import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import { get, save, update } from '@/api/demo/curd-api';
 import type { CurdModel, CurdSaveDto, CurdUpdateDto } from '@/models/demo/curd-models';
 import { formItems, formRules } from './curdConfig';

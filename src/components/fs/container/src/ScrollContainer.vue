@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, nextTick, ref, unref } from 'vue';
-import type { ScrollbarType } from '@/components/fs-components/scrollbar';
-import { Scrollbar } from '@/components/fs-components/scrollbar';
+import type { ScrollbarType } from '@/components/fs/scrollbar';
+import { Scrollbar } from '@/components/fs/scrollbar';
 import { useScrollTo } from '@/hooks/event/useScrollTo';
 
 export default defineComponent({

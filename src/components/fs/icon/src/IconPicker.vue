@@ -3,7 +3,7 @@ import { ref, unref, watch, watchEffect } from 'vue';
 import { Empty, Input, Pagination, Popover } from 'ant-design-vue';
 import { useDebounceFn } from '@vueuse/core';
 import svgIcons from 'virtual:svg-icons-names';
-import { ScrollContainer } from '@/components/fs-components/container';
+import { ScrollContainer } from '@/components/fs/container';
 import { useDesign } from '@/hooks/web/useDesign';
 
 import { usePagination } from '@/hooks/web/usePagination';

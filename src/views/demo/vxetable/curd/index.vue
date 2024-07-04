@@ -5,7 +5,7 @@ import { VxeGrid } from 'vxe-table';
 import { Modal, message } from 'ant-design-vue';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
-import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
+import { useDmSwitcher } from '@/components/fs/drawer-modal-switcher';
 import { deleteBatch, page as queryPage } from '@/api/demo/curd-api';
 import type { CurdPageDto } from '@/models/demo/curd-models';
 import type { RowVO } from './config/model';

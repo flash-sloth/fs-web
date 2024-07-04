@@ -16,7 +16,7 @@ import {
 import { cloneDeep } from 'lodash-es';
 import { mapTree } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
-import ApiTreeSelect from '@/components/fs-components/api-tree-select/index.vue';
+import ApiTreeSelect from '@/components/fs/api-tree-select/index.vue';
 
 import { getLocalIcons } from '@/utils/icon';
 import { updateCodeCreatorInfo } from '@/service/main/generator/codeCreator/api';

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import XEUtils from 'xe-utils';
 import { isArray } from 'lodash-es';
-import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
+import { useDmSwitcher } from '@/components/fs/drawer-modal-switcher';
 import { download, generator, preview } from '@/service/main/generator/codeCreator/api';
 import { useMessage } from '@/hooks/web/useMessage';
 import { downloadByData } from '~/packages/utils/src/file/dowload';
