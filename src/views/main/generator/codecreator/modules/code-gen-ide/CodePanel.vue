@@ -19,7 +19,7 @@ const state = EditorState.create({
   doc: `// 请选择文件`,
   extensions: [basicSetup, language.of(java()), tabSize.of(EditorState.tabSize.of(4)), theme.of(defaultTheme)]
 });
-
+const emits = defineEmits(['saveSuccess']);
 const props = defineProps<{
   file: FsGenFile | null;
 }>();
@@ -62,6 +62,7 @@ async function save() {
   if (view) {
     const content = view.state.doc.toString();
     props.file && (await updateCodeCreatorContent({ id: props.file.id as string, content }));
+    emits('saveSuccess', content);
     createMessage.success('保存成功');
   }
 }

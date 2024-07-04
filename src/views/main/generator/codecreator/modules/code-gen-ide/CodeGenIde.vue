@@ -1,14 +1,17 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
+import XEUtils from 'xe-utils';
+import { isArray } from 'lodash-es';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
-import { preview } from '@/service/main/generator/codeCreator/api';
+import { download, generator, preview } from '@/service/main/generator/codeCreator/api';
 import { useMessage } from '@/hooks/web/useMessage';
+import { downloadByData } from '~/packages/utils/src/file/dowload';
 import CodePanel from './CodePanel.vue';
 import FileTree from './FileTree.vue';
 import LineButton from './LineButton.vue';
 import GenSetting from './GenSetting.vue';
 import { type FsGenFile, FsGenFileType } from './types';
-const { createConfirm } = useMessage();
+const { createConfirm, createMessage } = useMessage();
 const props = defineProps<{
   ids: string[];
 }>();
@@ -39,7 +42,7 @@ watch(
     loadData(false);
   }
 );
-function reload() {
+function reloadFiles() {
   createConfirm({
     iconType: 'info',
     title: '确定要刷新吗？',
@@ -54,7 +57,61 @@ function reload() {
 onMounted(() => {
   loadData(false);
 });
-const [register, { show: showSetting }] = useDmSwitcher<FsGenFile[]>();
+const [register, { show: showSetting }] = useDmSwitcher<{
+  ids: string[];
+  data: FsGenFile[];
+}>();
+function getCodeIds(fsFile: FsGenFile[] | FsGenFile): string[] {
+  const codeIds: string[] = [];
+  if (isArray(fsFile)) {
+    XEUtils.eachTree(fsFile, item => {
+      if (item.type === FsGenFileType.File) {
+        codeIds.push(item.id as string);
+      }
+    });
+  } else {
+    XEUtils.eachTree(fsFile.children, item => {
+      if (item.type === FsGenFileType.File) {
+        codeIds.push(item.id);
+      }
+    });
+  }
+  return codeIds;
+}
+/** 下载文件 */
+async function downloadFile(fsFile: FsGenFile[] | FsGenFile) {
+  const codeIds = getCodeIds(fsFile);
+  const res = await download({ ids: props.ids, codeIds });
+  downloadByData({
+    data: res.data,
+    filename: `source.zip`
+  });
+}
+/** 下载所有文件 */
+async function downloadAll() {
+  downloadFile(treeData.value);
+}
+/** 生成部分代码 */
+async function generateFiles(fsFile: FsGenFile) {
+  const setting: Record<string, any> = {};
+  if (fsFile.children) {
+    XEUtils.eachTree(fsFile.children, item => {
+      if (item.type === FsGenFileType.File) {
+        // 点击文件生成，执行覆盖策略
+        setting[item.id] = 'OVERWRITE';
+      }
+    });
+  } else {
+    setting[fsFile.id] = 'OVERWRITE';
+  }
+
+  await generator({
+    ids: props.ids,
+    genStrategy: setting
+  });
+  createMessage.success('生成成功');
+}
+
 defineExpose({
   loadData
 });
@@ -64,18 +121,27 @@ defineExpose({
   <GenSetting @register="register"></GenSetting>
   <div class="code-gen-ide">
     <div class="code-gen-ide-title">
-      <LineButton padding @click="reload">刷新</LineButton>
-      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">生成</LineButton>
-      <LineButton padding @click="showSetting({ action: 'setting', data: treeData })">下载</LineButton>
+      <LineButton padding @click="reloadFiles">刷新</LineButton>
+      <LineButton padding @click="showSetting({ action: 'setting', data: { data: treeData, ids } })">生成</LineButton>
+      <LineButton padding @click="downloadAll">下载</LineButton>
       <div class="code-path-line ellipsis-text">{{ editFile?.path }}</div>
       <LineButton v-if="editFile" padding @click="codePanelRef?.save()">保存</LineButton>
     </div>
     <div class="code-gen-ide-main">
       <div class="code-gen-ide-left">
-        <FileTree :tree-data="treeData" @select="onFileSelect"></FileTree>
+        <FileTree
+          :tree-data="treeData"
+          @download="downloadFile"
+          @generate="generateFiles"
+          @select="onFileSelect"
+        ></FileTree>
       </div>
       <div class="code-gen-ide-content">
-        <CodePanel ref="codePanelRef" :file="editFile"></CodePanel>
+        <CodePanel
+          ref="codePanelRef"
+          :file="editFile"
+          @save-success="content => (editFile.content = content)"
+        ></CodePanel>
       </div>
     </div>
     <div class="code-gen-ide-footer">{{ selectedFile?.path }}</div>

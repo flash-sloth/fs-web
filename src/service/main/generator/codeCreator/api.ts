@@ -51,7 +51,7 @@ export const importTable = (params: CodeCreatorImportDto) =>
 
 export const getCodeCreatorInfo = (id: string) =>
   defHttp.request<CodeCreatorEidtDto>({
-    url: `${urlPrefix}/getByIdCache/${id}`,
+    url: `${urlPrefix}/cache/${id}`,
     method: RequestEnum.GET
   });
 
@@ -69,3 +69,11 @@ export const generator = (params: CodeGenDto) =>
     params,
     method: RequestEnum.POST
   });
+
+export const download = (params: { ids: string[]; codeIds: string[] }) => {
+  return defHttp.download({
+    url: `${urlPrefix}/download`,
+    params,
+    method: RequestEnum.GET
+  });
+};

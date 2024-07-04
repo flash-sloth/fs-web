@@ -13,7 +13,9 @@ const props = withDefaults(
 );
 const emits = defineEmits<{
   (e: 'select', data: FsGenFile): void;
-  (e: 'setting-change', data: any): void;
+  (e: 'settingChange', data: any): void;
+  (e: 'download', data: FsGenFile): void;
+  (e: 'generate', data: FsGenFile): void;
 }>();
 const selectedKey = ref<string>('');
 function onSelectOne(data: FsGenFile) {
@@ -21,7 +23,13 @@ function onSelectOne(data: FsGenFile) {
   emits('select', data);
 }
 function dispatchSetting(data: any) {
-  emits('setting-change', data);
+  emits('settingChange', data);
+}
+function dispatchDownload(data: FsGenFile) {
+  emits('download', data);
+}
+function dispatchGenerate(data: any) {
+  emits('generate', data);
 }
 </script>
 
@@ -34,7 +42,9 @@ function dispatchSetting(data: any) {
       :setting-map="settingMap as Record<string, any>"
       :selected-key="selectedKey"
       :data="file"
+      @download="dispatchDownload"
       @setting-change="dispatchSetting"
+      @generate="dispatchGenerate"
       @select="onSelectOne"
     ></FileItem>
   </SimpleScrollbar>

@@ -7,8 +7,8 @@ export interface CodeCreator {
 
 export interface CodeGenDto {
   ids: string[];
-  reload: boolean;
-  genStrategy: Record<string, any>;
+  reload?: boolean;
+  genStrategy?: Record<string, any>;
 }
 
 export interface EntityDesign {

@@ -2,8 +2,10 @@
 import { computed, nextTick, ref, watch } from 'vue';
 import XEUtils from 'xe-utils';
 import type { RadioChangeEvent } from 'ant-design-vue';
+import { useMessage } from '@/hooks/web/useMessage';
 import FileIcon from './FileIcon.vue';
 import type { FsGenFile } from './types';
+const { createConfirm } = useMessage();
 const props = defineProps<{
   data: FsGenFile;
   treeLevel?: number;
@@ -15,7 +17,7 @@ const props = defineProps<{
 const expanded = ref(true);
 const childrenRef = ref();
 const toolLineRef = ref();
-const emits = defineEmits(['select', 'settingChange']);
+const emits = defineEmits(['select', 'settingChange', 'download', 'generate']);
 
 function dispatchClick(data: FsGenFile) {
   emits('select', data);
@@ -77,11 +79,18 @@ function toggerHover(flag: boolean) {
 }
 /** 点击下载 */
 function clickDownload() {
-  alert('下载');
+  emits('download', props.data);
 }
 /** 点击生成 */
 function clickGenerate() {
-  alert('生成');
+  createConfirm({
+    iconType: 'warning',
+    title: '是否确定直接生成代码',
+    content: '直接生成代码将覆盖本地文件',
+    onOk: () => {
+      emits('generate', props.data);
+    }
+  });
 }
 /** 当设置信息改变时 */
 function onConfigChange(value: RadioChangeEvent) {
@@ -96,6 +105,12 @@ function onConfigChange(value: RadioChangeEvent) {
 }
 function dispatchSetting(data: any) {
   emits('settingChange', data);
+}
+function dispatchDownload(data: any) {
+  emits('download', data);
+}
+function dispatchGenerate(data: any) {
+  emits('generate', data);
 }
 </script>
 
@@ -144,6 +159,8 @@ function dispatchSetting(data: any) {
         :data="child"
         @setting-change="dispatchSetting"
         @select="dispatchClick"
+        @generate="dispatchGenerate"
+        @download="dispatchDownload"
       ></FileItem>
     </div>
   </div>
