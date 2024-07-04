@@ -4,7 +4,7 @@ import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTy
 import { VxeGrid } from 'vxe-table';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
-import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
+import { useDmSwitcher } from '@/components/fs/drawer-modal-switcher';
 
 import { page, remove } from '@/service/demo/test/codeTestSimple/api';
 import type { CodeTestSimpleQuery, CodeTestSimpleVo } from '@/service/demo/test/codeTestSimple/model';

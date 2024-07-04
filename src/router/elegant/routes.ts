@@ -58,6 +58,25 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'demo_comp',
+        path: '/demo/comp',
+        meta: {
+          title: 'demo_comp',
+          i18nKey: 'route.demo_comp'
+        },
+        children: [
+          {
+            name: 'demo_comp_icon',
+            path: '/demo/comp/icon',
+            component: 'view.demo_comp_icon',
+            meta: {
+              title: 'demo_comp_icon',
+              i18nKey: 'route.demo_comp_icon'
+            }
+          }
+        ]
+      },
+      {
         name: 'demo_ide',
         path: '/demo/ide',
         component: 'view.demo_ide',

@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 import { useMessage } from '@/hooks/web/useMessage';
 import { VxeGridProxyEventCode } from '@/enum';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
-import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
+import { useDmSwitcher } from '@/components/fs/drawer-modal-switcher';
 import type { CodeCreator, CodeCreatorPageDto } from '@/service/main/generator/codeCreator/model';
 import { deleteBatch, queryPage } from '@/service/main/generator/codeCreator/api';
 import ImportModal from './modules/ImportModal.vue';

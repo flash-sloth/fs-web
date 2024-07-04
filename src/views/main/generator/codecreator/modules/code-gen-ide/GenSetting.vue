@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue';
 import XEUtils from 'xe-utils';
 import { key } from 'localforage';
-import { FsAModal, useDmSwitcherInner } from '@/components/fs-components/drawer-modal-switcher';
+import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import { generator } from '@/service/main/generator/codeCreator/api.js';
 import { useMessage } from '@/hooks/web/useMessage.jsx';
 import type { FsGenFile } from './types.ts';

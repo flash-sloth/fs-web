@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineEmits, ref } from 'vue';
-import { FsAModal, useDmSwitcherInner } from '@/components/fs-components/drawer-modal-switcher';
+import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import type { CodeTestSimpleVo } from '@/service/demo/test/codeTestSimple/model';
 import type { Emits } from '../data/form';
 import Form from './form.vue';
