@@ -5,7 +5,7 @@ import { isArray } from 'lodash-es';
 import { useDmSwitcher } from '@/components/fs-components/drawer-modal-switcher';
 import { download, generator, preview } from '@/service/main/generator/codeCreator/api';
 import { useMessage } from '@/hooks/web/useMessage';
-import { downloadByData } from '~/packages/utils/src/file/dowload';
+import { downloadFile as downloadFileUtil } from '~/packages/utils/src/file/dowload';
 import CodePanel from './CodePanel.vue';
 import FileTree from './FileTree.vue';
 import LineButton from './LineButton.vue';
@@ -82,10 +82,8 @@ function getCodeIds(fsFile: FsGenFile[] | FsGenFile): string[] {
 async function downloadFile(fsFile: FsGenFile[] | FsGenFile) {
   const codeIds = getCodeIds(fsFile);
   const res = await download({ ids: props.ids, codeIds });
-  downloadByData({
-    data: res.data,
-    filename: `source.zip`
-  });
+  downloadFileUtil(res);
+  createMessage.success('下载成功');
 }
 /** 下载所有文件 */
 async function downloadAll() {

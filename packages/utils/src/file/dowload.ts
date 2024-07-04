@@ -120,3 +120,47 @@ export function downloadByUrl({
   x.send();
   return true;
 }
+
+export const downloadFile = (response: any) => {
+  const res = response.data;
+  const type = res.type;
+  if (type.includes('application/json')) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      if (e.target?.readyState === 2) {
+        const data = JSON.parse(e.target?.result as string);
+        window.$message?.warning(data.msg);
+      }
+    };
+    reader.readAsText(res);
+  } else {
+    const disposition = response?.headers?.['content-disposition'];
+    let fileName = '下载文件.zip';
+    if (!disposition) {
+      return;
+    }
+    const respcds = disposition.split(';');
+    for (let i = 0; i < respcds.length; i += 1) {
+      const header = respcds[i];
+      if (header !== null && header !== '') {
+        const headerValue = header.split('=');
+        const hasHeaderValue = headerValue !== null && headerValue.length > 0;
+        const hasFlieName = hasHeaderValue && headerValue[0].trim().toLowerCase() === 'filename';
+        if (hasHeaderValue && hasFlieName) {
+          fileName = decodeURI(headerValue[1]);
+        }
+      }
+    }
+    // 处理引号
+    if ((fileName.startsWith("'") || fileName.startsWith('"')) && (fileName.endsWith("'") || fileName.endsWith('"'))) {
+      fileName = fileName.substring(1, fileName.length - 1);
+    }
+
+    const blob = new Blob([res]);
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+    window.URL.revokeObjectURL(link.href);
+  }
+};
