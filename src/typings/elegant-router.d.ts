@@ -26,6 +26,8 @@ declare module "@elegant-router/types" {
     "500": "/500";
     "about": "/about";
     "demo": "/demo";
+    "demo_comp": "/demo/comp";
+    "demo_comp_icon": "/demo/comp/icon";
     "demo_ide": "/demo/ide";
     "demo_vxetable": "/demo/vxetable";
     "demo_vxetable_curd": "/demo/vxetable/curd";
@@ -101,6 +103,7 @@ declare module "@elegant-router/types" {
     | "home"
     | "login"
     | "user-center"
+    | "demo_comp_icon"
     | "demo_ide"
     | "demo_vxetable_curd"
     | "demo_vxetable_simple"

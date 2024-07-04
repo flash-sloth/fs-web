@@ -13,7 +13,7 @@ async function loadData(): Promise<FsGenFile[]> {
 }
 const treeData = ref<FsGenFile[]>([]);
 onMounted(async () => {
-  treeData.value = await preview(['510996203647907850']);
+  treeData.value = await preview(["514259627173666816"]);
 });
 </script>
 

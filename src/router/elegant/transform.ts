@@ -152,6 +152,8 @@ const routeMap: RouteMap = {
   "500": "/500",
   "about": "/about",
   "demo": "/demo",
+  "demo_comp": "/demo/comp",
+  "demo_comp_icon": "/demo/comp/icon",
   "demo_ide": "/demo/ide",
   "demo_vxetable": "/demo/vxetable",
   "demo_vxetable_curd": "/demo/vxetable/curd",
