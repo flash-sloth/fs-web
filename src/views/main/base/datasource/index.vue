@@ -26,6 +26,7 @@ const gridOptions = reactive<VxeGridProps<DataSource>>(
     // 列配置
     columns: columns({
       title: '操作',
+      width: 220,
       slots: { default: 'operate' }
     }),
     // 搜索表单

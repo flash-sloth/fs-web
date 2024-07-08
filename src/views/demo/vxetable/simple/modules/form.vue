@@ -5,52 +5,143 @@ import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
 import { getById, save, update } from '@/service/demo/test/codeTestSimple/api';
 import type { CodeTestSimpleDto } from '@/service/demo/test/codeTestSimple/model';
+import { $t } from '@/locales';
+import { actionCode } from '@/utils/common';
+import type { FormInstance } from '@/typings/fs';
 import { formItems, formRules } from '../data/form';
 
+type FormDataType = CodeTestSimpleDto;
 const formRef = ref<VxeFormInstance>();
 const formLoading = useLoading(false);
+const formAction = ref<string>(actionCode.add);
 
 const formConfig = reactive<{
-  formData: CodeTestSimpleDto;
+  formData: FormDataType;
   formItems: VxeFormPropTypes.Items;
   formRules: VxeFormPropTypes.Rules;
+  /** 表单只读状态 */
+  readonly: boolean;
 }>({
-  formData: {} as CodeTestSimpleDto,
+  formData: {} as FormDataType,
   formRules: formRules(),
-  formItems: formItems()
+  formItems: formItems(),
+  readonly: false
 });
 
-async function load(data: any) {
-  formRef.value?.reset();
-  if (data?.id) {
-    formLoading.startLoading();
+/** 加载数据，并将数据设置到表单中 */
+async function loadDataAndSetFormData(data?: FormDataType) {
+  if (data && data.id) {
     try {
+      formLoading.startLoading();
       formConfig.formData = await getById(data.id);
     } finally {
       formLoading.endLoading();
     }
-  } else {
-    formConfig.formData = {} as CodeTestSimpleDto;
   }
 }
 
-const doSubmit = async () => {
+/** 初始化新增 */
+async function initAdd() {}
+/**
+ * 初始化修改
+ *
+ * @param data
+ */
+async function initEdit(data?: FormDataType) {
+  await loadDataAndSetFormData(data);
+}
+/**
+ * 初始化复制
+ *
+ * @param data
+ */
+async function initCopy(data?: FormDataType) {
+  await loadDataAndSetFormData(data);
+  formConfig.formData.id = undefined;
+}
+
+async function initView(data?: FormDataType) {
+  await loadDataAndSetFormData(data);
+  formConfig.readonly = true;
+}
+
+async function init(action: string, data?: FormDataType) {
+  formAction.value = action;
+  // 清空数据
+  formConfig.formData = {} as FormDataType;
+  formConfig.readonly = false;
+  switch (action) {
+    case actionCode.add:
+      await initAdd();
+      break;
+    case actionCode.edit:
+      await initEdit(data);
+      break;
+    case actionCode.copy:
+      await initCopy(data);
+      break;
+    case actionCode.view:
+    default:
+      await initView(data);
+  }
+}
+
+/**
+ * 修改时提交
+ *
+ * @param params 参数
+ */
+async function submitEdit(params: FormDataType) {
+  await update(params);
+  message.success($t('common.modifySuccess'));
+}
+/**
+ * 增加时提交
+ *
+ * @param params 参数
+ */
+async function submitAdd(params: FormDataType) {
+  await save(params);
+  message.success($t('common.addSuccess'));
+}
+/**
+ * 复制时提交
+ *
+ * @param params 参数
+ */
+async function submitCopy(params: FormDataType) {
+  await save(params);
+  message.success($t('common.modifySuccess'));
+}
+
+const handleSubmit = async () => {
   await formRef.value?.validate();
-  formLoading.startLoading();
   try {
-    if (formConfig.formData.id) {
-      await update(formConfig.formData);
-      message.success('修改成功');
-    } else {
-      await save(formConfig.formData);
-      message.success('新增成功');
+    formLoading.startLoading();
+    const params = { ...formConfig.formData };
+    switch (formAction.value) {
+      case actionCode.add:
+        await submitAdd(params);
+        break;
+      case actionCode.edit:
+        await submitEdit(params);
+        break;
+      case actionCode.copy:
+        await submitCopy(params);
+        break;
+      case actionCode.view:
+      default:
+        break;
     }
+    return true;
+  } catch (_e) {
+    return false;
   } finally {
     formLoading.endLoading();
   }
 };
 
-defineExpose({ load, doSubmit });
+defineExpose<FormInstance<FormDataType>>({ init, handleSubmit });
 </script>
 
 <template>

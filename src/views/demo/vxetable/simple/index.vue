@@ -11,51 +11,49 @@ import type { CodeTestSimpleQuery, CodeTestSimpleVo } from '@/service/demo/test/
 import { useMessage } from '@/hooks/web/useMessage';
 
 import { queryBefore } from '@/plugins/vxe-table/common';
+import { $t } from '@/locales';
+import { actionCode } from '@/utils/common';
 import { columns, searchFormConfig } from './data/index';
-import FormWraper from './modules/wrapper.vue';
+import FormWrapper from './modules/wrapper.vue';
 
 // 获取表格实例
 const xGrid = ref<VxeGridInstance<CodeTestSimpleVo>>();
 const [register, { show: showForm }] = useDmSwitcher<Partial<CodeTestSimpleVo>>();
 const { createConfirm, createMessage } = useMessage();
 
-const actionCode = {
-  add: 'add',
-  edit: 'edit',
-  view: 'view',
-  delete: 'delete',
-  deleteBatch: 'deleteBatch'
-};
-
 const formRef = ref();
 const gridOptions = reactive<VxeGridProps<CodeTestSimpleVo>>(
   defGridConfig<CodeTestSimpleVo>({
     columns: columns({
-      title: '操作',
+      title: $t('common.action'),
       fixed: 'right',
-      width: 180,
+      width: 200,
       cellRender: {
         name: 'VxeButtonGroup',
         props: {
           mode: 'text'
         },
         options: [
-          { content: '查看', name: actionCode.view },
-          { content: '编辑', name: actionCode.edit },
-          { content: '删除', status: 'error', name: actionCode.delete }
+          { content: $t('common.view'), name: actionCode.view },
+          { content: $t('common.copy'), name: actionCode.copy },
+          { content: $t('common.edit'), name: actionCode.edit },
+          { content: $t('common.delete'), status: 'error', name: actionCode.delete }
         ],
         events: {
           click({ row }, { name }) {
             switch (name) {
               case actionCode.view:
-                showForm({ action: name, data: row });
+                handleView(row);
+                break;
+              case actionCode.copy:
+                handleCopy(row);
                 break;
               case actionCode.edit:
-                showForm({ action: name, data: row });
+                handleEdit(row);
                 break;
               case actionCode.delete:
               default:
-                confirnRemove([row.id]);
+                confirmRemove([row.id]);
                 break;
             }
           }
@@ -68,8 +66,8 @@ const gridOptions = reactive<VxeGridProps<CodeTestSimpleVo>>(
     proxyConfig: { ajax: { query: loadData } },
     toolbarConfig: {
       buttons: [
-        { code: actionCode.add, name: '新增', icon: 'vxe-icon-add' },
-        { code: actionCode.deleteBatch, name: '删除', icon: 'vxe-icon-delete' }
+        { code: actionCode.add, name: $t('common.add'), icon: 'vxe-icon-add' },
+        { code: actionCode.deleteBatch, name: $t('common.batchDelete'), icon: 'vxe-icon-delete' }
       ]
     }
   })
@@ -93,16 +91,48 @@ async function reloadData() {
   }
 }
 
+/** 处理新增事件 */
+function handleAdd() {
+  showForm({ action: actionCode.add, data: {} });
+}
+
+/**
+ * 处理复制事件
+ *
+ * @param row 参数
+ */
+function handleCopy(row: CodeTestSimpleVo) {
+  showForm({ action: actionCode.copy, data: { ...row } });
+}
+
+/**
+ * 处理编辑事件
+ *
+ * @param row 参数
+ */
+function handleEdit(row: CodeTestSimpleVo) {
+  showForm({ action: actionCode.edit, data: { ...row } });
+}
+
+/**
+ * 处理查看事件
+ *
+ * @param row 参数
+ */
+function handleView(row: CodeTestSimpleVo) {
+  showForm({ action: actionCode.view, data: { ...row } });
+}
+
 function handleRemove($grid: VxeGridConstructor<CodeTestSimpleVo>) {
   const checkedRows = $grid.getCheckboxRecords();
   if (!checkedRows || checkedRows.length === 0) {
     createMessage.error('请选择要删除的数据');
   } else {
-    confirnRemove(checkedRows.map((x: CodeTestSimpleVo) => x.id));
+    confirmRemove(checkedRows.map((x: CodeTestSimpleVo) => x.id));
   }
 }
 
-function confirnRemove(ids: string[]) {
+function confirmRemove(ids: string[]) {
   createConfirm({
     iconType: 'warning',
     title: '系统提示',
@@ -121,7 +151,7 @@ function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEv
       handleRemove($grid);
       break;
     case actionCode.add:
-      showForm({ action: 'add', data: {} });
+      handleAdd();
       break;
     default:
       break;
@@ -132,6 +162,6 @@ function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEv
 <template>
   <div>
     <VxeGrid ref="xGrid" v-bind="gridOptions" @toolbar-button-click="toolbarButtonClick"></VxeGrid>
-    <FormWraper ref="formRef" @register="register" @success="reloadData"></FormWraper>
+    <FormWrapper ref="formRef" @register="register" @success="reloadData"></FormWrapper>
   </div>
 </template>
