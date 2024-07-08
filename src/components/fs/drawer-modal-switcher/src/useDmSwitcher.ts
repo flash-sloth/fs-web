@@ -43,7 +43,7 @@ export function useDmSwitcher<T>(): UseDmSwitcherReturnType<T> {
     register,
     {
       show: (data?: DmSwitcherOpenParam<T>) => {
-        dataTransfer[unref(uid)] = data;
+        dataTransfer[unref(uid)] = data || {};
         getInstance()?.show();
       },
       close: () => {

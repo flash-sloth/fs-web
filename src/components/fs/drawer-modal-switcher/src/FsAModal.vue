@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, ref } from 'vue';
 import { omit } from 'lodash';
 import { Modal } from 'ant-design-vue';
 import type { DmSwitcherInnerMethods } from './typing';
-const instance = getCurrentInstance();
+
 const wapperRef = ref();
 const visible = ref(false);
 
@@ -18,9 +18,12 @@ const modalMethods: DmSwitcherInnerMethods = {
     visible.value = false;
   }
 };
-if (instance) {
-  emit('register', modalMethods, instance.uid);
-}
+onMounted(() => {
+  const instance = getCurrentInstance();
+  if (instance) {
+    emit('register', modalMethods, instance.uid);
+  }
+});
 </script>
 
 <template>
