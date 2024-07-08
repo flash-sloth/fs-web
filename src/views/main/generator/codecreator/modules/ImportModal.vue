@@ -4,6 +4,9 @@ import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
 import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import { importTable } from '@/service/main/generator/codeCreator/api';
+import type { DataSource } from '@/service/main/base/datasource/model';
+import { list } from '@/service/main/base/datasource/api';
+
 const formRef = ref<VxeFormInstance>();
 const formConfig = reactive<{
   rules: VxeFormPropTypes.Rules;
@@ -11,6 +14,7 @@ const formConfig = reactive<{
   items: VxeFormPropTypes.Items;
 }>({
   rules: {
+    dsId: [{ required: true, message: '请选择数据源' }],
     tableNames: [{ required: true, message: '请输入表名称' }]
   },
   data: {
@@ -18,6 +22,18 @@ const formConfig = reactive<{
     tableNames: ''
   },
   items: [
+    {
+      field: 'dsId',
+      title: '数据源',
+      span: 24,
+      itemRender: {
+        name: 'VxeSelect',
+        props: {
+          multiple: true
+        },
+        options: []
+      }
+    },
     {
       field: 'tableNames',
       title: '表名称',
@@ -28,11 +44,27 @@ const formConfig = reactive<{
     }
   ]
 });
+
+function loadDataSource() {
+  list({}).then(res => {
+    const dsIdItem = formConfig.items.find(item => item.field === 'dsId');
+    if (dsIdItem?.itemRender?.options) {
+      dsIdItem.itemRender.options = res.map((item: DataSource) => {
+        return {
+          label: item.name,
+          value: item.id
+        };
+      });
+    }
+  });
+}
+const { loading: formLoading, startLoading, endLoading } = useLoading();
 const emit = defineEmits(['success']);
 const [register, { close }] = useDmSwitcherInner(() => {
+  loadDataSource();
   formRef.value?.reset();
 });
-const { loading: formLoading, startLoading, endLoading } = useLoading();
+
 const submitEvent = async () => {
   const error = await formRef.value?.validate();
   if (error) {

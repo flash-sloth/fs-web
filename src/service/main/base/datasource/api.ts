@@ -16,6 +16,13 @@ export const queryPage = (params: PageParam<DataSource>) =>
     params
   });
 
+export const list = (params: DataSource = {}) =>
+  defHttp.request<DataSource[]>({
+    url: `${urlPrefix}/list`,
+    params,
+    method: RequestEnum.POST
+  });
+
 /**
  * 删除
  *
