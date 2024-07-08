@@ -1,5 +1,4 @@
 import { RequestEnum } from '@vben/http';
-import { method } from 'lodash-es';
 import { defHttp } from '@/service/http';
 import type { PageParam } from '@/models/common-models';
 import type { CodeCreatorEidtDto, CodeCreatorImportDto, CodeCreatorPageDto, CodeGenDto } from './model';

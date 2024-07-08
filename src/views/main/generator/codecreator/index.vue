@@ -2,7 +2,6 @@
 import { reactive, ref } from 'vue';
 import type { VxeGridConstructor, VxeGridDefines, VxeGridInstance, VxeGridPropTypes, VxeGridProps } from 'vxe-table';
 import { VxeGrid } from 'vxe-table';
-import type { RouteLocationNamedRaw } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useMessage } from '@/hooks/web/useMessage';
 import { VxeGridProxyEventCode } from '@/enum';
