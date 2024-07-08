@@ -53,10 +53,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    */
   async function login(userName: string, password: string, redirect = true) {
     startLoading();
+    try {
+      const loginToken = await fetchLogin(userName, password);
 
-    const { data: loginToken, error } = await fetchLogin(userName, password);
-
-    if (!error) {
       const pass = await loginByToken(loginToken);
 
       if (pass) {
@@ -65,7 +64,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
         if (redirect) {
           await redirectFromLogin();
         }
-
         if (routeStore.isInitAuthRoute) {
           window.$notification?.success({
             message: $t('page.login.common.loginSuccess'),
@@ -73,10 +71,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
           });
         }
       }
-    } else {
+    } catch (_e) {
       resetStore();
     }
-
     endLoading();
   }
 
@@ -85,20 +82,18 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     localStg.set('token', loginToken.token);
     localStg.set('refreshToken', loginToken.refreshToken);
 
-    const { data: info, error } = await fetchGetUserInfo();
-
-    if (!error) {
+    const info = await fetchGetUserInfo();
+    try {
       // 2. store user info
       localStg.set('userInfo', info);
 
       // 3. update store
       token.value = loginToken.token;
       Object.assign(userInfo, info);
-
       return true;
+    } catch (_e) {
+      return false;
     }
-
-    return false;
   }
 
   return {
