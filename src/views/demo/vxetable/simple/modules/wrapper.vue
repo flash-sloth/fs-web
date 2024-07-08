@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import { defineEmits, ref } from 'vue';
+import { computed, defineEmits, ref } from 'vue';
 import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import type { CodeTestSimpleVo } from '@/service/demo/test/codeTestSimple/model';
+import type { FormInstance } from '@/typings/fs';
+import { actionCode, titleMap } from '@/utils/common';
 import type { Emits } from '../data/form';
 import Form from './form.vue';
 
+type FormDataType = CodeTestSimpleVo;
 const emit = defineEmits<Emits>();
-const formRef = ref();
-const title = ref<string>('新增');
-const titleMap: Record<string, string> = {
-  add: '新增',
-  update: '修改'
-};
+const formRef = ref<FormInstance<FormDataType>>();
+const actionRef = ref<string>(actionCode.add);
 
-const [register, { close }] = useDmSwitcherInner<CodeTestSimpleVo>(async ({ action, data }) => {
-  title.value = titleMap[action] || '新增';
-  formRef.value?.load(data);
+const getTitle = computed(() => {
+  return titleMap[actionRef.value] || titleMap.add;
+});
+
+const [register, { close }] = useDmSwitcherInner<FormDataType>(async ({ action, data }) => {
+  actionRef.value = action;
+  formRef.value?.init(action, data);
 });
 
 const submitEvent = async () => {
-  await formRef.value?.doSubmit();
+  await formRef.value?.handleSubmit();
   emit('success');
   close();
 };
 </script>
 
 <template>
-  <FsAModal is="VxeModal" show-footer position="top" show-zoom :title="title" :width="900" @register="register">
+  <FsAModal is="VxeModal" show-footer position="top" show-zoom :title="getTitle" :width="900" @register="register">
     <Form ref="formRef"></Form>
     <template #footer>
       <VxeButton content="取消" @click="close"></VxeButton>

@@ -1,7 +1,9 @@
 {
   "action": "Action",
   "add": "Add",
+  "view": "View",
   "addSuccess": "Add Success",
+  "copySuccess": "Copy Success",
   "backToHome": "Back to home",
   "batchDelete": "Batch Delete",
   "cancel": "Cancel",

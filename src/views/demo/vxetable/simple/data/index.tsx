@@ -3,7 +3,9 @@ import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
 import type { CodeTestSimpleVo } from '@/service/demo/test/codeTestSimple/model';
 
 /**
- * @param actionColumn 用户定义的 操作列
+ * 表格列
+ *
+ * @param action 用户定义的 操作列
  * @returns 返回默认列和用户操作列的集合
  */
 export const columns = (action: VxeTableDefines.ColumnOptions): VxeGridPropTypes.Columns<CodeTestSimpleVo> => {
@@ -25,12 +27,10 @@ export const columns = (action: VxeTableDefines.ColumnOptions): VxeGridPropTypes
     action
   ];
 };
+
 /** 搜索表单配置 */
 export const searchFormConfig = (): VxeGridPropTypes.FormConfig => {
   return {
-    data: {
-      name: '1222'
-    },
     items: [
       { field: 'name', title: '名称', itemRender: { name: 'VxeInput' } },
       {

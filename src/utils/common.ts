@@ -36,3 +36,21 @@ export function translateOptions(options: CommonType.Option<string>[]) {
     label: $t(option.label as App.I18n.I18nKey)
   }));
 }
+
+// 弹窗标题
+export const titleMap: Record<string, string> = {
+  add: $t('common.add'),
+  edit: $t('common.edit'),
+  copy: $t('common.copy'),
+  view: $t('common.view')
+};
+
+// 工具栏操作码
+export const actionCode = {
+  add: 'add',
+  edit: 'edit',
+  copy: 'copy',
+  view: 'view',
+  delete: 'delete',
+  deleteBatch: 'deleteBatch'
+};
