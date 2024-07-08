@@ -1,24 +1,16 @@
 <script lang="ts" setup>
 import { type VxeFormInstance } from 'vxe-table';
-import {
-  VxeForm,
-  VxeFormItem,
-  VxeOption,
-  VxeRadioButton,
-  VxeRadioGroup,
-  VxeSelect,
-  VxeSwitch,
-  VxeText,
-  VxeTextarea
-} from 'vxe-pc-ui';
+import { VxeForm, VxeFormItem, VxeOption, VxeSelect, VxeText } from 'vxe-pc-ui';
 import { onMounted, ref, watch } from 'vue';
 import { isNumber } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import { isValidKey } from '~/packages/utils/src';
+import type { CodeBaseClass } from '@/service/main/generator/codeBaseClass/model';
 import type { ConfigFormInstance } from './types';
 const props = defineProps<{
   loading: boolean;
   configData: CodeCreatorEidtDto;
+  baseClassList: CodeBaseClass[];
 }>();
 const formRef = ref<VxeFormInstance>();
 interface formType {
@@ -90,7 +82,12 @@ defineExpose<ConfigFormInstance>({
     <VxeFormItem field="superClassName" title="父类" title-colon :span="6">
       <template #default>
         <VxeSelect v-model="formData.superClassName" placeholder="选择父类">
-          <VxeOption value="SuperMapper" label="SuperMapper"></VxeOption>
+          <VxeOption
+            v-for="baseClass in baseClassList"
+            :key="baseClass.id"
+            :value="baseClass.packageName + '.' + baseClass.name"
+            :label="baseClass.name"
+          ></VxeOption>
         </VxeSelect>
       </template>
     </VxeFormItem>

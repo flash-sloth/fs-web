@@ -1,15 +1,6 @@
 <script lang="ts" setup>
 import { type VxeFormInstance } from 'vxe-table';
-import {
-  VxeForm,
-  VxeFormItem,
-  VxeOption,
-  VxeRadioButton,
-  VxeRadioGroup,
-  VxeSelect,
-  VxeSwitch,
-  VxeText
-} from 'vxe-pc-ui';
+import { VxeForm, VxeFormItem, VxeOption, VxeSelect, VxeText } from 'vxe-pc-ui';
 import { onMounted, ref, watch } from 'vue';
 import { isNumber } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';

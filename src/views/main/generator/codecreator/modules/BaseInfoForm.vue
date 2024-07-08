@@ -1,24 +1,10 @@
 <script setup lang="ts">
-import { debug } from 'node:console';
-import { ref } from 'vue';
-import { type VxeFormInstance } from 'vxe-table';
-import {
-  VxeForm,
-  VxeFormItem,
-  VxeOption,
-  VxeRadioButton,
-  VxeRadioGroup,
-  VxeSelect,
-  VxeSwitch,
-  VxeText,
-  VxeTextarea
-} from 'vxe-pc-ui';
-import { cloneDeep } from 'lodash-es';
-import { mapTree } from 'xe-utils';
-import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
-import ApiTreeSelect from '@/components/fs/api-tree-select/index.vue';
+import { onMounted, ref } from 'vue';
 
-import { getLocalIcons } from '@/utils/icon';
+import { cloneDeep } from 'lodash-es';
+import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
+import { list as listBaseClass } from '@/service/main/generator/codeBaseClass/api';
+import { type CodeBaseClass } from '@/service/main/generator/codeBaseClass/model';
 import { updateCodeCreatorInfo } from '@/service/main/generator/codeCreator/api';
 import { SimpleScrollbar } from '~/packages/materials/src';
 import { useMessage } from '@/hooks/web/useMessage';
@@ -35,6 +21,17 @@ import ServiceImplConfigInfo from './config-forms/ServiceImplConfigInfo.vue';
 import ControllerConfigInfo from './config-forms/ControllerConfigInfo.vue';
 import XmlConfigInfo from './config-forms/XmlConfigInfo.vue';
 import FrontConfigInfo from './config-forms/FrontConfigInfo.vue';
+/** 基类类型,可用值:ENTITY,VO,MAPPER,SERVICE,CONTROLLER */
+enum CodeBaseClassTypeEnum {
+  ENTITY = 'ENTITY',
+  MAPPER = 'MAPPER',
+  SERVICE = 'SERVICE',
+  CONTROLLER = 'CONTROLLER',
+  VO = 'VO',
+  QUERY = 'QUERY',
+  SERVICE_IMPL = 'SERVICE_IMPL',
+  DTO = 'DTO'
+}
 const activeKey = ref(['1', '2', '3']);
 const formRef = ref<ConfigFormInstance[]>([]);
 const emits = defineEmits(['success']);
@@ -50,7 +47,12 @@ const formLoading = ref(false);
 function bindFromRef(refEl: any) {
   formRef.value.push(refEl);
 }
-
+const baseClassList = ref<CodeBaseClass[]>([]);
+function initBaseClass() {
+  listBaseClass({}).then(res => {
+    baseClassList.value = res;
+  });
+}
 function setModles(data: CodeCreatorEidtDto) {
   formData.value = cloneDeep(data);
 }
@@ -72,7 +74,9 @@ async function validate(): Promise<CodeCreatorEidtDto> {
   }
   return res;
 }
-
+onMounted(() => {
+  initBaseClass();
+});
 async function save() {
   try {
     formLoading.value = true;
@@ -95,6 +99,9 @@ function hasChange() {
   });
   return flag;
 }
+function filteBaseClassList(type: CodeBaseClassTypeEnum) {
+  return baseClassList.value.filter(item => item.classType === type);
+}
 defineExpose({
   setModles,
   validate,
@@ -116,14 +123,54 @@ defineExpose({
           </ACollapsePanel>
           <ACollapsePanel key="2" header="后端信息">
             <PackageConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <EntityConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <VoConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <QueryConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <DtoConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <MapperConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <ServiceConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <ServiceImplConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
-            <ControllerConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
+            <EntityConfigInfo
+              :ref="bindFromRef"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.ENTITY)"
+              :config-data="formData"
+              :loading="formLoading"
+            />
+            <VoConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.VO)"
+            />
+            <QueryConfigInfo
+              :ref="bindFromRef"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.QUERY)"
+              :config-data="formData"
+              :loading="formLoading"
+            />
+            <DtoConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.DTO)"
+            />
+            <MapperConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.MAPPER)"
+            />
+            <ServiceConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.SERVICE)"
+            />
+            <ServiceImplConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.SERVICE_IMPL)"
+            />
+            <ControllerConfigInfo
+              :ref="bindFromRef"
+              :config-data="formData"
+              :loading="formLoading"
+              :base-class-list="filteBaseClassList(CodeBaseClassTypeEnum.CONTROLLER)"
+            />
             <XmlConfigInfo :ref="bindFromRef" :config-data="formData" :loading="formLoading" />
           </ACollapsePanel>
           <ACollapsePanel key="3" header="前端信息">

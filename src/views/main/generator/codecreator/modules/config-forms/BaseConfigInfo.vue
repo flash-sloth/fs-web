@@ -5,9 +5,11 @@ import { onMounted, ref, watch } from 'vue';
 import { isNumber } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import { isValidKey } from '~/packages/utils/src';
+
 import type { ConfigFormInstance } from './types';
 const props = defineProps<{
   loading: boolean;
+
   configData: CodeCreatorEidtDto;
 }>();
 const formRef = ref<VxeFormInstance>();

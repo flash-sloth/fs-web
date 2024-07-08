@@ -1,24 +1,16 @@
 <script lang="ts" setup>
 import { type VxeFormInstance } from 'vxe-table';
-import {
-  VxeForm,
-  VxeFormItem,
-  VxeOption,
-  VxeRadioButton,
-  VxeRadioGroup,
-  VxeSelect,
-  VxeSwitch,
-  VxeText,
-  VxeTextarea
-} from 'vxe-pc-ui';
+import { VxeForm, VxeFormItem, VxeSwitch, VxeText } from 'vxe-pc-ui';
 import { onMounted, ref, watch } from 'vue';
 import { isNumber } from 'xe-utils';
 import type { CodeCreatorEidtDto } from '@/service/main/generator/codeCreator/model';
 import { isValidKey } from '~/packages/utils/src';
+import { type CodeBaseClass } from '@/service/main/generator/codeBaseClass/model';
 import type { ConfigFormInstance } from './types';
 const props = defineProps<{
   loading: boolean;
   configData: CodeCreatorEidtDto;
+  baseClassList: CodeBaseClass[];
 }>();
 const formRef = ref<VxeFormInstance>();
 interface formType {
@@ -34,6 +26,7 @@ interface formType {
   withSwagger?: boolean;
   ignoreColumns: string[];
 }
+
 const formData = ref<formType>({});
 
 function initFormData() {
