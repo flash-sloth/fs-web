@@ -312,10 +312,11 @@ VxeUI.setConfig({
     zoomConfig: {
       escRestore: true
     },
-    // pagerConfig: {
-    //   pageSize: 10,
-    //   pageSizes: [5, 10, 20, 50, 100, 200, 500, 1000]
-    // },
+    pagerConfig: {
+      enabled: true,
+      pageSize: 20,
+      pageSizes: [5, 10, 20, 50, 100, 200, 500, 1000]
+    },
     proxyConfig: {
       // 是否自动加载查询数据
       autoLoad: true,
@@ -335,7 +336,7 @@ VxeUI.setConfig({
         result: 'records', // 只对 pager-config 配置了有效，响应结果中获取数据列表的属性（分页场景）
         // total: 'total', // 用于分页，读取总条数
         total: ({ data }) => {
-          return Number(data.total);
+          return Number(data.totalRow);
         },
         message: 'msg'
       },
