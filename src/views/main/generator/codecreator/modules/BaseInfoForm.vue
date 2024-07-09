@@ -8,6 +8,7 @@ import { type CodeBaseClass } from '@/service/main/generator/codeBaseClass/model
 import { updateCodeCreatorInfo } from '@/service/main/generator/codeCreator/api';
 import { SimpleScrollbar } from '~/packages/materials/src';
 import { useMessage } from '@/hooks/web/useMessage';
+import { CodeBaseClassTypeEnum } from '@/service/main/generator/codeBaseClass/enums';
 import BaseConfigInfo from './config-forms/BaseConfigInfo.vue';
 import type { ConfigFormInstance } from './config-forms/types';
 import PackageConfigInfo from './config-forms/PackageConfigInfo.vue';
@@ -22,16 +23,7 @@ import ControllerConfigInfo from './config-forms/ControllerConfigInfo.vue';
 import XmlConfigInfo from './config-forms/XmlConfigInfo.vue';
 import FrontConfigInfo from './config-forms/FrontConfigInfo.vue';
 /** 基类类型,可用值:ENTITY,VO,MAPPER,SERVICE,CONTROLLER */
-enum CodeBaseClassTypeEnum {
-  ENTITY = 'ENTITY',
-  MAPPER = 'MAPPER',
-  SERVICE = 'SERVICE',
-  CONTROLLER = 'CONTROLLER',
-  VO = 'VO',
-  QUERY = 'QUERY',
-  SERVICE_IMPL = 'SERVICE_IMPL',
-  DTO = 'DTO'
-}
+
 const activeKey = ref(['1', '2', '3']);
 const formRef = ref<ConfigFormInstance[]>([]);
 const emits = defineEmits(['success']);
