@@ -14,5 +14,5 @@
   "i18n-ally.localesPaths": ["src/locales/langs"],
   "prettier.enable": false,
   "unocss.root": ["./"],
-  "vue-i18n.i18nPaths": "src\\locales,src\\locales\\langs"
+  "vue-i18n.i18nPaths": "src/locales/langs"
 }
