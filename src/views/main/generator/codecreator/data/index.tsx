@@ -1,11 +1,13 @@
 import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
-import type { CodeCreator } from '@/service/model/main/codeCreator';
+import type { CodeCreator } from '@/service/main/generator/codeCreator/model';
 
 /**
  * @param actionColumn 用户定义的 操作列
  * @returns 返回默认列和用户操作列的集合
  */
-export const columns = (actionColumn?: VxeTableDefines.ColumnOptions<RowVO>): VxeGridPropTypes.Columns<RowVO> => {
+export const columns = (
+  actionColumn?: VxeTableDefines.ColumnOptions<CodeCreator>
+): VxeGridPropTypes.Columns<CodeCreator> => {
   const columnsDef: VxeGridPropTypes.Columns<CodeCreator> = [
     { type: 'checkbox', width: 50 },
     { type: 'seq', width: 60 },
