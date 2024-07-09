@@ -114,8 +114,8 @@ importers:
         specifier: 4.0.51
         version: 4.0.51
       vxe-table:
-        specifier: 4.7.40
-        version: 4.7.40
+        specifier: 4.7.46
+        version: 4.7.46
       xe-utils:
         specifier: 3.5.27
         version: 3.5.27
@@ -4974,8 +4974,11 @@ packages:
   vxe-pc-ui@4.0.51:
     resolution: {integrity: sha512-h3rMvvbcABq4GIu6AbsIFVR4RhgfM4rMoCpi8gekRPce13kSCVoWNFPiu1rKWSyqePErP6o8fbLgs226KnasZQ==}
 
-  vxe-table@4.7.40:
-    resolution: {integrity: sha512-y9VC3oLJgusxFj3xZ28G4gU+YClBuDIV8oM75Dx3doYJ7vanXZnSf70XJ+W5xEKflamUmjGre66XZ2b4XuqtMw==}
+  vxe-pc-ui@4.0.54:
+    resolution: {integrity: sha512-fjfhIhYyZFVToXkGXPZCT+x8QVFF2vsx1qMiDAmhiewpTeaEki3KC8u24jp8XvSHMz1QOEhjTZLe1xuivyQD/Q==}
+
+  vxe-table@4.7.46:
+    resolution: {integrity: sha512-ps0oLqIfeV2O/eTDGqDldzVVuzPajbGFL8ZzqZTrhP/wxjFDKTQEXue2dDT3y/DJT1RWcYUApLg+XRvJUO+1SA==}
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
@@ -10368,9 +10371,13 @@ snapshots:
     dependencies:
       '@vxe-ui/core': 1.0.12
 
-  vxe-table@4.7.40:
+  vxe-pc-ui@4.0.54:
     dependencies:
-      vxe-pc-ui: 4.0.51
+      '@vxe-ui/core': 1.0.12
+
+  vxe-table@4.7.46:
+    dependencies:
+      vxe-pc-ui: 4.0.54
 
   w3c-keyname@2.2.8: {}
 
