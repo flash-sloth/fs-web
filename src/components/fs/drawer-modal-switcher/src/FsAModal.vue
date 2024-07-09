@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Modal ref="wapperRef" v-bind="$attrs" v-model:visible="visible">
+  <Modal ref="wapperRef" v-bind="$attrs" v-model:open="visible">
     <slot></slot>
     <template v-for="item in Object.keys(omit($slots, 'default'))" :key="item" #[item]="data">
       <slot :name="item" v-bind="data || {}"></slot>
