@@ -55,19 +55,31 @@ const warpClasses = computed(() => {
   }
   return classes.join(' ');
 });
+
+function close() {
+  visible.value = false;
+}
 </script>
 
 <template>
-  <Modal ref="wapperRef" v-bind="$attrs" v-model:open="visible" :closable="false" :wrap-class-name="warpClasses">
+  <Modal
+    ref="wapperRef"
+    v-bind="$attrs"
+    v-model:open="visible"
+    :ok-text="$attrs.onText || $t('common.submit')"
+    :closable="false"
+    :wrap-class-name="warpClasses"
+  >
     <template v-if="!$slots.title" #title>
       <AFlex>
         <div class="w-1 flex-1">{{ title }}</div>
         <FullScreen v-if="canFullscreen" :full="isFullscreen" @click="toggle"></FullScreen>
-        <ButtonIcon v-if="closable" :tooltip-content="$t('common.close')" @click="visible = !visible">
+        <ButtonIcon v-if="closable" :tooltip-content="$t('common.close')" @click="close">
           <CloseOutlined />
         </ButtonIcon>
       </AFlex>
     </template>
+
     <slot></slot>
     <template v-for="item in Object.keys(omit($slots, 'default'))" :key="item" #[item]="data">
       <slot :name="item" v-bind="data || {}"></slot>

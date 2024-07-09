@@ -43,5 +43,6 @@
     "no": "否"
   },
   "cancelText": "取消",
-  "okText": "确认"
+  "okText": "确认",
+  "submit": "提交"
 }

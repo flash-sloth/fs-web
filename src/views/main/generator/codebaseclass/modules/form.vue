@@ -115,7 +115,10 @@ async function submitCopy(params: FormDataType) {
 
 async function handleSubmit() {
   try {
-    await formRef.value?.validate();
+    const err = await formRef.value?.validate();
+    if (err) {
+      return false;
+    }
     const params = { ...formConfig.formData };
     formLoading.startLoading();
     switch (formAction.value) {
@@ -135,7 +138,7 @@ async function handleSubmit() {
     return true;
   } catch (_e) {
     formLoading.endLoading();
-    return false;
+    throw _e;
   }
 }
 
