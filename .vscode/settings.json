@@ -3,16 +3,19 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  "eslint.experimental.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
   "editor.formatOnSave": false,
   "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
-  "i18n-ally.displayLanguage": "zh-cn",
-  "i18n-ally.enabledParsers": ["ts"],
-  "i18n-ally.enabledFrameworks": ["vue"],
-  "i18n-ally.editor.preferEditor": true,
-  "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["src/locales/langs"],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.namespace": true,
+  "i18n-ally.pathMatcher": "{locale}/{namespaces}.{ext}",
+  "i18n-ally.enabledParsers": ["json", "ts", "js"],
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.displayLanguage": "zh-CN",
+  "i18n-ally.enabledFrameworks": ["vue", "react"],
   "prettier.enable": false,
   "unocss.root": ["./"],
-  "vue-i18n.i18nPaths": "src/locales/langs"
+  "vue-i18n.i18nPaths": "src/locales,src/locales/lang,public/resource/tinymce/langs"
 }
