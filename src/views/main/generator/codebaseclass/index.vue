@@ -85,15 +85,15 @@ function handleView(row: CodeBaseClass) {
 function handleRemove($grid: VxeGridConstructor<CodeBaseClass>) {
   const checkedRows = $grid.getCheckboxRecords();
   if (!checkedRows || checkedRows.length === 0) {
-    createMessage.error('请选择要删除的数据');
+    createMessage.error($t('common.chooseText', [$t('common.deleteData')]));
   } else {
     createConfirm({
       iconType: 'warning',
-      title: '系统提示',
-      content: '确定删除选中数据吗？',
+      title: $t('common.tip'),
+      content: $t('common.confirmDelete'),
       onOk: async () => {
         await deleteBatch(checkedRows.map((x: CodeBaseClass) => x.id as number));
-        createMessage.success('删除成功');
+        createMessage.success($t('common.deleteSuccess'));
         await reloadData();
       }
     });
@@ -126,9 +126,9 @@ function toolbarButtonClick({ code, $grid }: VxeGridDefines.ToolbarButtonClickEv
   <div class="h-full p-2">
     <VxeGrid ref="xGrid" v-bind="gridOptions" @toolbar-button-click="toolbarButtonClick">
       <template #operate="{ row }">
-        <AButton type="link" @click="handleUpdate(row)">编辑</AButton>
-        <AButton type="link" @click="handleCopy(row)">复制</AButton>
-        <AButton type="link" @click="handleView(row)">查看</AButton>
+        <AButton type="link" @click="handleUpdate(row)">{{ $t('common.edit') }}</AButton>
+        <AButton type="link" @click="handleCopy(row)">{{ $t('common.copy') }}</AButton>
+        <AButton type="link" @click="handleView(row)">{{ $t('common.view') }}</AButton>
       </template>
     </VxeGrid>
     <FormWraper ref="formRef" @register="register" @success="reloadData"></FormWraper>

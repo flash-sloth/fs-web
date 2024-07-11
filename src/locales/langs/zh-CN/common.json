@@ -1,6 +1,7 @@
 {
-  "inputText": "请输入",
-  "chooseText": "请选择",
+  "inputText": "请输入{0}",
+  "chooseText": "请选择{0}",
+  "chooseActionData": "请选择操作数据",
   "action": "操作",
   "view": "查看",
   "edit": "编辑",

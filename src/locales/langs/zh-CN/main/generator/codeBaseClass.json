@@ -1,0 +1,8 @@
+{
+  "packageName": "完整包名",
+  "classType": "类型",
+  "name": "类名",
+  "state": "状态",
+  "weight": "顺序",
+  "remark": "备注"
+}

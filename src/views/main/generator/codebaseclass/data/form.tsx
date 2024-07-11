@@ -1,25 +1,76 @@
 import type { VxeFormPropTypes } from 'vxe-table';
+import { $t } from '@/locales';
 
 /** @returns 表单校验规则 */
 export const formRules = (): VxeFormPropTypes.Rules => {
   return {
-    packageName: [{ required: true, message: '完整包名' }],
-    name: [{ required: true, message: '类名' }],
-    classType: [{ required: true, message: '类型' }],
-    state: [{ required: true, message: '状态' }],
-    weight: [{ required: true, message: '顺序' }]
+    packageName: [
+      { required: true, message: $t('common.inputText', [$t('main.generator.codeBaseClass.packageName')]) }
+    ],
+    name: [{ required: true, message: $t('common.inputText', [$t('main.generator.codeBaseClass.name')]) }],
+    classType: [{ required: true, message: $t('common.inputText', [$t('main.generator.codeBaseClass.classType')]) }],
+    state: [{ required: true, message: $t('common.inputText', [$t('main.generator.codeBaseClass.state')]) }],
+    weight: [{ required: true, message: $t('common.inputText', [$t('main.generator.codeBaseClass.weight')]) }]
   };
 };
 
 /** @returns 返回表单配置 */
 export const formItems = (): VxeFormPropTypes.Items => {
   return [
-    { field: 'packageName', title: '完整包名', span: 24, itemRender: { name: 'VxeInput' } },
-    { field: 'name', title: '类名', span: 12, itemRender: { name: 'VxeInput' } },
-    { field: 'classType', title: '类型', span: 12, itemRender: { name: 'VxeInput' } },
-    { field: 'state', title: '状态', span: 12, itemRender: { name: 'VxeInput' } },
-    { field: 'weight', title: '顺序', span: 12, itemRender: { name: 'VxeInput' } },
-    { field: 'remark', title: '备注', span: 24, itemRender: { name: 'VxeInput' } }
+    {
+      field: 'packageName',
+      title: $t('main.generator.codeBaseClass.packageName'),
+      span: 24,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.packageName')]) }
+      }
+    },
+    {
+      field: 'name',
+      title: $t('main.generator.codeBaseClass.name'),
+      span: 12,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.name')]) }
+      }
+    },
+    {
+      field: 'classType',
+      title: $t('main.generator.codeBaseClass.classType'),
+      span: 12,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.classType')]) }
+      }
+    },
+    {
+      field: 'state',
+      title: $t('main.generator.codeBaseClass.state'),
+      span: 12,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.state')]) }
+      }
+    },
+    {
+      field: 'weight',
+      title: $t('main.generator.codeBaseClass.weight'),
+      span: 12,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.weight')]) }
+      }
+    },
+    {
+      field: 'remark',
+      title: $t('main.generator.codeBaseClass.remark'),
+      span: 24,
+      itemRender: {
+        name: 'VxeInput',
+        props: { placeholder: $t('common.inputText', [$t('main.generator.codeBaseClass.remark')]) }
+      }
+    }
   ];
 };
 

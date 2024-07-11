@@ -1,5 +1,6 @@
 import type { VxeGridPropTypes, VxeTableDefines } from 'vxe-table';
 import type { CodeBaseClass } from '@/service/main/generator/codeBaseClass/model';
+import { $t } from '@/locales';
 
 /**
  * @param actionColumn 用户定义的 操作列
@@ -13,27 +14,27 @@ export const columns = (
     { type: 'seq', width: 60 },
     {
       field: 'name',
-      title: '类名'
+      title: $t('main.generator.codeBaseClass.name')
     },
     {
       field: 'packageName',
-      title: '完整包名'
+      title: $t('main.generator.codeBaseClass.packageName')
     },
     {
       field: 'classType',
-      title: '类型'
+      title: $t('main.generator.codeBaseClass.classType')
     },
     {
       field: 'state',
-      title: '状态'
+      title: $t('main.generator.codeBaseClass.state')
     },
     {
       field: 'weight',
-      title: '顺序'
+      title: $t('main.generator.codeBaseClass.weight')
     },
     {
       field: 'remark',
-      title: '备注'
+      title: $t('main.generator.codeBaseClass.remark')
     }
   ];
   actionColumn && columnsDef.push(actionColumn);
@@ -46,17 +47,17 @@ export const searchFormConfig = (): VxeGridPropTypes.FormConfig => {
       name: ''
     },
     items: [
-      { field: 'name', title: '数据源名称', itemRender: { name: 'VxeInput' } },
+      { field: 'name', title: $t('main.generator.codeBaseClass.name'), itemRender: { name: 'VxeInput' } },
       {
         itemRender: {
           name: 'VxeButtonGroup',
           options: [
             {
               type: 'submit',
-              content: '搜索',
+              content: $t('common.search'),
               status: 'primary'
             },
-            { type: 'reset', content: '重置' }
+            { type: 'reset', content: $t('common.reset') }
           ]
         }
       }
