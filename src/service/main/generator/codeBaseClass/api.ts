@@ -1,8 +1,38 @@
 import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
 import type { PageParam } from '@/models/common-models';
+import type { BaseApiConfig } from '@/service/anyone/validate/model';
 import type { CodeBaseClass } from './model';
 const urlPrefix = '/main/codeBaseClass';
+/** 接口配置 */
+export const ApiConfig: Record<string, BaseApiConfig> = {
+  // 分页查询
+  QueryPage: {
+    url: `${urlPrefix}/page`,
+    method: RequestEnum.POST
+  },
+  List: {
+    url: `${urlPrefix}/list`,
+    method: RequestEnum.POST
+  },
+  Delete: {
+    url: `${urlPrefix}`,
+    method: RequestEnum.DELETE
+  },
+  GetInfo: {
+    url: `${urlPrefix}/cache/:id`,
+    method: RequestEnum.GET
+  },
+  Update: {
+    url: `${urlPrefix}`,
+    method: RequestEnum.PUT
+  },
+  Save: {
+    url: `${urlPrefix}`,
+    method: RequestEnum.POST
+  }
+};
+
 /**
  * 分页查询
  *
@@ -11,16 +41,14 @@ const urlPrefix = '/main/codeBaseClass';
  */
 export const queryPage = (params: PageParam<CodeBaseClass>) =>
   defHttp.request<any[]>({
-    url: `${urlPrefix}/page`,
-    method: RequestEnum.POST,
+    ...ApiConfig.QueryPage,
     params
   });
 
 export const list = (params: CodeBaseClass = {}) =>
   defHttp.request<CodeBaseClass[]>({
-    url: `${urlPrefix}/list`,
-    params,
-    method: RequestEnum.POST
+    ...ApiConfig.List,
+    params
   });
 
 /**
@@ -30,29 +58,26 @@ export const list = (params: CodeBaseClass = {}) =>
  * @returns
  */
 export const deleteBatch = (ids: number[]) =>
-  defHttp.request<any[]>({
-    url: `${urlPrefix}`,
-    method: RequestEnum.DELETE,
+  defHttp.request<boolean>({
+    ...ApiConfig.Delete,
     data: ids
   });
 
 export const getInfo = (id: number) =>
   defHttp.request<CodeBaseClass>({
-    url: `${urlPrefix}/cache/${id}`,
-    method: RequestEnum.GET
+    ...ApiConfig.GetInfo,
+    url: ApiConfig.GetInfo.url.replace(':id', id.toString())
   });
 
 export const update = (params: CodeBaseClass) => {
   return defHttp.request<CodeBaseClass>({
-    url: `${urlPrefix}`,
-    params,
-    method: RequestEnum.PUT
+    ...ApiConfig.Update,
+    params
   });
 };
 export const save = (params: CodeBaseClass) => {
   return defHttp.request<CodeBaseClass>({
-    url: `${urlPrefix}`,
-    params,
-    method: RequestEnum.POST
+    ...ApiConfig.Save,
+    params
   });
 };
