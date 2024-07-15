@@ -110,6 +110,9 @@ importers:
       vue-router:
         specifier: 4.3.2
         version: 4.3.2(vue@3.4.25(typescript@5.4.5))
+      vue3-draggable-resizable:
+        specifier: ^1.6.5
+        version: 1.6.5
       vxe-pc-ui:
         specifier: 4.0.51
         version: 4.0.51
@@ -4962,6 +4965,9 @@ packages:
     engines: {node: '>=10.15.0'}
     peerDependencies:
       vue: ^3.0.0
+
+  vue3-draggable-resizable@1.6.5:
+    resolution: {integrity: sha512-31142E31fGNnq3HKqvmFLSsqIbhck7TyGuQWhUKrDw6DOcGAuRx4ddRjaxvT6fe7dgeKH53qAh+i0ZlWtPLl2g==}
 
   vue@3.4.25:
     resolution: {integrity: sha512-HWyDqoBHMgav/OKiYA2ZQg+kjfMgLt/T0vg4cbIF7JbXAjDexRf5JRg+PWAfrAkSmTd2I8aPSXtooBFWHB98cg==}
@@ -10356,6 +10362,8 @@ snapshots:
     dependencies:
       is-plain-object: 3.0.1
       vue: 3.4.25(typescript@5.4.5)
+
+  vue3-draggable-resizable@1.6.5: {}
 
   vue@3.4.25(typescript@5.4.5):
     dependencies:
