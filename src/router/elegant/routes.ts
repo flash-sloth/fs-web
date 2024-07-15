@@ -119,6 +119,15 @@ export const generatedRoutes: GeneratedRoute[] = [
               title: 'demo_vxetable_treeform',
               i18nKey: 'route.demo_vxetable_treeform'
             }
+          },
+          {
+            name: 'demo_vxetable_validator',
+            path: '/demo/vxetable/validator',
+            component: 'view.demo_vxetable_validator',
+            meta: {
+              title: 'demo_vxetable_validator',
+              i18nKey: 'route.demo_vxetable_validator'
+            }
           }
         ]
       }

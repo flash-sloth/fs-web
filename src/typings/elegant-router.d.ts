@@ -33,6 +33,7 @@ declare module "@elegant-router/types" {
     "demo_vxetable_curd": "/demo/vxetable/curd";
     "demo_vxetable_simple": "/demo/vxetable/simple";
     "demo_vxetable_treeform": "/demo/vxetable/treeform";
+    "demo_vxetable_validator": "/demo/vxetable/validator";
     "home": "/home";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "user-center": "/user-center";
@@ -108,6 +109,7 @@ declare module "@elegant-router/types" {
     | "demo_vxetable_curd"
     | "demo_vxetable_simple"
     | "demo_vxetable_treeform"
+    | "demo_vxetable_validator"
   >;
 
   /**

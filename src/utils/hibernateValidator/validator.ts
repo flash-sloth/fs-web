@@ -23,7 +23,7 @@ export function validate(value: any, validator: HibernateValidator) {
     Min: validateMin,
     Max: validateMax,
     Range: validateRange,
-    Pattren: validatePattern,
+    Pattern: validatePattern,
     Email: validateEmail
   };
   return validateMap[validator.type] ? validateMap[validator.type](value, validator) : true;
@@ -159,7 +159,7 @@ function validateSize(value: any, validator: Size) {
     return '@Size校验格式不匹配';
   }
   if (valueLen < min || valueLen > max) {
-    relpaceMessage(message, { min, max });
+    return relpaceMessage(message, { min, max });
   }
   return true;
 }
@@ -180,7 +180,7 @@ function validateLength(value: any, validator: Length) {
     return '@Length校验格式不匹配';
   }
   if (valueLen < min || valueLen > max) {
-    relpaceMessage(message, { min, max });
+    return relpaceMessage(message, { min, max });
   }
   return true;
 }
@@ -195,8 +195,8 @@ function validateMin(value: any, validator: Min) {
   if (value === null || value === undefined) {
     return true;
   }
-  if (isValidNumber(value)) {
-    const numberValue = Number(value);
+  const numberValue = Number(value);
+  if (isValidNumber(numberValue)) {
     if (!isInteger(numberValue)) {
       return '@Max校验格式不匹配';
     }
@@ -219,8 +219,8 @@ function validateMax(value: any, validator: Max) {
   if (value === null || value === undefined) {
     return true;
   }
-  if (isValidNumber(value)) {
-    const numberValue = Number(value);
+  const numberValue = Number(value);
+  if (isValidNumber(numberValue)) {
     if (!isInteger(numberValue)) {
       return '@Max校验格式不匹配';
     }
@@ -244,13 +244,13 @@ function validateRange(value: any, validator: Range) {
     return true;
   }
   const { min = -Number.NEGATIVE_INFINITY, max = Number.NEGATIVE_INFINITY, message } = validator;
-  if (isValidNumber(value)) {
-    const numberValue = Number(value);
+  const numberValue = Number(value);
+  if (isValidNumber(numberValue)) {
     if (numberValue < min || numberValue > max) {
-      relpaceMessage(message, { min, max });
+      return relpaceMessage(message, { min, max });
     }
   } else {
-    return '@Max校验格式不匹配';
+    return '@Range校验格式不匹配';
   }
   return true;
 }
