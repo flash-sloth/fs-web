@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
 import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
-import { importTable } from '@/service/main/generator/codeCreator/api';
+import { importTable, listTableMetadata } from '@/service/main/generator/codeCreator/api';
 import type { DataSource } from '@/service/main/base/datasource/model';
 import { list } from '@/service/main/base/datasource/api';
 
@@ -29,7 +29,7 @@ const formConfig = reactive<{
       itemRender: {
         name: 'VxeSelect',
         props: {
-          multiple: true
+          multiple: false
         },
         options: []
       }
@@ -38,13 +38,15 @@ const formConfig = reactive<{
       field: 'tableNames',
       title: '表名称',
       span: 24,
-      itemRender: {
-        name: 'VxeInput'
-      }
+      itemRender: {},
+      slots: { default: 'tableNames' }
     }
   ]
 });
 
+const params = computed(() => {
+  return { dsId: formConfig.data.dsId };
+});
 function loadDataSource() {
   list({}).then(res => {
     const dsIdItem = formConfig.items.find(item => item.field === 'dsId');
@@ -85,7 +87,30 @@ const submitEvent = async () => {
 
 <template>
   <FsAModal is="VxeModal" show-footer position="top" show-zoom title="导入表格" :width="400" @register="register">
-    <VxeForm ref="formRef" :loading="formLoading" v-bind="formConfig" title-colon></VxeForm>
+    <VxeForm ref="formRef" :loading="formLoading" v-bind="formConfig" title-colon>
+      <template #tableNames="{ data }">
+        <AssociationSelect
+          v-model:value="data.tableNames"
+          :loader="listTableMetadata"
+          :columns="[
+            {
+              field: 'tableName',
+              title: '表名称'
+            },
+            {
+              field: 'tableDescription',
+              title: '表注释'
+            }
+          ]"
+          :params="params"
+          :page-config="{
+            enabled: false,
+            getData: '',
+            getTotal: ''
+          }"
+        ></AssociationSelect>
+      </template>
+    </VxeForm>
     <template #footer>
       <VxeButton content="取消" @click="close"></VxeButton>
       <VxeButton status="primary" content="提交" @click="submitEvent"></VxeButton>

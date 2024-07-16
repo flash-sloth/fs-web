@@ -76,3 +76,9 @@ export const download = (params: { ids: string[]; codeIds: string[] }) => {
     method: RequestEnum.GET
   });
 };
+
+export const listTableMetadata = (params: { dsId: string }) =>
+  defHttp.request<any>({
+    url: `${urlPrefix}/listTableMetadata?dsId=${params.dsId}`,
+    method: RequestEnum.POST
+  });
