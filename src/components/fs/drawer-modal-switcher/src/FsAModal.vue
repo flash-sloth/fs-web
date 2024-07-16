@@ -99,6 +99,12 @@ function close() {
     &-content {
       height: 100%;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    &-body {
+      flex: 1;
+      overflow: auto;
     }
   }
   .ant-modal-footer {
