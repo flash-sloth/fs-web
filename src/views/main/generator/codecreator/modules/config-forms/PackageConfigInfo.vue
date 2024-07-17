@@ -95,7 +95,7 @@ defineExpose<ConfigFormInstance>({
         <VxeInput v-model="formData.module" placeholder="基础包.模块包" />
       </template>
     </VxeFormItem>
-    <VxeFormItem field="subSystemId" title="模块包" title-colon :span="12">
+    <VxeFormItem field="subSystemId" title="子系统" title-colon :span="12">
       <template #default>
         <VxeSelect v-model="formData.subSystemId" placeholder="选择子系统">
           <VxeOption :value="1" label="主系统"></VxeOption>
