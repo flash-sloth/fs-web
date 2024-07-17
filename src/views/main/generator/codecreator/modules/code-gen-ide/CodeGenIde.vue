@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { nextTick } from 'node:process';
 import { computed, onMounted, ref, watch } from 'vue';
 import XEUtils from 'xe-utils';
 import { isArray } from 'lodash-es';
@@ -12,9 +13,15 @@ import LineButton from './LineButton.vue';
 import GenSetting from './GenSetting.vue';
 import { type FsGenFile, FsGenFileType } from './types';
 const { createConfirm, createMessage } = useMessage();
-const props = defineProps<{
-  ids: string[];
-}>();
+const props = withDefaults(
+  defineProps<{
+    ids: string[];
+    loadDataOnMounted: boolean;
+  }>(),
+  {
+    loadDataOnMounted: true
+  }
+);
 const treeData = ref<FsGenFile[]>([]);
 const codePanelRef = ref();
 defineOptions({
@@ -22,6 +29,7 @@ defineOptions({
 });
 const selectedFile = ref<FsGenFile | null>(null);
 const editFile = ref<FsGenFile | null>(null);
+const mounted = ref(false);
 /** 当选中一个文件 */
 function onFileSelect(file: FsGenFile) {
   selectedFile.value = file;
@@ -39,7 +47,9 @@ function loadData(reload = false) {
 watch(
   () => props.ids,
   () => {
-    loadData(false);
+    if (props.loadDataOnMounted) {
+      loadData(false);
+    }
   }
 );
 function reloadFiles() {
@@ -55,7 +65,9 @@ function reloadFiles() {
   });
 }
 onMounted(() => {
-  loadData(false);
+  if (props.loadDataOnMounted) {
+    loadData(false);
+  }
 });
 const [register, { show: showSetting }] = useDmSwitcher<{
   ids: string[];

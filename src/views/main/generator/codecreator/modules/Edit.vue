@@ -19,8 +19,11 @@ const configInfo = ref<CodeCreatorEidtDto>({});
 const baseInfoFormRef = ref<BaseInfoFormInstance>();
 const codeGenIdeRef = ref();
 const ids = ref<string[]>([]);
+const settingChanged = ref(false);
 /** 加载首页数据 */
-async function loadData() {
+async function loadData(changed: boolean) {
+  settingChanged.value = changed;
+
   const data = await getCodeCreatorInfo($route.params.id as string);
   if (data) {
     useTitle(`编辑${data.tableName}`);
@@ -28,10 +31,14 @@ async function loadData() {
     configInfo.value = data;
     baseInfoFormRef.value?.setModles(data);
   }
+  if (changed) {
+    // 有信息修改立刻刷新代码
+    await loadPreviewData();
+  }
 }
 onMounted(() => {
   ids.value = [$route.params.id as string];
-  loadData();
+  loadData(false);
 });
 /** 当离开setp0 */
 async function onOutSetp0(newSetp: number) {
@@ -52,7 +59,8 @@ async function onOutSetp0(newSetp: number) {
 }
 
 async function loadPreviewData() {
-  codeGenIdeRef.value?.loadData();
+  codeGenIdeRef.value?.loadData(settingChanged.value);
+  settingChanged.value = false;
 }
 
 /** @param newSetp 切换到新的步骤 */
@@ -79,12 +87,12 @@ async function onStepChange(newSetp: number) {
         <Step :current="activeSetp" @update:current="onStepChange"></Step>
       </VxeLayoutHeader>
       <VxeLayoutBody class="h1 flex-1 p-2">
-        <BaseInfoForm v-show="activeSetp === 0" ref="baseInfoFormRef" @success="loadData()"></BaseInfoForm>
+        <BaseInfoForm v-show="activeSetp === 0" ref="baseInfoFormRef" @success="loadData(true)"></BaseInfoForm>
         <div v-show="activeSetp === 1">1</div>
         <div v-show="activeSetp === 2">2</div>
         <div v-show="activeSetp === 3">3</div>
         <div v-show="activeSetp === 4" class="h-full">
-          <CodeGenIde ref="codeGenIdeRef" :ids="ids"></CodeGenIde>
+          <CodeGenIde ref="codeGenIdeRef" :ids="ids" :load-data-on-mounted="false"></CodeGenIde>
         </div>
       </VxeLayoutBody>
     </VxeLayoutContainer>
