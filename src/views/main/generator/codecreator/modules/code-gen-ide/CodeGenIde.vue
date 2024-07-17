@@ -126,14 +126,14 @@ defineExpose({
       <LineButton v-if="editFile" padding @click="codePanelRef?.save()">保存</LineButton>
     </div>
     <div class="code-gen-ide-main">
-      <div class="code-gen-ide-left">
+      <ContainerLeft class="code-gen-ide-left" :init-w="260" :min-w="200" :max-w="600">
         <FileTree
           :tree-data="treeData"
           @download="downloadFile"
           @generate="generateFiles"
           @select="onFileSelect"
         ></FileTree>
-      </div>
+      </ContainerLeft>
       <div class="code-gen-ide-content">
         <CodePanel
           ref="codePanelRef"
