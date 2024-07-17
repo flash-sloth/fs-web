@@ -10,6 +10,8 @@ const props = withDefaults(defineProps<AssociationSelectProps>(), {
   placeholder: '请选择',
   valueType: 'string',
   modalWidth: 900,
+  valueFiled: 'id',
+  labelFiled: 'name',
   pageConfig: () => {
     return {
       enabled: true,
@@ -18,6 +20,9 @@ const props = withDefaults(defineProps<AssociationSelectProps>(), {
     };
   },
   columns: () => {
+    return [];
+  },
+  searchFormConfig: () => {
     return [];
   },
   loader: () => {
@@ -43,21 +48,48 @@ function setSelectFromValue() {
 watch(() => props.value, setSelectFromValue);
 async function loadEchoData() {
   if (selectKey.value && selectKey.value.length > 0) {
-    const echoloader = props.echoLoader || (keys => keys.join(','));
+    const echoloader = props.echoLoader || (keys => keys);
     const loadKeys = selectKey.value.filter(key => !valueMap[key]);
-    if (loadKeys.length === 0) {
-      return;
-    }
-    const loaderRes = await echoloader(loadKeys);
-    if (loaderRes) {
-      Object.assign(valueMap, loaderRes);
+    if (loadKeys.length !== 0) {
+      const loaderRes = await echoloader(loadKeys);
+      if (loaderRes) {
+        loaderRes.forEach(item => {
+          if (isString(item)) {
+            valueMap[item] = item;
+          } else {
+            valueMap[item[props.valueFiled]] = item;
+          }
+        });
+      }
     }
   }
-  valueEchoStr.value = selectKey.value.map(key => valueMap[key]).join(',');
+  resValueValueEchoStr();
 }
+function resValueValueEchoStr() {
+  const str = selectKey.value
+    .map(key => {
+      if (valueMap[key]) {
+        if (isString(valueMap[key])) {
+          return valueMap[key];
+        }
+        return valueMap[key][props.labelFiled];
+      }
+      return key;
+    })
+    .join(',');
+  valueEchoStr.value = str;
+}
+
 /** @param newSelecteKey 最新的选择的数据 */
-function onSelectKeyChange(newSelecteKey: string[]) {
-  selectKey.value = newSelecteKey;
+function onSelectKeyChange(selectRocord: any[]) {
+  const newSelecteKey = selectRocord.map(item => {
+    if (isString(item)) {
+      valueMap[item] = item;
+      return item;
+    }
+    valueMap[item[props.valueFiled]] = item;
+    return item[props.valueFiled];
+  });
   if (props.valueType === 'string') {
     emits('update:value', newSelecteKey.join(','));
   } else {
@@ -65,11 +97,12 @@ function onSelectKeyChange(newSelecteKey: string[]) {
   }
 }
 watch(() => selectKey.value, loadEchoData);
+loadEchoData();
 </script>
 
 <template>
   <div>
-    <VxeInput :value="valueEchoStr" :placeholder="placeholder" @click="() => showModal()"></VxeInput>
+    <VxeInput :model-value="valueEchoStr" type="text" :placeholder="placeholder" @click="() => showModal()"></VxeInput>
     <Modal
       :columns="columns"
       :loader="loader"
@@ -79,7 +112,7 @@ watch(() => selectKey.value, loadEchoData);
       :page-config="pageConfig"
       :value-map="valueMap"
       :modal-width="modalWidth"
-      @update:select-key="onSelectKeyChange"
+      @on-ok="onSelectKeyChange"
       @register="register"
     ></Modal>
   </div>

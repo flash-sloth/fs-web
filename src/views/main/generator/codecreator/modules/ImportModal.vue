@@ -92,6 +92,9 @@ const submitEvent = async () => {
         <AssociationSelect
           v-model:value="data.tableNames"
           :loader="listTableMetadata"
+          value-type="string"
+          value-filed="tableName"
+          label-filed="tableName"
           :columns="[
             {
               field: 'tableName',

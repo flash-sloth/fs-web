@@ -11,7 +11,7 @@ export interface pageConfig {
  */
 export type LoaderFunction = (params: any) => Promise<any>;
 /** 参数回显函数 */
-export type echoLoaderFunction = (selectKey: any[]) => Promise<{ [key: string]: string }>;
+export type echoLoaderFunction = (selectKey: any[]) => Promise<{ [key: string]: string }[]>;
 
 export interface AssociationSelectProps {
   value: string | any[];
@@ -20,6 +20,8 @@ export interface AssociationSelectProps {
   echoLoader?: echoLoaderFunction;
   params?: { [key: string]: any };
   pageConfig: pageConfig;
+  valueFiled?: string;
+  labelFiled?: string;
   columns: VxeGridPropTypes.Columns;
   /** 搜索表单配置 */
   searchFormConfig?: VxeFormPropTypes.Items;

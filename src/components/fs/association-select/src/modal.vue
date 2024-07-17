@@ -6,8 +6,9 @@ import { isString } from 'xe-utils';
 import { FsAModal, useDmSwitcherInner } from '@/components/fs/drawer-modal-switcher';
 import { defGridConfig } from '@/constants/vxeUiCurdDefConfig';
 import { VxeGridProxyEventCode } from '@/enum';
+import { $t } from '@/locales';
 import type { LoaderFunction, pageConfig as pageConfigType } from './typing';
-
+const emits = defineEmits(['onOk']);
 const [register, { close }] = useDmSwitcherInner(() => {
   reloadData();
 });
@@ -21,6 +22,7 @@ const props = defineProps<{
   searchFormConfig?: VxeFormPropTypes.Items;
   /** 弹窗宽度 */
   modalWidth: number;
+  valueMap: { [key: string]: any };
 }>();
 const searchForm = reactive<{
   data: VxeFormPropTypes.Data;
@@ -36,15 +38,36 @@ async function reloadData() {
     $grid.commitProxy(VxeGridProxyEventCode.QUERY);
   }
 }
+// 初始化字段信息并为字段信息添加赛选方法
+const columns = [...props.columns];
+columns.forEach(col => {
+  col.filterMethod = ({ value, cellValue }) => {
+    if (value) {
+      return true;
+    }
+    if (isString(cellValue)) {
+      return cellValue.includes(value);
+    }
+    return false;
+  };
+  col.filterRender = {
+    name: 'VxeInput'
+  };
+});
 const gridOptions = reactive<VxeGridProps>(
   defGridConfig({
     // 列配置
-    columns: [{ type: 'checkbox', width: 50 }, { type: 'seq', width: 60 }, ...props.columns],
+    columns: [{ type: 'checkbox', width: 60 }, { type: 'seq', width: 60 }, ...columns],
     formConfig: searchForm,
     pagerConfig: {
       enabled: props.pageConfig.enabled
     },
     proxyConfig: {
+      response: {
+        list: data => {
+          return data.data;
+        }
+      },
       ajax: {
         // 接收 Promise
         query: async ({ form }) => {
@@ -75,6 +98,11 @@ const gridOptions = reactive<VxeGridProps>(
     }
   })
 );
+function onSelect() {
+  const selectKey = xGrid.value?.getCheckboxRecords(true);
+  emits('onOk', selectKey);
+  close();
+}
 // watch(
 //   () => props.params,
 //   () => {
@@ -92,6 +120,7 @@ const gridOptions = reactive<VxeGridProps>(
     show-zoom
     title="选择"
     :width="modalWidth"
+    @ok="onSelect"
     @register="register"
   >
     <VxeGrid v-bind="gridOptions" ref="xGrid"></VxeGrid>
