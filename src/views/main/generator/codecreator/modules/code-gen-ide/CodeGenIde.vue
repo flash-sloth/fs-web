@@ -37,10 +37,47 @@ function onFileSelect(file: FsGenFile) {
     editFile.value = file;
   }
 }
+function doDirMerge(file: FsGenFile) {
+  console.log(file.path, file.name);
+  if (file.type !== FsGenFileType.Dir) {
+    return file;
+  }
+  if (!file.children || file.children.length === 0) {
+    return file;
+  }
+  if (file.children.length === 1 && file.children[0].type === FsGenFileType.Dir) {
+    file.children[0].name = `${file.name}/${file.children[0].name}`;
+    return doDirMerge(file.children[0]);
+  }
+  return file;
+}
+
+/**
+ * 将只包含一个目录的目录进行合并
+ *
+ * @param files
+ */
+function mergeDir(files: FsGenFile[]) {
+  return files.map(file => {
+    let res = file;
+    if (file.children) {
+      if (FsGenFileType.Project === file.type) {
+        file.children = mergeDir(file.children);
+      } else if (FsGenFileType.Dir === file.type) {
+        res = doDirMerge(file);
+        if (res.children) {
+          res.children = mergeDir(res.children);
+        }
+      }
+    }
+    return res;
+  });
+}
+
 function loadData(reload = false) {
   if (props.ids && props.ids.length > 0) {
     preview({ ids: props.ids, reload, genStrategy: {} }).then(res => {
-      treeData.value = res;
+      treeData.value = mergeDir(res);
     });
   }
 }
