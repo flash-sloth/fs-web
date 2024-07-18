@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import XEUtils from 'xe-utils';
 import type { RadioChangeEvent } from 'ant-design-vue';
 import { useMessage } from '@/hooks/web/useMessage';
@@ -44,7 +44,7 @@ function togglerChildren() {
       childrenRef.value.style.height = 'auto';
       const clientHeight = childrenRef.value.clientHeight;
       childrenRef.value.style.height = `${clientHeight}px`;
-      childrenContentRef.value.style.height = `${clientHeight}px`;
+
       nextTick(() => {
         childrenRef.value.style.height = `auto`;
       });
@@ -52,7 +52,6 @@ function togglerChildren() {
       const clientHeight = childrenRef.value.clientHeight;
       childrenRef.value.style.height = `${clientHeight}px`;
       nextTick(() => {
-        childrenContentRef.value.style.height = `0px`;
         childrenRef.value.style.height = '0px';
       });
     }
@@ -115,6 +114,21 @@ function dispatchDownload(data: any) {
 function dispatchGenerate(data: any) {
   emits('generate', data);
 }
+const resizeObserver = new ResizeObserver(entries => {
+  for (const entry of entries) {
+    const { height } = entry.contentRect;
+    childrenContentRef.value.style.height = `${height}px`;
+  }
+});
+onMounted(() => {
+  if (childrenRef.value) resizeObserver.observe(childrenRef.value);
+});
+onUnmounted(() => {
+  if (childrenRef.value) {
+    resizeObserver.unobserve(childrenRef.value);
+  }
+  resizeObserver.disconnect();
+});
 </script>
 
 <template>
