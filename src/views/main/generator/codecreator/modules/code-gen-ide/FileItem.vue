@@ -16,6 +16,7 @@ const props = defineProps<{
 
 const expanded = ref(true);
 const childrenRef = ref();
+const childrenContentRef = ref();
 const toolLineRef = ref();
 const emits = defineEmits(['select', 'settingChange', 'download', 'generate']);
 
@@ -43,6 +44,7 @@ function togglerChildren() {
       childrenRef.value.style.height = 'auto';
       const clientHeight = childrenRef.value.clientHeight;
       childrenRef.value.style.height = `${clientHeight}px`;
+      childrenContentRef.value.style.height = `${clientHeight}px`;
       nextTick(() => {
         childrenRef.value.style.height = `auto`;
       });
@@ -50,6 +52,7 @@ function togglerChildren() {
       const clientHeight = childrenRef.value.clientHeight;
       childrenRef.value.style.height = `${clientHeight}px`;
       nextTick(() => {
+        childrenContentRef.value.style.height = `0px`;
         childrenRef.value.style.height = '0px';
       });
     }
@@ -130,7 +133,7 @@ function dispatchGenerate(data: any) {
           }
         "
       >
-        <span :style="{ marginLeft: `${(treeLevel || 0) * 6}px`, display: 'inline-block' }"></span>
+        <span :style="{ marginLeft: `${(treeLevel || 0) * 10}px`, display: 'inline-block' }"></span>
         <span @click="togglerChildren()"><FileIcon :expended="expanded" :type="data?.type as any" /></span>
         <span class="title-content ml-1" @click="clickTitle">{{ data?.name }}</span>
         <div ref="toolLineRef" class="tool-line h-0 overflow-hidden">
@@ -148,20 +151,23 @@ function dispatchGenerate(data: any) {
         </div>
       </div>
     </div>
-    <div v-if="data?.children && data?.children.length" ref="childrenRef" class="children">
-      <FileItem
-        v-for="(child, index) in data?.children"
-        :key="index"
-        :show-setting="showSetting"
-        :setting-map="settingMap"
-        :selected-key="selectedKey"
-        :tree-level="(treeLevel || 0) + 1"
-        :data="child"
-        @setting-change="dispatchSetting"
-        @select="dispatchClick"
-        @generate="dispatchGenerate"
-        @download="dispatchDownload"
-      ></FileItem>
+    <div ref="childrenContentRef" class="childrenContent">
+      <div class="line" :style="{ left: `${(treeLevel || 0) * 10}px` }"></div>
+      <div v-if="data?.children && data?.children.length" ref="childrenRef" class="children">
+        <FileItem
+          v-for="(child, index) in data?.children"
+          :key="index"
+          :show-setting="showSetting"
+          :setting-map="settingMap"
+          :selected-key="selectedKey"
+          :tree-level="(treeLevel || 0) + 1"
+          :data="child"
+          @setting-change="dispatchSetting"
+          @select="dispatchClick"
+          @generate="dispatchGenerate"
+          @download="dispatchDownload"
+        ></FileItem>
+      </div>
     </div>
   </div>
 </template>
@@ -226,9 +232,19 @@ function dispatchGenerate(data: any) {
       box-shadow: -1px 0px 5px rgba(0, 0, 0, 0.22);
     }
   }
-  .children {
-    transition: all 0.1s ease;
-    overflow: hidden;
+  .childrenContent {
+    position: relative;
+    width: 100%;
+    .line {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: bisque;
+    }
+    .children {
+      transition: all 0.1s ease;
+      overflow: hidden;
+    }
   }
 }
 </style>
