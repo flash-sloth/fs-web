@@ -70,11 +70,17 @@ export const generator = (params: CodeGenDto) =>
   });
 
 export const download = (params: { ids: string[]; codeIds: string[] }) => {
-  return defHttp.download({
-    url: `${urlPrefix}/download`,
-    params,
-    method: RequestEnum.GET
-  });
+  return defHttp.request(
+    {
+      url: `${urlPrefix}/download`,
+      params,
+      responseType: 'blob',
+      method: RequestEnum.GET
+    },
+    {
+      isReturnNativeResponse: true
+    }
+  );
 };
 
 export const listTableMetadata = (params: { dsId: string }) =>
