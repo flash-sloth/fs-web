@@ -2,6 +2,7 @@
 import Vue3DraggableResizable from 'vue3-draggable-resizable';
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 import { ref } from 'vue';
+import { SimpleScrollbar } from '~/packages/materials/src';
 import type { ContainerLeftProps } from './src/typing';
 const containerLeftBox = ref<HTMLElement>();
 const props = withDefaults(defineProps<ContainerLeftProps>(), {
@@ -18,6 +19,7 @@ function resizeHandleEnd() {
     width.value = props.maxW;
   }
   resizing.value = false;
+  debugger;
 }
 
 function resizeHandleStart() {
@@ -49,12 +51,21 @@ function setHandleMrToShow() {
       disabled-h
       :draggable="false"
       :min-w="minW"
+      :init-w="initW"
       :handles="['mr']"
       resizable
       @resize-start="resizeHandleStart"
       @resize-end="resizeHandleEnd"
     >
-      <slot></slot>
+      <div class="h-full flex-col">
+        <slot name="header"></slot>
+        <div class="h-1 flex-1">
+          <SimpleScrollbar>
+            <slot></slot>
+          </SimpleScrollbar>
+        </div>
+        <slot name="footer"></slot>
+      </div>
     </Vue3DraggableResizable>
   </div>
 </template>
