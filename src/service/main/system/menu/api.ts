@@ -40,7 +40,7 @@ export const page = (params: Model.PageParam<SysMenuQuery>) =>
  * @returns 每页数据
  */
 export const tree = (params: SysMenuQuery) =>
-  defHttp.request<Model.PageResult<SysMenuVo>>({
+  defHttp.request<Model.PageResult<SysMenuVo[]>>({
     ...Api.Tree,
     params
   });
