@@ -1,5 +1,5 @@
 export interface SysMenuDto {
-  id: string;
+  id?: string;
   subSystemId: string;
   code: string;
   name: string;
@@ -34,7 +34,7 @@ export interface SysMenuDto {
 }
 
 export interface SysMenuVo {
-  id: string;
+  id?: string;
   subSystemId: string;
   code: string;
   name: string;

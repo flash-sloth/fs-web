@@ -39,7 +39,7 @@ export const page = (params: Model.PageParam<SysMenuQuery>) =>
  * @param params 查询参数
  * @returns 每页数据
  */
-export const tree = (params: SysMenuQuery) =>
+export const tree = (params: Partial<SysMenuQuery>) =>
   defHttp.request<Model.PageResult<SysMenuVo[]>>({
     ...Api.Tree,
     params

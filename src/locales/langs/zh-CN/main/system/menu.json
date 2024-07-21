@@ -1,0 +1,18 @@
+{
+  "subSystemId": "子系统",
+  "code": "菜单编码",
+  "name": "菜单名称",
+  "resourceType": "类型",
+  "openWith": "打开方式",
+  "remarks": "备注",
+  "path": "路径",
+  "component": "组件",
+  "redirect": "重定向路径",
+  "icon": "图标",
+  "isDir": "是否目录",
+  "isHidden": "是否隐藏",
+  "state": "状态",
+  "subGroup": "分组",
+  "parentId": "父菜单",
+  "weight": "排序"
+}
