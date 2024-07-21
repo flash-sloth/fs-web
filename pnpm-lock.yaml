@@ -114,8 +114,8 @@ importers:
         specifier: 1.6.5
         version: 1.6.5
       vxe-pc-ui:
-        specifier: 4.0.51
-        version: 4.0.51
+        specifier: 4.0.77
+        version: 4.0.77
       vxe-table:
         specifier: 4.7.46
         version: 4.7.46
@@ -4977,11 +4977,8 @@ packages:
       typescript:
         optional: true
 
-  vxe-pc-ui@4.0.51:
-    resolution: {integrity: sha512-h3rMvvbcABq4GIu6AbsIFVR4RhgfM4rMoCpi8gekRPce13kSCVoWNFPiu1rKWSyqePErP6o8fbLgs226KnasZQ==}
-
-  vxe-pc-ui@4.0.54:
-    resolution: {integrity: sha512-fjfhIhYyZFVToXkGXPZCT+x8QVFF2vsx1qMiDAmhiewpTeaEki3KC8u24jp8XvSHMz1QOEhjTZLe1xuivyQD/Q==}
+  vxe-pc-ui@4.0.77:
+    resolution: {integrity: sha512-hE3cDsMf3rQHwpfd7gWcPuUOXNHSbPK7p4FzQ6nx6NUXpmzAdjOsy5iRs7MXZGp5fTFYKngYKArNf/IaVKiAwQ==}
 
   vxe-table@4.7.46:
     resolution: {integrity: sha512-ps0oLqIfeV2O/eTDGqDldzVVuzPajbGFL8ZzqZTrhP/wxjFDKTQEXue2dDT3y/DJT1RWcYUApLg+XRvJUO+1SA==}
@@ -10375,17 +10372,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  vxe-pc-ui@4.0.51:
-    dependencies:
-      '@vxe-ui/core': 1.0.12
-
-  vxe-pc-ui@4.0.54:
+  vxe-pc-ui@4.0.77:
     dependencies:
       '@vxe-ui/core': 1.0.12
 
   vxe-table@4.7.46:
     dependencies:
-      vxe-pc-ui: 4.0.54
+      vxe-pc-ui: 4.0.77
 
   w3c-keyname@2.2.8: {}
 
