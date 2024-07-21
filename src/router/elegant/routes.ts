@@ -73,6 +73,15 @@ export const generatedRoutes: GeneratedRoute[] = [
               title: 'demo_comp_icon',
               i18nKey: 'route.demo_comp_icon'
             }
+          },
+          {
+            name: 'demo_comp_tree',
+            path: '/demo/comp/tree',
+            component: 'view.demo_comp_tree',
+            meta: {
+              title: 'demo_comp_tree',
+              i18nKey: 'route.demo_comp_tree'
+            }
           }
         ]
       },

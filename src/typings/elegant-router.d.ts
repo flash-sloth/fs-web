@@ -28,6 +28,7 @@ declare module "@elegant-router/types" {
     "demo": "/demo";
     "demo_comp": "/demo/comp";
     "demo_comp_icon": "/demo/comp/icon";
+    "demo_comp_tree": "/demo/comp/tree";
     "demo_ide": "/demo/ide";
     "demo_vxetable": "/demo/vxetable";
     "demo_vxetable_curd": "/demo/vxetable/curd";
@@ -105,6 +106,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "user-center"
     | "demo_comp_icon"
+    | "demo_comp_tree"
     | "demo_ide"
     | "demo_vxetable_curd"
     | "demo_vxetable_simple"

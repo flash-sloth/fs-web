@@ -1,6 +1,7 @@
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw, _RouteRecordBase } from 'vue-router';
 import type { ElegantConstRoute, LastLevelRouteKey, RouteKey, RouteMap } from '@elegant-router/types';
 import { $t } from '@/locales';
+import { localStg } from '@/utils/storage';
 import { useSvgIcon } from '@/hooks/common/icon';
 
 /**
@@ -283,6 +284,15 @@ export function getBreadcrumbsByRoute(
 
   return [];
 }
+
+export function setResource(data: any) {
+  localStg.set('resource', data ?? {});
+}
+
+export function getResource() {
+  return (localStg.get('resource') || {});
+}
+
 
 /**
  * Transform menu to searchMenus

@@ -1,0 +1,14 @@
+// Border color
+$border-color-base: #d9d9d9; // base border outline a component
+$border-color-split: #f0f0f0; // split border inside a component
+$border-color-inverse: $white;
+$border-width-base: 1px; // width of the border for a component
+$border-style-base: solid; // style of a components border
+
+$card-shadow:
+  0 1px 2px -2px rgba(0, 0, 0, 0.16),
+  0 3px 6px 0 rgba(0, 0, 0, 0.12),
+  0 5px 12px 4px rgba(0, 0, 0, 0.09);
+
+$text-color-base: #c9d1d9;
+$component-background: #151515;

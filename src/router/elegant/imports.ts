@@ -23,6 +23,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   login: () => import("@/views/_builtin/login/index.vue"),
   "user-center": () => import("@/views/_builtin/user-center/index.vue"),
   demo_comp_icon: () => import("@/views/demo/comp/icon/index.vue"),
+  demo_comp_tree: () => import("@/views/demo/comp/tree/index.vue"),
   demo_ide: () => import("@/views/demo/ide/index.vue"),
   demo_vxetable_curd: () => import("@/views/demo/vxetable/curd/index.vue"),
   demo_vxetable_simple: () => import("@/views/demo/vxetable/simple/index.vue"),
