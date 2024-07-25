@@ -60,6 +60,8 @@ declare module 'vue' {
     FileIcon: typeof import('./../components/fs/code-gen-ide/src/FileIcon.vue')['default']
     FileItem: typeof import('./../components/fs/code-gen-ide/src/FileItem.vue')['default']
     FileTree: typeof import('./../components/fs/code-gen-ide/src/FileTree.vue')['default']
+    FlexBox: typeof import('../components/fs/flex-box/flex-col-content.vue')['default']
+    FlexColContent: typeof import('./../components/fs/flex-box/flex-col-content.vue')['default']
     FsAModal: typeof import('./../components/fs/drawer-modal-switcher/src/FsAModal.vue')['default']
     FullScreen: typeof import('./../components/common/full-screen.vue')['default']
     GenSetting: typeof import('./../components/fs/code-gen-ide/src/GenSetting.vue')['default']

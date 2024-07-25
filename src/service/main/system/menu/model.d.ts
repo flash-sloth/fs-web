@@ -69,7 +69,7 @@ export interface SysMenuVo {
 }
 
 export interface SysMenuQuery {
-  id: string;
+  id?: string;
   subSystemId: string;
   code: string;
   name: string;

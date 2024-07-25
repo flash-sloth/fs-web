@@ -14,8 +14,8 @@ export const Api = {
     url: `${MODULAR}`,
     method: RequestEnum.PUT
   },
-  Tree: {
-    url: `${MODULAR}/tree`,
+  MenuTree: {
+    url: `${MODULAR}/menuTree`,
     method: RequestEnum.POST
   }
 };
@@ -39,9 +39,9 @@ export const page = (params: Model.PageParam<SysMenuQuery>) =>
  * @param params 查询参数
  * @returns 每页数据
  */
-export const tree = (params: Partial<SysMenuQuery>) =>
-  defHttp.request<Model.PageResult<SysMenuVo[]>>({
-    ...Api.Tree,
+export const menuTree = (params: Partial<SysMenuQuery>) =>
+  defHttp.request<SysMenuVo[]>({
+    ...Api.MenuTree,
     params
   });
 
