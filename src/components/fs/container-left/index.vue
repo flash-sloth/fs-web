@@ -19,7 +19,6 @@ function resizeHandleEnd() {
     width.value = props.maxW;
   }
   resizing.value = false;
-  debugger;
 }
 
 function resizeHandleStart() {
