@@ -2,9 +2,8 @@
 import { nextTick, onMounted, reactive, ref } from 'vue';
 import type { VxeTreeInstance } from 'vxe-pc-ui';
 import { VxeButton, VxeIcon, VxeTree } from 'vxe-pc-ui';
-import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons-vue';
 import { menuTree } from '@/service/main/system/menu/api';
-import ContainerLeft from '@/components/fs/container-left/index.vue';
+import FlexCollapse from '@/components/fs/flex-collapse/index.vue';
 import { type SysMenuDto, type SysMenuQuery, type SysMenuVo } from '@/service/main/system/menu/model';
 import { useLoading } from '~/packages/hooks/src';
 import { ResourceTypeEnum } from '@/service/main/system/menu/enum';
@@ -17,6 +16,7 @@ const formRef = ref<MenuFormWrapper>();
 const treeData = ref<SysMenuVo[]>([]);
 const treeRef = ref<VxeTreeInstance>();
 const searchFormModel = reactive<Partial<SysMenuQuery>>({});
+const expanded = ref(false);
 const { loading, startLoading, endLoading } = useLoading(false);
 const formSizeConfig = {
   max: '900px',
@@ -83,7 +83,7 @@ function handleLeve(node: any) {
 }
 
 function showForm() {
-  formSize.value = formSizeConfig.max;
+  expanded.value = true;
 }
 function hideForm() {
   formSize.value = formSizeConfig.min;
@@ -105,68 +105,55 @@ onMounted(() => {
 
 <template>
   <div class="h-full p-2">
-    <AFlex class="h-full">
-      <FlexColContent class="w-1 flex-1">
-        <template #header>查询条件...</template>
-        <VxeTree
-          ref="treeRef"
-          :data="treeData"
-          is-current
-          is-hover
-          :loading="loading"
-          key-field="id"
-          title-field="name"
-          @node-click="(data: any) => handleView(data.node)"
-        >
-          <template #title="{ node }">
-            <div @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
-              <VxeIcon v-if="node.resourceType === ResourceTypeEnum.MENU" name="menu" status="info"></VxeIcon>
-              <VxeIcon v-if="node.resourceType === ResourceTypeEnum.VIEW" name="" status="info"></VxeIcon>
-              <span>{{ node.name }}</span>
-              <span class="ml-2 text-warmGray">{{ node.remarks }}</span>
-            </div>
-          </template>
-          <template #extra="{ node }">
-            <div v-if="node && node.showTool" @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
-              <VxeButton mode="text" icon="vxe-icon-edit" title="编辑" @click.stop="handleUpdate(node)"></VxeButton>
-              <VxeButton
-                v-if="node.resourceType === ResourceTypeEnum.MENU"
-                mode="text"
-                icon="vxe-icon-add"
-                title="新增子菜单"
-                @click.stop="handleAdd(node)"
-              ></VxeButton>
-              <VxeButton mode="text" status="error" icon="vxe-icon-delete-fill" title="删除"></VxeButton>
-            </div>
-          </template>
-        </VxeTree>
-      </FlexColContent>
-      <AFlex vertical>
-        <div class="flex-1"></div>
-        <DoubleLeftOutlined
-          :rotate="formSize === formSizeConfig.min ? 0 : 180"
-          class="cursor-pointer text-6 text-warmGray hover:text-8"
-          :title="formSize === formSizeConfig.min ? '展开表单' : '收起表单'"
-          @click="toggleForm"
-        />
-        <div class="flex-1"></div>
-      </AFlex>
-      <div
-        class="trans transition-all duration-300"
-        :style="{
-          width: formSize,
-          overflow: 'hidden'
-        }"
-      >
-        <div
-          class="h-full"
-          :style="{
-            width: formSizeConfig.max
-          }"
-        >
-          <FormWrapper ref="formRef" class="min-w-10" @success="loadData"></FormWrapper>
-        </div>
-      </div>
-    </AFlex>
+    <FlexCollapse
+      v-model:expanded="expanded"
+      class="h-full"
+      min="0px"
+      max="00px"
+      collapse-panel-position="right"
+      expanded-tip="收起表单"
+      un-expanded-tip="展开表单"
+    >
+      <template #flexBox>
+        <FlexColContent class="h-full w-full">
+          <template #header>查询条件...</template>
+          <VxeTree
+            ref="treeRef"
+            :data="treeData"
+            is-current
+            is-hover
+            :loading="loading"
+            key-field="id"
+            title-field="name"
+            @node-click="(data: any) => handleView(data.node)"
+          >
+            <template #title="{ node }">
+              <div @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
+                <VxeIcon v-if="node.resourceType === ResourceTypeEnum.MENU" name="menu" status="info"></VxeIcon>
+                <VxeIcon v-if="node.resourceType === ResourceTypeEnum.VIEW" name="" status="info"></VxeIcon>
+                <span>{{ node.name }}</span>
+                <span class="ml-2 text-warmGray">{{ node.remarks }}</span>
+              </div>
+            </template>
+            <template #extra="{ node }">
+              <div v-if="node && node.showTool" @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
+                <VxeButton mode="text" icon="vxe-icon-edit" title="编辑" @click.stop="handleUpdate(node)"></VxeButton>
+                <VxeButton
+                  v-if="node.resourceType === ResourceTypeEnum.MENU"
+                  mode="text"
+                  icon="vxe-icon-add"
+                  title="新增子菜单"
+                  @click.stop="handleAdd(node)"
+                ></VxeButton>
+                <VxeButton mode="text" status="error" icon="vxe-icon-delete-fill" title="删除"></VxeButton>
+              </div>
+            </template>
+          </VxeTree>
+        </FlexColContent>
+      </template>
+      <template #collapsePanel>
+        <FormWrapper ref="formRef" @success="loadData"></FormWrapper>
+      </template>
+    </FlexCollapse>
   </div>
 </template>
