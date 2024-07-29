@@ -58,9 +58,9 @@ const collapsePanelInnerStyle = computed(() => {
 });
 const rotate = computed(() => {
   if (isVertical.value) {
-    return expandedInner.value ? 90 : 270;
+    return !expandedInner.value ? 90 : 270;
   }
-  return expandedInner.value ? 0 : 180;
+  return !expandedInner.value ? 0 : 180;
 });
 const title = computed(() => {
   return expandedInner.value ? props.expandedTip : props.unExpandedTip;
