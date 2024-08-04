@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, reactive, ref } from 'vue';
 import type { VxeTreeInstance } from 'vxe-pc-ui';
-import { VxeButton, VxeIcon, VxeTree } from 'vxe-pc-ui';
+import { VxeButton, VxeForm, VxeIcon, VxeTree } from 'vxe-pc-ui';
 import { menuTree } from '@/service/main/system/menu/api';
 import FlexCollapse from '@/components/fs/flex-collapse/index.vue';
 import { type SysMenuDto, type SysMenuQuery, type SysMenuVo } from '@/service/main/system/menu/model';
@@ -18,11 +18,14 @@ const treeRef = ref<VxeTreeInstance>();
 const searchFormModel = reactive<Partial<SysMenuQuery>>({});
 const expanded = ref(false);
 const { loading, startLoading, endLoading } = useLoading(false);
-const formSizeConfig = {
-  max: '900px',
-  min: '0'
-};
-const formSize = ref(formSizeConfig.min);
+const searchFormAttrs = reactive({
+  title: '查询',
+  submitText: '查询',
+  resetText: '重置',
+  submit: () => {
+    loadData();
+  }
+});
 /** 加载数据 */
 async function loadData() {
   startLoading();
@@ -32,7 +35,6 @@ async function loadData() {
     nextTick(async () => {
       treeRef.value?.setAllExpandNode(true);
     });
-    hideForm();
   } catch (error) {
     console.error(error);
   }
@@ -85,16 +87,6 @@ function handleLeve(node: any) {
 function showForm() {
   expanded.value = true;
 }
-function hideForm() {
-  formSize.value = formSizeConfig.min;
-}
-function toggleForm() {
-  if (formSize.value === formSizeConfig.min) {
-    showForm();
-  } else {
-    hideForm();
-  }
-}
 
 function handleRemove() {}
 
@@ -116,7 +108,12 @@ onMounted(() => {
     >
       <template #flexBox>
         <FlexColContent class="h-full w-full">
-          <template #header>查询条件...</template>
+          <template #header>
+            <div>
+              <VxeForm v-bind="searchFormAttrs"></VxeForm>
+              <VxeButton mode="text" icon="vxe-icon-search" @click="loadData">查询</VxeButton>
+            </div>
+          </template>
           <VxeTree
             ref="treeRef"
             :data="treeData"

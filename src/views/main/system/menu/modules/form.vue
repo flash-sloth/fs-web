@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { message } from 'ant-design-vue';
-import type { VxeFormInstance, VxeFormPropTypes } from 'vxe-table';
+import { type VxeFormInstance, type VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
 import { getById, save, update } from '@/service/main/system/menu/api';
 import type { SysMenuDto } from '@/service/main/system/menu/model';
 import type { FormInstance } from '@/typings/fs';
+import { useMessage } from '@/hooks/web/useMessage';
 import { formItems, formRules } from '../data/form';
+const { createMessage } = useMessage();
+
 /** 定义表单操作数据的类型 */
 type FormDataType = SysMenuDto;
 /** 表单实体 */
@@ -96,7 +98,7 @@ async function init(action: string, data?: FormDataType) {
  */
 async function submitUpdate(params: FormDataType) {
   await update(params);
-  message.success('修改成功');
+  createMessage.success('修改成功');
 }
 /**
  * 增加时提交
@@ -105,12 +107,12 @@ async function submitUpdate(params: FormDataType) {
  */
 async function submitAdd(params: FormDataType) {
   await save(params);
-  message.success('新增成功');
+  createMessage.success('新增成功');
 }
 /** 复制时提交 */
 async function submitCopy(params: FormDataType) {
   await save(params);
-  message.success('复制成功');
+  createMessage.success('复制成功');
 }
 
 async function handleSubmit() {
@@ -143,6 +145,12 @@ async function handleSubmit() {
   }
 }
 
+function handleGenerateCode() {
+  createMessage.error('生成编码');
+}
+function handleGeneratePath() {
+  createMessage.error('生成路径');
+}
 defineExpose<FormInstance<FormDataType>>({ init, handleSubmit });
 </script>
 
@@ -155,7 +163,20 @@ defineExpose<FormInstance<FormDataType>>({ init, handleSubmit });
     :data="formConfig.formData"
     :items="formConfig.formItems"
     title-colon
-  ></VxeForm>
+  >
+    <template #code="{ data }">
+      <AFlex :gap="0">
+        <VxeInput v-model="data.code" :readonly="formConfig.readonly" placeholder="请输入编码"></VxeInput>
+        <VxeButton v-if="!formConfig.readonly" @click="handleGenerateCode">生成</VxeButton>
+      </AFlex>
+    </template>
+    <template #path="{ data }">
+      <AFlex :gap="0">
+        <VxeInput v-model="data.code" :readonly="formConfig.readonly" placeholder="请输入路径"></VxeInput>
+        <VxeButton v-if="!formConfig.readonly" @click="handleGeneratePath">生成</VxeButton>
+      </AFlex>
+    </template>
+  </VxeForm>
 </template>
 
 <style scoped></style>

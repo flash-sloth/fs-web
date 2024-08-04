@@ -3,7 +3,7 @@ import { RequestEnum } from '@vben/http';
 import { defHttp } from '@/service/http';
 import type { SysMenuDto, SysMenuQuery, SysMenuVo } from './model';
 
-const MODULAR = '/main/sysMenu';
+const MODULAR = '/main/system/sysMenu';
 
 export const Api = {
   Save: {
@@ -15,7 +15,7 @@ export const Api = {
     method: RequestEnum.PUT
   },
   MenuTree: {
-    url: `${MODULAR}/menuTree`,
+    url: `${MODULAR}/tree`,
     method: RequestEnum.POST
   }
 };

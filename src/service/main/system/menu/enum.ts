@@ -1,8 +1,10 @@
 export enum ResourceTypeEnum {
+  /** 目录 */
+  DIR = '10',
   /** 菜单 */
-  MENU = '10',
-  /** 视图 */
-  VIEW = '20',
-  /** 按钮 */
-  BUTTON = '40'
+  MENU = '20',
+  /** 内链 */
+  INNER_LINK = '30',
+  /** 外链 */
+  OUTER_LINK = '40'
 }
