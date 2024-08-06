@@ -39,7 +39,7 @@ export interface SysRouterVo {
   /** 路由名称 */
   name: string;
   /** 路由类型 */
-  resourceType: string;
+  menuType: string;
   /** 路由打开方式 */
   openWith: string;
   /** 路由备注 */

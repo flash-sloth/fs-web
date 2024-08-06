@@ -3,7 +3,7 @@ export interface SysMenuDto {
   subSystemId: string;
   code: string;
   name: string;
-  resourceType: string;
+  menuType: string;
   openWith: string;
   remarks: string;
   path: string;
@@ -38,7 +38,7 @@ export interface SysMenuVo {
   subSystemId: string;
   code: string;
   name: string;
-  resourceType: string;
+  menuType: string;
   openWith: string;
   remarks: string;
   path: string;
@@ -73,7 +73,7 @@ export interface SysMenuQuery {
   subSystemId: string;
   code: string;
   name: string;
-  resourceType: string;
+  menuType: string;
   openWith: string;
   remarks: string;
   path: string;

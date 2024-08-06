@@ -1,30 +1,48 @@
 import type { VxeFormPropTypes } from 'vxe-table';
+import { reactive, ref } from 'vue';
 import { $t } from '@/locales';
-import { ResourceTypeEnum } from '@/service/main/system/menu/enum';
+import { MenuTypeEnum } from '@/service/main/system/menu/enum';
 
 /** @returns 表单校验规则 */
 export const formRules = (): VxeFormPropTypes.Rules => {
   return {};
 };
 
-/** @returns 返回表单配置 */
-export const formItems = (): VxeFormPropTypes.Items => {
+function getTypeOptions() {
   return [
     {
-      field: 'resourceType',
-      title: $t('main.system.menu.resourceType'),
+      label: $t('main.system.menu.menuTypeEnum.dir'),
+      value: MenuTypeEnum.DIR
+    },
+    {
+      label: $t('main.system.menu.menuTypeEnum.menu'),
+      value: MenuTypeEnum.MENU
+    },
+    {
+      label: $t('main.system.menu.menuTypeEnum.innerLink'),
+      value: MenuTypeEnum.INNER_LINK
+    },
+    {
+      label: $t('main.system.menu.menuTypeEnum.outerLink'),
+      value: MenuTypeEnum.OUTER_LINK
+    }
+  ];
+}
+
+/** @returns 返回表单配置 */
+export const formItems = (): VxeFormPropTypes.Items => {
+  const menuTypeOptions = ref(getTypeOptions());
+  return [
+    {
+      field: 'menuType',
+      title: $t('main.system.menu.menuType'),
       span: 12,
       itemRender: {
         name: 'VxeRadioGroup',
         props: {
           type: 'button'
         },
-        options: [
-          { label: '目录', value: '10' },
-          { label: '菜单', value: '20' },
-          { label: '内链', value: '30' },
-          { label: '外链', value: '40' }
-        ]
+        options: menuTypeOptions
       }
     },
     {
@@ -83,7 +101,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       },
       span: 12,
       visibleMethod: ({ data }) => {
-        return data?.resourceType !== ResourceTypeEnum.OUTER_LINK;
+        return data?.menuType !== MenuTypeEnum.OUTER_LINK;
       },
       itemRender: {
         name: 'VxeInput',
@@ -113,7 +131,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       title: $t('main.system.menu.component'),
       span: 12,
       visibleMethod: ({ data }) => {
-        return data?.resourceType === ResourceTypeEnum.MENU;
+        return data?.menuType === MenuTypeEnum.MENU;
       },
       itemRender: {
         name: 'VxeInput',
@@ -129,7 +147,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       title: $t('main.system.menu.layout'),
       span: 12,
       visibleMethod: ({ data }) => {
-        return data?.resourceType === ResourceTypeEnum.MENU;
+        return data?.menuType === MenuTypeEnum.MENU;
       },
       itemRender: {
         name: 'VxeSelect',
@@ -145,7 +163,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       title: $t('main.system.menu.isHidden'),
       span: 12,
       visibleMethod: ({ data }) => {
-        return data?.resourceType === ResourceTypeEnum.MENU;
+        return data?.menuType === MenuTypeEnum.MENU;
       },
       itemRender: {
         name: 'VxeSwitch',
@@ -158,7 +176,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       title: $t('main.system.menu.redirect'),
       span: 12,
       visibleMethod: ({ data }) => {
-        return data?.resourceType === ResourceTypeEnum.DIR;
+        return data?.menuType === MenuTypeEnum.DIR;
       },
       itemRender: {
         name: 'VxeInput',
@@ -170,7 +188,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       title: $t('main.system.menu.href'),
       span: 24,
       visibleMethod: ({ data }) => {
-        return [ResourceTypeEnum.INNER_LINK, ResourceTypeEnum.OUTER_LINK].includes(data?.resourceType);
+        return [MenuTypeEnum.INNER_LINK, MenuTypeEnum.OUTER_LINK].includes(data?.menuType);
       },
       itemRender: {
         name: 'VxeInput',

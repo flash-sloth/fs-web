@@ -1,4 +1,4 @@
-export enum ResourceTypeEnum {
+export enum MenuTypeEnum {
   /** 目录 */
   DIR = '10',
   /** 菜单 */

@@ -6,7 +6,7 @@ import { menuTree } from '@/service/main/system/menu/api';
 import FlexCollapse from '@/components/fs/flex-collapse/index.vue';
 import { type SysMenuDto, type SysMenuQuery, type SysMenuVo } from '@/service/main/system/menu/model';
 import { useLoading } from '~/packages/hooks/src';
-import { ResourceTypeEnum } from '@/service/main/system/menu/enum';
+import { MenuTypeEnum } from '@/service/main/system/menu/enum';
 import FlexColContent from '@/components/fs/flex-box/flex-col-content.vue';
 import type { MenuFormWrapper } from './modules/wrapper.vue';
 import FormWrapper from './modules/wrapper.vue';
@@ -47,22 +47,22 @@ async function loadData() {
  * @param row
  */
 function handleUpdate(row: FormDataType) {
-  formRef.value?.setData('update', row);
+  formRef.value?.setData('update', { data: row, treeData: treeData.value });
   showForm();
 }
 /** 处理新增事件 */
 function handleAdd(row?: FormDataType) {
-  formRef.value?.setData('add', row);
+  formRef.value?.setData('add', { data: row, treeData: treeData.value });
   showForm();
 }
 /** 处理复制事件 */
 function handleCopy(row: FormDataType) {
-  formRef.value?.setData('copy', row);
+  formRef.value?.setData('copy', { data: row, treeData: treeData.value });
   showForm();
 }
 /** @param row 处理查看事件 */
 function handleView(row: FormDataType) {
-  formRef.value?.setData('view', row);
+  formRef.value?.setData('view', { data: row, treeData: treeData.value });
   showForm();
 }
 
@@ -126,8 +126,8 @@ onMounted(() => {
           >
             <template #title="{ node }">
               <div @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
-                <VxeIcon v-if="node.resourceType === ResourceTypeEnum.MENU" name="menu" status="info"></VxeIcon>
-                <VxeIcon v-if="node.resourceType === ResourceTypeEnum.VIEW" name="" status="info"></VxeIcon>
+                <VxeIcon v-if="node.menuType === MenuTypeEnum.MENU" name="menu" status="info"></VxeIcon>
+                <VxeIcon v-if="node.menuType === MenuTypeEnum.VIEW" name="" status="info"></VxeIcon>
                 <span>{{ node.name }}</span>
                 <span class="ml-2 text-warmGray">{{ node.remarks }}</span>
               </div>
@@ -136,7 +136,7 @@ onMounted(() => {
               <div v-if="node && node.showTool" @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
                 <VxeButton mode="text" icon="vxe-icon-edit" title="编辑" @click.stop="handleUpdate(node)"></VxeButton>
                 <VxeButton
-                  v-if="node.resourceType === ResourceTypeEnum.MENU"
+                  v-if="[MenuTypeEnum.DIR, MenuTypeEnum.MENU].includes(node.menuType)"
                   mode="text"
                   icon="vxe-icon-add"
                   title="新增子菜单"

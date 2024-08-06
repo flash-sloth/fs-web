@@ -2,15 +2,19 @@
 import { reactive, ref } from 'vue';
 import { type VxeFormInstance, type VxeFormPropTypes } from 'vxe-table';
 import { useLoading } from '@sa/hooks';
+import { mapTree } from 'xe-utils';
+import { VxeTreeSelect } from 'vxe-pc-ui';
 import { getById, save, update } from '@/service/main/system/menu/api';
 import type { SysMenuDto } from '@/service/main/system/menu/model';
 import type { FormInstance } from '@/typings/fs';
 import { useMessage } from '@/hooks/web/useMessage';
+import { MenuTypeEnum } from '@/service/main/system/menu/enum';
+import { filter } from '@/utils/helper/treeHelper';
 import { formItems, formRules } from '../data/form';
 const { createMessage } = useMessage();
 
 /** 定义表单操作数据的类型 */
-type FormDataType = SysMenuDto;
+type FormDataType = Partial<SysMenuDto>;
 /** 表单实体 */
 const formRef = ref<VxeFormInstance>();
 /** 表单loading状态 */
@@ -35,27 +39,32 @@ const formConfig = reactive<{
 });
 
 /** 初始化新增 */
-function initAdd() {}
+function initAdd(data?: { data?: FormDataType; treeData: FormDataType[] }) {
+  formConfig.formData = {
+    parentId: `${data?.data?.id || ''}`,
+    menuType: MenuTypeEnum.MENU
+  };
+}
 /**
  * 初始化修改
  *
  * @param data
  */
-async function initUpdate(data?: FormDataType) {
-  await loadDataAndSetFormData(data);
+async function initUpdate(data?: { data?: FormDataType; treeData: FormDataType[] }) {
+  await loadDataAndSetFormData(data?.data);
 }
 /**
  * 初始化复制
  *
  * @param data
  */
-async function initCopy(data?: FormDataType) {
-  await loadDataAndSetFormData(data);
+async function initCopy(data?: { data?: FormDataType; treeData: FormDataType[] }) {
+  await loadDataAndSetFormData(data?.data);
   formConfig.formData.id = undefined;
 }
 
-async function initView(data?: FormDataType) {
-  await loadDataAndSetFormData(data);
+async function initView(data?: { data?: FormDataType; treeData: FormDataType[] }) {
+  await loadDataAndSetFormData(data?.data);
   formConfig.readonly = true;
 }
 
@@ -70,15 +79,48 @@ async function loadDataAndSetFormData(data?: FormDataType) {
     }
   }
 }
-
-async function init(action: string, data?: FormDataType) {
+const parantOptions = ref<any[]>([]);
+function initParentOptions(treeData?: FormDataType[], data?: FormDataType) {
+  const temp: any = {};
+  if (data && data.id) {
+    temp[data.id] = true;
+  }
+  const parentsTree = filter(
+    treeData || [],
+    item => {
+      if (formAction.value === 'add') {
+        return item.menuType === MenuTypeEnum.DIR || item.menuType === MenuTypeEnum.MENU;
+      } else if (temp[item.id || ''] || temp[item.parentId || '']) {
+        temp[item.id || ''] = true;
+        return false;
+      }
+      return item.menuType === MenuTypeEnum.DIR || item.menuType === MenuTypeEnum.MENU;
+    },
+    {}
+  );
+  parantOptions.value = mapTree(parentsTree, item => {
+    return {
+      label: item.name,
+      value: item.id
+    };
+  });
+}
+async function init(
+  action: string,
+  data?: {
+    data?: FormDataType;
+    treeData: FormDataType[];
+  }
+) {
   formAction.value = action;
   // 清空数据
   formConfig.formData = {} as FormDataType;
   formConfig.readonly = false;
+  // 筛选父级菜单
+  initParentOptions(data?.treeData, data?.data);
   switch (action) {
     case 'add':
-      await initAdd();
+      await initAdd(data);
       break;
     case 'update':
       await initUpdate(data);
@@ -151,7 +193,12 @@ function handleGenerateCode() {
 function handleGeneratePath() {
   createMessage.error('生成路径');
 }
-defineExpose<FormInstance<FormDataType>>({ init, handleSubmit });
+defineExpose<
+  FormInstance<{
+    data?: FormDataType;
+    treeData: FormDataType[];
+  }>
+>({ init, handleSubmit });
 </script>
 
 <template>
@@ -174,6 +221,18 @@ defineExpose<FormInstance<FormDataType>>({ init, handleSubmit });
       <AFlex :gap="0">
         <VxeInput v-model="data.code" :readonly="formConfig.readonly" placeholder="请输入路径"></VxeInput>
         <VxeButton v-if="!formConfig.readonly" @click="handleGeneratePath">生成</VxeButton>
+      </AFlex>
+    </template>
+    <template #parentId="{ data }">
+      <AFlex :gap="0">
+        <ATreeSelect
+          v-model:value="data.parentId"
+          style="width: 100%"
+          :disabled="formConfig.readonly || formAction === 'add'"
+          :readonly="formConfig.readonly || formAction === 'add'"
+          placeholder="请选择父级"
+          :tree-data="parantOptions"
+        ></ATreeSelect>
       </AFlex>
     </template>
   </VxeForm>

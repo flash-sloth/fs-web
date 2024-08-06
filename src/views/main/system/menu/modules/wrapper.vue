@@ -11,9 +11,10 @@ const emit = defineEmits<Emits>();
 const formRef = ref<FormInstance<FormDataType>>();
 const selectTab = ref<string>('form');
 const action = ref<string>('view');
-
-function setData(action_: string, data: FormDataType) {
+const activeData = ref<FormDataType>();
+function setData(action_: string, data: { data?: SysMenuDto; treeData: SysMenuDto[] }) {
   action.value = action_;
+  activeData.value = data.data;
   formRef.value?.init(action.value, data);
 }
 
@@ -31,12 +32,16 @@ defineExpose<MenuFormWrapper>({
 
 <script lang="ts">
 export interface MenuFormWrapper {
-  setData: (action: string, data: DataSource) => void;
+  setData: (action: string, data: { data?: SysMenuDto; treeData: SysMenuDto[] }) => void;
 }
 </script>
 
 <template>
-  <VxeTabs v-model="selectTab" type="border-card" height="100%" padding>
+  <div v-show="!activeData" class="mt-5 text-center">
+    <AEmpty description="请选择菜单"></AEmpty>
+  </div>
+
+  <VxeTabs v-show="activeData" v-model="selectTab" type="border-card" height="100%" padding>
     <VxeTabPane title="基本信息" name="form">
       <FlexColContent>
         <template v-if="action !== 'view'" #header>

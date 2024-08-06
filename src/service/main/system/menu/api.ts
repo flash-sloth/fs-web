@@ -15,7 +15,7 @@ export const Api = {
     method: RequestEnum.PUT
   },
   MenuTree: {
-    url: `${MODULAR}/tree`,
+    url: `${MODULAR}/menuTree`,
     method: RequestEnum.POST
   }
 };
@@ -127,7 +127,7 @@ export const clearCache = (ids: string[]) =>
  * @param params 参数
  * @returns 是否成功
  */
-export const save = (params: SysMenuDto) =>
+export const save = (params: Partial<SysMenuDto>) =>
   defHttp.request<number>({
     ...Api.Save,
     params
@@ -138,7 +138,7 @@ export const save = (params: SysMenuDto) =>
  * @param params 参数
  * @returns 是否成功
  */
-export const update = (params: SysMenuDto) =>
+export const update = (params: Partial<SysMenuDto>) =>
   defHttp.request<number>({
     ...Api.Update,
     params
