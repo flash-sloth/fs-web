@@ -10,6 +10,7 @@
   "addSuccess": "添加成功",
   "copySuccess": "复制成功",
   "backToHome": "返回首页",
+  "deleteData": "要删除的数据",
   "batchDelete": "批量删除",
   "cancel": "取消",
   "close": "关闭",

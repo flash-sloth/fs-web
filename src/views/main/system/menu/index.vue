@@ -11,7 +11,7 @@ import FlexColContent from '@/components/fs/flex-box/flex-col-content.vue';
 import type { MenuFormWrapper } from './modules/wrapper.vue';
 import FormWrapper from './modules/wrapper.vue';
 /** 定义表单操作数据的类型 */
-type FormDataType = SysMenuDto;
+type FormDataType = Partial<SysMenuDto>;
 const formRef = ref<MenuFormWrapper>();
 const treeData = ref<SysMenuVo[]>([]);
 const treeRef = ref<VxeTreeInstance>();
@@ -53,6 +53,11 @@ function handleUpdate(row: FormDataType) {
 /** 处理新增事件 */
 function handleAdd(row?: FormDataType) {
   formRef.value?.setData('add', { data: row, treeData: treeData.value });
+  showForm();
+}
+/** 添加根目录 */
+function addRoot() {
+  formRef.value?.setData('add', { data: { id: '' }, treeData: treeData.value });
   showForm();
 }
 /** 处理复制事件 */
@@ -111,6 +116,7 @@ onMounted(() => {
           <template #header>
             <div>
               <VxeForm v-bind="searchFormAttrs"></VxeForm>
+              <VxeButton mode="text" icon="vxe-icon-search" @click="addRoot">新增根目录</VxeButton>
               <VxeButton mode="text" icon="vxe-icon-search" @click="loadData">查询</VxeButton>
             </div>
           </template>

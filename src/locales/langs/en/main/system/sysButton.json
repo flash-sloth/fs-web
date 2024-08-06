@@ -1,0 +1,16 @@
+{
+  "id": "id",
+  "menuId": "menuId",
+  "code": "code",
+  "name": "name",
+  "icon": "icon",
+  "showMode": "showMode",
+  "btnType": "btnType",
+  "state": "state",
+  "createdBy": "createdBy",
+  "createdAt": "createdAt",
+  "updatedBy": "updatedBy",
+  "updatedAt": "updatedAt",
+  "deletedBy": "deletedBy",
+  "deletedAt": "deletedAt"
+}

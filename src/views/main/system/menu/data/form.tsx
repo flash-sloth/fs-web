@@ -1,5 +1,5 @@
 import type { VxeFormPropTypes } from 'vxe-table';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { $t } from '@/locales';
 import { MenuTypeEnum } from '@/service/main/system/menu/enum';
 
@@ -159,15 +159,15 @@ export const formItems = (): VxeFormPropTypes.Items => {
       }
     },
     {
-      field: 'isHidden',
-      title: $t('main.system.menu.isHidden'),
+      field: 'hideInMenu',
+      title: $t('main.system.menu.hideInMenu'),
       span: 12,
       visibleMethod: ({ data }) => {
         return data?.menuType === MenuTypeEnum.MENU;
       },
       itemRender: {
         name: 'VxeSwitch',
-        props: { placeholder: $t('common.inputText', [$t('main.system.menu.state')]) }
+        props: { placeholder: $t('common.inputText', [$t('main.system.menu.hideInMenu')]) }
       }
     },
 

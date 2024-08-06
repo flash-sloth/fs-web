@@ -5,14 +5,15 @@ import type { SysMenuDto } from '@/service/main/system/menu/model';
 import type { FormInstance } from '@/typings/fs';
 import FlexColContent from '@/components/fs/flex-box/flex-col-content.vue';
 import type { Emits } from '../data/form';
+import SysButton from './sysButton/index.vue';
 import Form from './form.vue';
-type FormDataType = SysMenuDto;
+type FormDataType = Partial<SysMenuDto>;
 const emit = defineEmits<Emits>();
 const formRef = ref<FormInstance<FormDataType>>();
 const selectTab = ref<string>('form');
 const action = ref<string>('view');
 const activeData = ref<FormDataType>();
-function setData(action_: string, data: { data?: SysMenuDto; treeData: SysMenuDto[] }) {
+function setData(action_: string, data: { data?: FormDataType; treeData: FormDataType[] }) {
   action.value = action_;
   activeData.value = data.data;
   formRef.value?.init(action.value, data);
@@ -32,7 +33,7 @@ defineExpose<MenuFormWrapper>({
 
 <script lang="ts">
 export interface MenuFormWrapper {
-  setData: (action: string, data: { data?: SysMenuDto; treeData: SysMenuDto[] }) => void;
+  setData: (action: string, data: { data?: Partial<SysMenuDto>; treeData: Partial<SysMenuDto>[] }) => void;
 }
 </script>
 
@@ -52,7 +53,9 @@ export interface MenuFormWrapper {
         <Form ref="formRef"></Form>
       </FlexColContent>
     </VxeTabPane>
-    <VxeTabPane title="按钮" name="button">按钮</VxeTabPane>
+    <VxeTabPane title="按钮" name="button">
+      <SysButton :action="action" :menu-id="activeData?.id ?? ''"></SysButton>
+    </VxeTabPane>
     <VxeTabPane title="字段" name="column">字段</VxeTabPane>
   </VxeTabs>
 </template>

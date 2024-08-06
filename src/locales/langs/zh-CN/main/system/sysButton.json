@@ -1,0 +1,16 @@
+{
+  "id": "ID",
+  "menuId": "子系统ID",
+  "code": "编码;",
+  "name": "名称",
+  "icon": "图标",
+  "showMode": "显示方式",
+  "btnType": "按钮类型",
+  "state": "状态;",
+  "createdBy": "创建人id",
+  "createdAt": "创建时间",
+  "updatedBy": "更新人id",
+  "updatedAt": "更新时间",
+  "deletedBy": "删除人",
+  "deletedAt": "删除标志"
+}
