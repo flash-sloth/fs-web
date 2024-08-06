@@ -23,7 +23,7 @@ const submitEvent = async () => {
   const res = await formRef.value?.handleSubmit();
   if (res) {
     emit('success');
-    close();
+    // close();
   }
 };
 defineExpose<MenuFormWrapper>({
