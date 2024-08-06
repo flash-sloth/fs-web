@@ -8,7 +8,7 @@ interface TreeHelperConfig {
 const DEFAULT_CONFIG: TreeHelperConfig = {
   id: 'id',
   children: 'children',
-  pid: 'pid'
+  pid: 'parentId'
 };
 
 // 获取配置。  Object.assign 从一个或多个源对象复制到目标对象
