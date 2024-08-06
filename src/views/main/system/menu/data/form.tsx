@@ -1,5 +1,5 @@
 import type { VxeFormPropTypes } from 'vxe-table';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { $t } from '@/locales';
 import { MenuTypeEnum } from '@/service/main/system/menu/enum';
 
@@ -135,10 +135,6 @@ export const formItems = (): VxeFormPropTypes.Items => {
       },
       itemRender: {
         name: 'VxeInput',
-        options: [
-          { label: '带菜单', value: 'layout.base' },
-          { label: '全屏', value: 'layout.blank' }
-        ],
         props: { placeholder: $t('common.chooseText', [$t('main.system.menu.component')]) }
       }
     },
@@ -152,15 +148,15 @@ export const formItems = (): VxeFormPropTypes.Items => {
       itemRender: {
         name: 'VxeSelect',
         options: [
-          { label: '带菜单', value: 'layout.base' },
-          { label: '全屏', value: 'layout.blank' }
+          { label: '默认', value: '01' },
+          { label: '全屏', value: '02' }
         ],
         props: { placeholder: $t('common.inputText', [$t('main.system.menu.layout')]) }
       }
     },
     {
-      field: 'isHidden',
-      title: $t('main.system.menu.isHidden'),
+      field: 'hideInMenu',
+      title: $t('main.system.menu.hideInMenu'),
       span: 12,
       visibleMethod: ({ data }) => {
         return data?.menuType === MenuTypeEnum.MENU;
@@ -184,7 +180,7 @@ export const formItems = (): VxeFormPropTypes.Items => {
       }
     },
     {
-      field: '',
+      field: 'href',
       title: $t('main.system.menu.href'),
       span: 24,
       visibleMethod: ({ data }) => {

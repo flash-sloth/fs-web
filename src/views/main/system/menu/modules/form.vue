@@ -219,7 +219,7 @@ defineExpose<
     </template>
     <template #path="{ data }">
       <AFlex :gap="0">
-        <VxeInput v-model="data.code" :readonly="formConfig.readonly" placeholder="请输入路径"></VxeInput>
+        <VxeInput v-model="data.path" :readonly="formConfig.readonly" placeholder="请输入路径"></VxeInput>
         <VxeButton v-if="!formConfig.readonly" @click="handleGeneratePath">生成</VxeButton>
       </AFlex>
     </template>
