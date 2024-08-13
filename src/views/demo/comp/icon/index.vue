@@ -40,6 +40,7 @@ const toIconify = () => {
       <Icon icon="ant-design:copy-outlined" :size="30" />
       <Icon icon="avatar|svg" :size="30" />
       <Icon icon="svg:cast" :size="30" />
+      <Icon icon="alert-filled" :size="30" />
     </div>
 
     <hr />
@@ -51,6 +52,7 @@ const toIconify = () => {
       <SvgIcon name="chrome" size="32" />
       <SvgIcon name="copy" size="32" />
       <SvgIcon name="cast" size="32" />
+      <SvgIcon name="alert-filled" size="32" />
     </div>
     <hr />
     <br />

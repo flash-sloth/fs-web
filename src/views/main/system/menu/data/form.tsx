@@ -120,6 +120,9 @@ export const formItems = (): VxeFormPropTypes.Items => {
     {
       field: 'icon',
       title: $t('main.system.menu.icon'),
+      slots: {
+        default: 'icon'
+      },
       span: 12,
       itemRender: {
         name: 'VxeInput',

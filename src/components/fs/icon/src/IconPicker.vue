@@ -25,11 +25,13 @@ interface Props {
   copy?: boolean;
   /** 图标模式 */
   mode?: 'svg' | 'iconify' | undefined;
+  /** 禁用 */
+  disabled?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   value: '',
   width: '100%',
-  pageSize: 140,
+  pageSize: 40,
   copy: false,
   spin: false,
   mode: undefined
@@ -120,6 +122,7 @@ function handleClick(icon: string) {
       createMessage.success($t('component.icon.copy'));
     }
   }
+  visible.value = false;
 }
 
 function handleSearchChange(e: ChangeEvent) {
@@ -130,6 +133,14 @@ function handleSearchChange(e: ChangeEvent) {
     return;
   }
   currentList.value = icons.filter((item: string) => item.includes(value));
+}
+
+function tirggerHandler() {
+  if (props.disabled) {
+    visible.value = false;
+  } else {
+    visible.value = !visible.value;
+  }
 }
 </script>
 
@@ -142,21 +153,21 @@ function handleSearchChange(e: ChangeEvent) {
     :class="prefixCls"
   >
     <template #addonAfter>
-      <Popover v-model="visible" placement="bottomLeft" trigger="click" :overlay-class-name="`${prefixCls}-popover`">
+      <Popover :open="visible" placement="bottomLeft" :arrow="false" :overlay-class-name="`${prefixCls}-popover`">
         <template #title>
           <div class="flex justify-between">
             <AInput :placeholder="$t('component.icon.search')" allow-clear @change="debounceHandleSearchChange" />
           </div>
         </template>
         <template #content>
-          <div v-if="getPaginationList.length">
+          <div v-if="getPaginationList.length" class="w-120">
             <ScrollContainer class="border border-t-0 border-solid">
               <ul class="flex flex-wrap px-2">
                 <li
                   v-for="icon in getPaginationList"
                   :key="icon"
                   :class="currentSelect === icon ? 'border border-primary' : ''"
-                  class="mr-1 mt-1 w-1/8 flex cursor-pointer items-center justify-center border border-solid p-2 hover:border-primary"
+                  class="w-1/8 flex cursor-pointer items-center justify-center gap-1 border border-solid p-2 hover:border-primary"
                   :title="icon"
                   @click="handleClick(icon)"
                 >
@@ -170,6 +181,7 @@ function handleSearchChange(e: ChangeEvent) {
               <APagination
                 show-less-items
                 size="small"
+                :show-size-changer="false"
                 :page-size="pageSize"
                 :total="getTotal"
                 @change="handlePageChange"
@@ -181,10 +193,16 @@ function handleSearchChange(e: ChangeEvent) {
           </template>
         </template>
 
-        <span v-if="isSvgMode && currentSelect" class="flex cursor-pointer items-center px-2 py-1">
+        <span
+          v-if="isSvgMode && currentSelect"
+          class="flex cursor-pointer items-center px-2 py-1"
+          @click="tirggerHandler"
+        >
           <SvgIcon :name="currentSelect" />
         </span>
-        <Icon v-else :icon="currentSelect || 'ion:apps-outline'" class="cursor-pointer px-2 py-1" />
+        <span v-else class="cursor-pointer px-2 py-1" @click="tirggerHandler">
+          <Icon :icon="currentSelect || 'ion:apps-outline'" />
+        </span>
       </Popover>
     </template>
   </AInput>
