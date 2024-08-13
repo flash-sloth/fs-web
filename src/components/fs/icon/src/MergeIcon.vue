@@ -10,7 +10,6 @@ const props = defineProps<{
 }>();
 
 const isSvg = (name: string) => {
-  console.log('isSvg', name.startsWith('svg:'));
   return name.startsWith('svg:');
 };
 const isSvgIcon = computed(() => {

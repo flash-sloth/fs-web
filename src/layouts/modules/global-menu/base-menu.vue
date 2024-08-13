@@ -90,7 +90,7 @@ function handleClickMenu(menuInfo: MenuInfo) {
       class="size-full transition-300 border-0!"
       :class="{ 'bg-container!': !darkTheme, 'horizontal-menu': isHorizontal }"
       @click="handleClickMenu"
-    />
+    ></AMenu>
   </SimpleScrollbar>
 </template>
 
