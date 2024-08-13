@@ -226,7 +226,7 @@ defineExpose<
       </VxeInput>
     </template>
     <template #icon="{ data }">
-      <IconPicker v-model="data.icon" :disabled="formConfig.readonly" />
+      <IconPicker v-model:value="data.icon" :disabled="formConfig.readonly" />
     </template>
     <template #parentId="{ data }">
       <AFlex :gap="0">

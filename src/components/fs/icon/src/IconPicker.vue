@@ -160,7 +160,7 @@ function tirggerHandler() {
           </div>
         </template>
         <template #content>
-          <div v-if="getPaginationList.length" class="w-120">
+          <div v-if="getPaginationList.length">
             <ScrollContainer class="border border-t-0 border-solid">
               <ul class="flex flex-wrap px-2">
                 <li

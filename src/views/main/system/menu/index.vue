@@ -132,8 +132,7 @@ onMounted(() => {
           >
             <template #title="{ node }">
               <div @mouseenter="handleOver(node)" @mouseleave="handleLeve(node)">
-                <VxeIcon v-if="node.menuType === MenuTypeEnum.MENU" name="menu" status="info"></VxeIcon>
-                <VxeIcon v-if="node.menuType === MenuTypeEnum.VIEW" name="" status="info"></VxeIcon>
+                <span v-if="node.icon"><MergeIcon :name="node.icon" class="mr-2"></MergeIcon></span>
                 <span>{{ node.name }}</span>
                 <span class="ml-2 text-warmGray">{{ node.remarks }}</span>
               </div>
