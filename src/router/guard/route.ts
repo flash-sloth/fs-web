@@ -185,12 +185,14 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
 function handleRouteSwitch(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
   // route with href
   if (to.meta.href) {
-    window.open(to.meta.href, '_blank');
+    if (to.meta.component && (to.meta.component as string).includes('iframe')) {
+      next();
+    } else {
+      window.open(to.meta.href, '_blank');
 
-    next({ path: from.fullPath, replace: true, query: from.query, hash: to.hash });
-
-    return;
+      next({ path: from.fullPath, replace: true, query: from.query, hash: to.hash });
+      return;
+    }
   }
-
   next();
 }

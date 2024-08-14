@@ -153,6 +153,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'iframe',
+    path: '/iframe',
+    component: 'layout.base$view.iframe',
+    meta: {
+      title: 'iframe',
+      i18nKey: 'route.iframe',
+      hideInMenu: true
+    }
+  },
+  {
     name: 'login',
     path: '/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?',
     component: 'layout.blank$view.login',

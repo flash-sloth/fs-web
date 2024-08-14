@@ -36,6 +36,7 @@ declare module "@elegant-router/types" {
     "demo_vxetable_treeform": "/demo/vxetable/treeform";
     "demo_vxetable_validator": "/demo/vxetable/validator";
     "home": "/home";
+    "iframe": "/iframe";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "user-center": "/user-center";
   };
@@ -79,6 +80,7 @@ declare module "@elegant-router/types" {
     | "about"
     | "demo"
     | "home"
+    | "iframe"
     | "login"
     | "user-center"
   >;
@@ -103,6 +105,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "home"
+    | "iframe"
     | "login"
     | "user-center"
     | "demo_comp_icon"
